@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "userId",
     });
 
-    Favorite.belongsTo(model.projects, {
+    Favorite.belongsTo(model.project, {
       foreignKey: "projectId",
     });
   };
