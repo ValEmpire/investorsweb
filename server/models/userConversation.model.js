@@ -29,7 +29,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  UserConversation.associate = (model) => {};
-
   return UserConversation;
 };

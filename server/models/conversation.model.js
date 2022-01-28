@@ -14,7 +14,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Conversation.associate = (model) => {};
+  Conversation.associate = (model) => {
+    Conversation.belongsToMany(model.user, {
+      through: model.userConversation,
+      foreignKey: "conversationId",
+      otherKey: "userId",
+    });
+  };
 
   return Conversation;
 };

@@ -29,7 +29,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Message.associate = (model) => {};
+  Message.associate = (model) => {
+    Message.belongsTo(model.user, {
+      foreignKey: "userId",
+    });
+
+    Message.belongsTo(model.conversation, {
+      foreignKey: "conversationId",
+    });
+  };
 
   return Message;
 };

@@ -23,7 +23,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  CommentLike.associate = (model) => {};
+  CommentLike.associate = (model) => {
+    CommentLike.belongsTo(model.user, {
+      foreignKey: "userId",
+    });
+
+    CommentLike.belongsTo(model.comment, {
+      foreignKey: "commentId",
+    });
+  };
 
   return CommentLike;
 };

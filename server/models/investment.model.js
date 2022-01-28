@@ -29,7 +29,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Investment.associate = (model) => {};
+  Investment.associate = (model) => {
+    Investment.belongsTo(model.user, {
+      foreignKey: "userId",
+    });
+
+    Investment.belongsTo(model.project, {
+      foreignKey: "projectId",
+    });
+  };
 
   return Investment;
 };

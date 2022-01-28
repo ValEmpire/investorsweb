@@ -33,7 +33,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Comment.associate = (model) => {};
+  Comment.associate = (model) => {
+    Comment.belongsTo(model.user, {
+      foreignKey: "userId",
+    });
+
+    Comment.belongsTo(model.project, {
+      foreignKey: "projectId",
+    });
+
+    Comment.hasMany(Comment, {
+      as: "reply",
+      foreignKey: "commentId",
+      useJunctionTable: false,
+    });
+
+    Comment.hasMany(model.commentLike, {
+      foreignKey: "commentId",
+    });
+  };
 
   return Comment;
 };

@@ -19,7 +19,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Image.associate = (model) => {};
+  Image.associate = (model) => {
+    Image.hasOne(model.user, {
+      foreignKey: "imageId",
+    });
+
+    Image.hasOne(model.project, {
+      foreignKey: "imageId",
+    });
+  };
 
   return Image;
 };

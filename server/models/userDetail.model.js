@@ -34,7 +34,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  UserDetail.associate = (model) => {};
+  UserDetail.associate = (model) => {
+    User.belongsTo(model.user, {
+      foreignKey: "userId",
+    });
+  };
 
   return UserDetail;
 };

@@ -63,7 +63,27 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Project.associate = (model) => {};
+  Project.associate = (model) => {
+    Project.belongsTo(model.image, {
+      foreignKey: "imageId",
+    });
+
+    Project.belongsTo(model.user, {
+      foreignKey: "userId",
+    });
+
+    Project.hasMany(model.favorite, {
+      foreignKey: "projectId",
+    });
+
+    Project.hasMany(model.investment, {
+      foreignKey: "projectId",
+    });
+
+    Project.hasMany(model.comment, {
+      foreignKey: "projectId",
+    });
+  };
 
   return Project;
 };
