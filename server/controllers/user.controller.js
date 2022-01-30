@@ -1,7 +1,8 @@
+const model = require("../models");
+const User = model.user;
+const UserDetail = model.userDetail;
+const Image = model.image;
 const bcrypt = require("bcryptjs");
-
-const User = require("../models").user;
-
 const { generateToken } = require("../helpers");
 
 module.exports = {
@@ -81,6 +82,39 @@ module.exports = {
       });
     } catch (err) {
       console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
+
+  getUser: async (req, res) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          id: req.user.id,
+        },
+        attributes: {
+          exclude: ["password"],
+        },
+        include: [
+          {
+            model: UserDetail,
+          },
+          {
+            model: Image,
+          },
+        ],
+      });
+
+      return res.status(200).send({
+        success: true,
+        user,
+      });
+    } catch (err) {
+      console.log(err);
 
       return res.status(400).send({
         success: false,
