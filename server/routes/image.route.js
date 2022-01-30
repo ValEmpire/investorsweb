@@ -5,10 +5,16 @@ const { validate } = require("../validators");
 
 const { imageUploadSchema } = require("../validators/image.validator");
 
-const { upload } = require("../controllers/image.controller");
+const {
+  uploadUserImage,
+  updateUserImage,
+} = require("../controllers/image.controller");
 
-const { imageMiddleware } = require("../middlewares/image.middleware");
+const { userImageMiddleware } = require("../middlewares/image.middleware");
 
-router.route("/").post(validate(imageUploadSchema), upload);
+router
+  .route("/")
+  .post(validate(imageUploadSchema), uploadUserImage)
+  .put(userImageMiddleware, validate(imageUploadSchema), updateUserImage);
 
 module.exports = router;
