@@ -27,7 +27,7 @@ app.use(cookieParser());
 
 // ALL API ROUTES
 app.use("/api/user", require("./routes/user.route"));
-
+app.use("/api/image", require("./routes/image.route"));
 const PORT = process.env.PORT || 8080;
 
 db.sequelize
