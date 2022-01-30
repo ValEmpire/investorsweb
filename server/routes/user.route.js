@@ -1,6 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
+const {
+  register,
+  logOut,
+  logIn,
+  getUser,
+} = require("../controllers/user.controller");
+
 const { validate } = require("../validators");
 
 const {
@@ -8,9 +15,9 @@ const {
   userLoginSchema,
 } = require("../validators/user.validator");
 
-const { register, logOut, logIn } = require("../controllers/user.controller");
+const { userMiddleware, userAuth } = require("../middlewares/user.middleware");
 
-const { userMiddleware } = require("../middlewares/user.middleware");
+router.route("/").get(userAuth, getUser);
 
 router
   .route("/register")
