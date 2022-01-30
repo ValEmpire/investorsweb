@@ -56,7 +56,7 @@ passport.use(
 module.exports = {
   userMiddleware: async (req, res, next) => {
     try {
-      const { email } = req.body;
+      const { email } = req.validatedBody;
 
       const user = await User.findOne({
         where: {
