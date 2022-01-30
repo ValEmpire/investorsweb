@@ -9,7 +9,7 @@ module.exports = {
     try {
       if (req.user) throw new Error("Email is already taken.");
 
-      const { firstName, lastName, email, password } = req.body;
+      const { firstName, lastName, email, password } = req.validatedBody;
 
       const hashPassword = bcrypt.hashSync(password, 12);
 
