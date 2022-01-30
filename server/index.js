@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 const server = require("http").Server(app);
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 
 // Database
 const db = require("./models");
@@ -21,6 +22,11 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json()); // for parsing application/json
+
+app.use(cookieParser());
+
+// ALL API ROUTES
+app.use("/api/user", require("./routes/user.route"));
 
 const PORT = process.env.PORT || 8080;
 
