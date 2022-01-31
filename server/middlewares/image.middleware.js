@@ -1,10 +1,10 @@
-const Image = require("../models").images;
-const User = require("./models").user;
+const Image = require("../models").image;
+const User = require("../models").user;
 
 module.exports = {
   userImageMiddleware: async (req, res, next) => {
     try {
-      const userImage = User.findOne({
+      const userImage = await User.findOne({
         where: {
           id: req.user.id,
         },

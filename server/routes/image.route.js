@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { userAuth } = require("../middlewares/user.middleware");
 
 const { validate } = require("../validators");
 
@@ -13,8 +14,13 @@ const {
 const { userImageMiddleware } = require("../middlewares/image.middleware");
 
 router
-  .route("/")
-  .post(validate(imageUploadSchema), uploadUserImage)
-  .put(userImageMiddleware, validate(imageUploadSchema), updateUserImage);
+  .route("/user")
+  .post(userAuth, validate(imageUploadSchema), uploadUserImage)
+  .put(
+    userAuth,
+    userImageMiddleware,
+    validate(imageUploadSchema),
+    updateUserImage
+  );
 
 module.exports = router;
