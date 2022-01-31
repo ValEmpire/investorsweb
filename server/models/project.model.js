@@ -23,6 +23,16 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
 
+      investorCount: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
+
+      raisedAmount: {
+        type: DataTypes.DECIMAL(10, 2),
+        defaultValue: 0,
+      },
+
       story: {
         type: DataTypes.STRING(65535),
         allowNull: false,
