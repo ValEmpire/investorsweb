@@ -1,7 +1,7 @@
 const { userRegisterSchema } = require("../validators/user.validator");
 
 const Image = require("../models").image;
-const User = require("./models").user;
+const User = require("../models").user;
 
 module.exports = {
   uploadUserImage: async (req, res) => {
@@ -13,6 +13,8 @@ module.exports = {
       });
 
       req.user.imageId = newImage.id;
+
+      await req.user.save();
 
       return res.status(200).send({
         success: true,
@@ -32,13 +34,14 @@ module.exports = {
       const user = req.userImage;
 
       const { url } = req.validatedBody;
+
       if (!user) {
         throw new Error("Image does not exist");
       }
 
       user.image.url = url;
 
-      await user.save();
+      await user.image.save();
 
       return res.status(200).send({
         success: true,
