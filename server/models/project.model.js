@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
 
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+
       location: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -76,10 +81,12 @@ module.exports = (sequelize, DataTypes) => {
   Project.associate = (model) => {
     Project.belongsTo(model.image, {
       foreignKey: "imageId",
+      as: "logo",
     });
 
     Project.belongsTo(model.user, {
       foreignKey: "userId",
+      as: "owner",
     });
 
     Project.hasMany(model.favorite, {

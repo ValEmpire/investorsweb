@@ -1,6 +1,6 @@
 const model = require("../models");
 const Project = model.project;
-const User = model.project;
+const User = model.user;
 const Image = model.image;
 const Favorite = model.favorite;
 
@@ -116,18 +116,21 @@ module.exports = {
         include: [
           {
             model: User,
+            as: "owner",
             attributes: {
               exclude: ["password"],
             },
           },
           {
             model: Image,
+            as: "logo",
           },
           {
             model: Favorite,
             include: [
               {
                 model: User,
+                required: true,
                 attributes: {
                   exclude: ["password"],
                 },
