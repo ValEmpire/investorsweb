@@ -7,18 +7,18 @@ module.exports = {
       const user = req.user;
 
       const { projectId } = req.params;
-      const { body , commentId} = req.validatedBody;
-      
+      const { body, commentId } = req.validatedBody;
 
       const newComment = await Comment.create({
         userId: user.id,
         projectId: projectId,
         body: body,
-        commentId: commentId
+        commentId: commentId,
       });
 
       return res.status(200).send({
         success: true,
+        newComment,
       });
     } catch (error) {
       console.log(error.message);
