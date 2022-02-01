@@ -13,6 +13,8 @@ const imageUploadSchema = Joi.object({
           "(\\#[-a-z\\d_]*)?$",
         "i"
       )
-    ),
+    )
+    .required(),
+  projectId: Joi.number().integer(),
 });
 module.exports = { imageUploadSchema };

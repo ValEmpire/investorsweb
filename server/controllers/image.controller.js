@@ -55,4 +55,59 @@ module.exports = {
       });
     }
   },
+
+  uploadProjectImage: async (req, res) => {
+    try {
+      if (!req.projectImage) {
+        throw new Error("Project does not Exist");
+      }
+
+      const { url } = req.validatedBody;
+
+      const newProjectImage = await Image.create({
+        url,
+      });
+
+      req.projectImage.imageId = newProjectImage.id;
+
+      await req.projectImage.save();
+
+      return res.status(200).send({
+        success: true,
+        newProjectImage,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
+
+  updateProjectImage: async (req, res) => {
+    try {
+      if (!req.projectImage) {
+        throw new Error("Project does not Exist");
+      }
+
+      const { url } = req.validatedBody;
+
+      req.projectImage.logo.url = url;
+
+      await req.projectImage.logo.save();
+
+      return res.status(200).send({
+        success: true,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
 };
