@@ -31,6 +31,7 @@ app.use("/api/image", require("./routes/image.route"));
 app.use("/api/userdetail", require("./routes/userDetail.route"));
 app.use("/api/project", require("./routes/project.route"));
 app.use("/api/comment", require("./routes/comment.route"));
+app.use("/api/favorite", require("./routes/favorite.route"));
 
 const PORT = process.env.PORT || 8080;
 
