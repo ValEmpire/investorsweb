@@ -31,9 +31,9 @@ module.exports = {
     }
   },
 
-  checkProjectMiddleware: async (req, res, next)=>{
+  checkProjectMiddleware: async (req, res, next) => {
     try {
-      const { projectId } = req.params;
+      const projectId = req.params.projectId || req.validatedBody.projectId;
 
       // check if project exists
       const project = await Project.findOne({
@@ -55,11 +55,5 @@ module.exports = {
         error: err.message,
       });
     }
-
-
-    
-  }
-
-  
-
+  },
 };
