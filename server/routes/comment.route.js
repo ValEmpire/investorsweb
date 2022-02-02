@@ -30,7 +30,6 @@ router
   .put(
     userAuth,
     validate(createCommentSchema),
-    checkProjectMiddleware,
     commentMiddleware,
     updateComment
   )

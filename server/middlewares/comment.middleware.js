@@ -8,10 +8,10 @@ module.exports = {
           id: req.params.commentId,
           userId: req.user.id
         },
+      
       });
-
+     
       req.comment = comment;
-
       next();
     } catch (err) {
       console.log(err.message);
