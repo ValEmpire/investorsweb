@@ -19,6 +19,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/projects" element={<ProjectDashboardPage />} />
           <Route path="/projects/create" element={<CreateProjectPage />} />
+          <Route path="/layout/navbar" element={<NavPage />} />
         </Routes>
       </Router>
     </Provider>
