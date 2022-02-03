@@ -87,9 +87,16 @@ module.exports = {
     }
   },
 
-  getAllProject: async (req, res) => {
+  getAllProjects: async (req, res) => {
     try {
-      const projects = await Project.findAll();
+      const projects = await Project.findAll({
+        include: [
+          {
+            model: Image,
+            as: "logo",
+          },
+        ],
+      });
 
       return res.status(200).send({
         success: true,
@@ -150,6 +157,35 @@ module.exports = {
       return res.status(400).send({
         success: false,
         error: err.message,
+      });
+    }
+  },
+
+  getAllUserProjects: async (req, res) => {
+    try {
+      const userProjects = await Project.findAll({
+        where: {
+          userId: req.user.id,
+        },
+
+        include: [
+          {
+            model: Image,
+            as: "logo",
+          },
+        ],
+      });
+
+      return res.status(200).send({
+        success: true,
+        userProjects,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.mssage,
       });
     }
   },

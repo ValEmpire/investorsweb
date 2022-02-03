@@ -53,7 +53,7 @@ export default function Register() {
       repeatPassword = data.get("repeatPassword");
 
     //chenge it letter
-    if (repeatPassword != password) {
+    if (repeatPassword !== password) {
       return alert("Passwords not match");
     }
 

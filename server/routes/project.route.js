@@ -13,14 +13,17 @@ const {
   createProject,
   updateProject,
   deleteProject,
-  getAllProject,
+  getAllProjects,
   getProject,
+  getAllUserProjects,
 } = require("../controllers/project.controller");
 
 router
   .route("/")
-  .get(getAllProject)
+  .get(getAllProjects)
   .post(userAuth, validate(createProjectSchema), createProject);
+
+router.route("/user").get(userAuth, getAllUserProjects);
 
 router
   .route("/:projectId")
