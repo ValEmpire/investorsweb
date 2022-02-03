@@ -49,7 +49,13 @@ export default function Register() {
     const firstName = data.get("firstName"),
       lastName = data.get("lastName"),
       email = data.get("email"),
-      password = data.get("password");
+      password = data.get("password"),
+      repeatPassword = data.get("repeatPassword");
+
+    //chenge it letter
+    if (repeatPassword != password) {
+      return alert("Passwords not match");
+    }
 
     // dispatch to redux actions
     dispatch(
@@ -139,6 +145,16 @@ export default function Register() {
                 label="Password"
                 type="password"
                 id="password"
+                autoComplete="current-password"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="repeatPassword"
+                label="repeatPassword"
+                type="password"
+                id="repeatPassword"
                 autoComplete="current-password"
               />
               <FormControlLabel
