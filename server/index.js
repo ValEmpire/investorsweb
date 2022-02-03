@@ -6,6 +6,7 @@ const app = express();
 const server = require("http").Server(app);
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 // Database
 const db = require("./models");
@@ -14,12 +15,12 @@ const db = require("./models");
 app.use(morgan("dev"));
 
 // CORS
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "*");
-  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-  next();
-});
+const corsOptions = {
+  origin: true,
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json()); // for parsing application/json
 

@@ -1,2 +1,3 @@
 export const SET_USER = "SET_USER",
-  GET_USER = "GET_USER";
+  GET_USER = "GET_USER",
+  REGISTER_USER = "REGISTER_USER";
