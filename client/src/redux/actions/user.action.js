@@ -1,11 +1,12 @@
 import { REGISTER_USER } from "../../const";
+import { LOGIN_USER } from "../../const";
 import axios from "axios";
 
 export const registerUser =
   ({ firstName, lastName, email, password }) =>
   async (dispatch) => {
     await axios.post(
-      "http://localhost:3001/api/user/register",
+      "http://localhost:8080/api/user/register",
       {
         firstName,
         lastName,
@@ -23,4 +24,22 @@ export const registerUser =
     });
   };
 
-export const loginUser = () => () => {};
+export const loginUser =
+  ({ email, password }) =>
+  async (dispatch) => {
+    await axios.post(
+      "http://localhost:8080/api/user/login",
+      {
+        email,
+        password,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    return dispatch({
+      type: LOGIN_USER,
+      payload: "from api server",
+    });
+  };
