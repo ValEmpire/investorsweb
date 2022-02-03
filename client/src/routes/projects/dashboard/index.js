@@ -6,7 +6,7 @@ const ProjectDashboardPage = () => {
 
   const getAllProject = async () => {
     const userProjects = await axios.get(
-      "http://localhost:3001/api/project/user",
+      `${process.env.REACT_APP_SERVER}/api/project/user`,
       {
         withCredentials: true,
       }

@@ -6,7 +6,7 @@ export const registerUser =
   async (dispatch) => {
     try {
       await axios.post(
-        "http://localhost:3001/api/user/register",
+        `${process.env.REACT_APP_SERVER}/api/user/register`,
         {
           firstName,
           lastName,
@@ -32,7 +32,7 @@ export const loginUser =
   async (dispatch) => {
     try {
       await axios.post(
-        "http://localhost:3001/api/user/login",
+        `${process.env.REACT_APP_SERVER}/api/user/login`,
         {
           email,
           password,
