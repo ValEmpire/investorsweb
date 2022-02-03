@@ -1,5 +1,4 @@
-import { REGISTER_USER } from "../../const";
-import { LOGIN_USER } from "../../const";
+import { REGISTER_USER, LOGIN_USER } from "../../const";
 
 const initialState = {
   isAuthenticated: false,

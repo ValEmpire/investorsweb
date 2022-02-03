@@ -6,6 +6,8 @@ import { store } from "./redux/store.js";
 import HomePage from "./pages/HomePage";
 import LogInPage from "./pages/LogInPage";
 import RegisterPage from "./pages/RegisterPage";
+import ProjectDashboardPage from "./pages/ProjectDashboardPage";
+import CreateProjectPage from "./pages/CreateProjectPage";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LogInPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/projects" element={<ProjectDashboardPage />} />
+          <Route path="/projects/create" element={<CreateProjectPage />} />
         </Routes>
       </Router>
     </Provider>
