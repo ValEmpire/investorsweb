@@ -1,4 +1,4 @@
-import { SET_USER } from "../../const";
+import { REGISTER_USER } from "../../const";
 
 const initialState = {
   isAuthenticated: false,
@@ -6,7 +6,7 @@ const initialState = {
 
 export const user = (state = initialState, action) => {
   switch (action.type) {
-    case SET_USER:
+    case REGISTER_USER:
       return {
         ...state,
         isAuthenticated: true,
