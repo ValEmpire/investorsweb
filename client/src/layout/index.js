@@ -1,11 +1,13 @@
 import React from "react";
 import Box from "@mui/material/Box";
+import NavPage from "./navbar";
 
 const Layout = (props) => {
   return (
-    // navbar
-    // sidebar
-    <Box>{props.children}</Box>
+    <>
+      <NavPage />
+      <Box>{props.children}</Box>
+    </>
   );
 };
 

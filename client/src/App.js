@@ -8,6 +8,7 @@ import LogInPage from "./pages/LogInPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProjectDashboardPage from "./pages/ProjectDashboardPage";
 import CreateProjectPage from "./pages/CreateProjectPage";
+import NavPage from "./pages/NavPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/projects" element={<ProjectDashboardPage />} />
           <Route path="/projects/create" element={<CreateProjectPage />} />
+          <Route path="/layout" element={<NavPage />} />
         </Routes>
       </Router>
     </Provider>
