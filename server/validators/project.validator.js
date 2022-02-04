@@ -1,13 +1,13 @@
 const Joi = require("joi");
 
 const createProjectSchema = Joi.object({
-  name: Joi.string().min(10).required().lowercase(),
-  location: Joi.string().min(5).required().lowercase(),
+  name: Joi.string().min(3).required().lowercase(),
+  location: Joi.string().min(3).required().lowercase(),
   targetFund: Joi.number()
     .precision(2)
     .required()
     .greater(Joi.ref("minInvestment")),
-  story: Joi.string().min(10).required(),
+  story: Joi.string().min(3).required(),
   website: Joi.string()
     .uri()
     .pattern(

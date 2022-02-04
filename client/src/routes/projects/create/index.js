@@ -21,11 +21,11 @@ import { submitProject } from "../../../redux/actions/project.action";
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      {/* {"Back to your Dashboard "} */}
+      <Link color="inherit" href="/projects">
+        Back to your Dashboard
       </Link>{" "}
-      {new Date().getFullYear()}
+      {/* {new Date().getFullYear()} */}
       {"."}
     </Typography>
   );
