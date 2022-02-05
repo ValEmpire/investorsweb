@@ -152,7 +152,7 @@ export default function Register() {
                 required
                 fullWidth
                 name="repeatPassword"
-                label="repeatPassword"
+                label="Repeat Password"
                 type="password"
                 id="repeatPassword"
                 autoComplete="current-password"

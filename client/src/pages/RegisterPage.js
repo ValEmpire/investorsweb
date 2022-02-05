@@ -1,10 +1,10 @@
 import React, { Suspense } from "react";
-import PublicRoute from "../HOCs/public";
+import Wrapper from "../HOCs/wrapper";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const RegisterPage = React.lazy(() => import("../routes/register"));
 
-export default PublicRoute(() => (
+export default Wrapper(() => (
   <Suspense fallback={<CircularProgress />}>
     <RegisterPage />
   </Suspense>

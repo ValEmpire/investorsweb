@@ -1,7 +1,9 @@
 import React from "react";
 
 const DataComponent = (ComposedComponent) => {
-  const WithData = (props) => <ComposedComponent {...props} />;
+  const WithData = () => {
+    return <ComposedComponent />;
+  };
 
   return WithData;
 };

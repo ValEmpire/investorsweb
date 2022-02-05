@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../../layout";
 
-const WithLayout = (ComposedComponent) => (props) =>
+const WithLayout = (ComposedComponent) => () =>
   (
     <Layout>
       <ComposedComponent />
