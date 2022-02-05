@@ -1,11 +1,13 @@
-import React, { Suspense } from "react";
-import PublicRoute from "../HOCs/public";
-import CircularProgress from "@mui/material/CircularProgress";
+import React from "react";
+import Layout from "../layout";
+import LoginRoute from "../routes/login";
 
-const LoginPage = React.lazy(() => import("../routes/login"));
+const LoginPage = () => {
+  return (
+    <Layout>
+      <LoginRoute />
+    </Layout>
+  );
+};
 
-export default PublicRoute(() => (
-  <Suspense fallback={<CircularProgress />}>
-    <LoginPage />
-  </Suspense>
-));
+export default LoginPage;
