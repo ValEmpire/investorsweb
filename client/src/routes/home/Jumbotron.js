@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import { makeStyles } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
 import { Button } from "@mui/material";
 
 const useStyles = makeStyles({
