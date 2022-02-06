@@ -5,13 +5,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import AuthBackground from "../../components/AuthBackground";
+import { Link } from "react-router-dom";
 
 // Redux
 import { useDispatch } from "react-redux";
@@ -26,10 +26,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        InvestorsWeb
-      </Link>{" "}
-      {new Date().getFullYear()}
+      InvestorsWeb {new Date().getFullYear()}
       {"."}
     </Typography>
   );
@@ -72,23 +69,8 @@ export default function Register() {
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: "url(https://source.unsplash.com/random)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <AuthBackground />
+        <Grid item xs={12} sm={8} md={5}>
           <Box
             sx={{
               my: 8,
@@ -171,9 +153,7 @@ export default function Register() {
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="/login" variant="body2">
-                    {"Already have an account? Log in"}
-                  </Link>
+                  <Link to="/login">{"Already have an account? Log in"}</Link>
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />

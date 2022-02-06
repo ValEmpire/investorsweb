@@ -19,6 +19,9 @@ import UserPage from "./pages/UserPage";
 import CreateProjectPage from "./pages/CreateProjectPage";
 import ProjectDashboardPage from "./pages/ProjectDashboardPage";
 
+// theme
+import { setTheme } from "./theme";
+
 function App() {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
@@ -42,6 +45,7 @@ function App() {
   // getUserDetails when component did mount
   useEffect(() => {
     handleUser();
+    setTheme();
   }, []);
 
   // guard the pages thats need authentication
