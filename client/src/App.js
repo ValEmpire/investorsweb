@@ -8,6 +8,7 @@ import LogInPage from "./pages/LogInPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProjectDashboardPage from "./pages/ProjectDashboardPage";
 import CreateProjectPage from "./pages/CreateProjectPage";
+import BlogPage from "./pages/BlogPage";
 import NavPage from "./pages/NavPage";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/projects" element={<ProjectDashboardPage />} />
           <Route path="/projects/create" element={<CreateProjectPage />} />
           <Route path="/layout" element={<NavPage />} />
+          <Route path="/blog" element={<BlogPage />} />
         </Routes>
       </Router>
     </Provider>

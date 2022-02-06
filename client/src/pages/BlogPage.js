@@ -2,10 +2,10 @@ import React, { Suspense } from "react";
 import PublicRoute from "../HOCs/public";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const NavPage = React.lazy(() => import("../layout/"));
+const BlogPage = React.lazy(() => import("../routes/blog"));
 
 export default PublicRoute(() => (
   <Suspense fallback={<CircularProgress />}>
-    < NavPage />
+    <BlogPage />
   </Suspense>
 ));
