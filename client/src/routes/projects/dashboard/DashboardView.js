@@ -1,23 +1,25 @@
 import * as React from "react";
-// import AppBar from "@mui/material/AppBar";
+import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
-// import CameraIcon from "@mui/icons-material/PhotoCamera";
+import CameraIcon from "@mui/icons-material/PhotoCamera";
 import Card from "@mui/material/Card";
-// import CardActions from "@mui/material/CardActions";
+import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-// import Toolbar from "@mui/material/Toolbar";
+import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Divider } from "@mui/material";
+import { Divider, unstable_composeClasses } from "@mui/material";
 import { display } from "@mui/system";
-// import { blue, blueGrey } from "@mui/material/colors";
+import { blue, blueGrey } from "@mui/material/colors";
+import Moment from "moment";
+import { amountReducer } from "../../../helpers/amountReducer";
 
 function Copyright() {
   return (
@@ -32,11 +34,11 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 const theme = createTheme();
 
-export default function DashboardView() {
+export default function DashboardView(props) {
+  console.log(props.projects);
+  const projects = props.projects;
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -86,11 +88,12 @@ export default function DashboardView() {
           {/* End hero unit */}
 
           <Grid container spacing={12}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={8} sm={5} md={4} mt={0}>
-                <Link href="/projects/:id" underline="none">
+            {projects.map((project) => (
+              <Grid item key={project.id} xs={8} sm={5} md={4} mt={0}>
+                <Link href="/projects/:projectId" underline="none">
                   <Card
                     sx={{
+                      height: "100%",
                       weight: "100%",
                       display: "flex",
                       flexDirection: "column",
@@ -98,29 +101,52 @@ export default function DashboardView() {
                   >
                     <CardMedia
                       component="img"
-                      image="https://source.unsplash.com/random"
-                      alt="random"
+                      image={project.logo.url}
+                      alt={"image id #" + project.logo.id}
                     />
-                    <CardContent sx={{ flexGrow: 1 }}>
+                    <CardContent
+                      sx={{
+                        flexGrow: 2,
+                        ml: 2,
+                        mr: 2,
+                        mt: 1,
+                        pb: 1,
+                        pt: 1,
+                      }}
+                    ></CardContent>
+                    <Box
+                      sx={{
+                        // flexGrow: 2,
+                        ml: 2,
+                        mr: 2,
+                        mt: 1,
+                        pb: 1,
+                        pt: 1,
+                      }}
+                    >
                       <Typography
                         sx={{ pb: 1, pt: 4, pl: 1 }}
                         gutterBottom
                         variant="h4"
                         component="h3"
                       >
-                        <strong>Project Name</strong>
+                        <strong>{project.name}</strong>
                       </Typography>
                       <Typography
                         sx={{ pb: 1, pt: 4, pl: 1 }}
                         display={"inline"}
                       ></Typography>
-                      <Typography style={{ display: "inline" }}>
-                        Story some stoty going here...
+                      <Typography sx={{ overflow: "auto" }}>
+                        {project.story}
                       </Typography>
+
                       <Typography sx={{ pb: 1, pt: 1, pl: 1, mt: 2 }}>
-                        Dedline: <strong>12/12/2025</strong>
+                        Dedline:{" "}
+                        <strong>
+                          {Moment(project.deadline).format("d MMM YYYY")}
+                        </strong>
                       </Typography>
-                    </CardContent>
+                    </Box>
                     <Divider color="#e3f2fd" />
 
                     <Stack
@@ -129,21 +155,27 @@ export default function DashboardView() {
                       spacing={3}
                       justifyContent="space-around"
                     >
-                      <Typography fontFamily={"sans-serif"}>
-                        <strong>$20.000</strong>
+                      <span>
+                        <Typography fontFamily={"sans-serif"}>
+                          <strong>{amountReducer(project.raisedAmount)}</strong>
+                        </Typography>
 
                         <Typography fontSize={12}>{"Raised amoubt"}</Typography>
-                      </Typography>
-
-                      <Typography>
-                        <strong>$2.5M</strong>
-                        <Typography fontSize={12}> Target amount </Typography>
-                      </Typography>
-                      <Typography>
-                        <strong>$300</strong>
-
+                      </span>
+                      <span>
+                        <Typography>
+                          <strong>{amountReducer(project.targetFund)}</strong>
+                        </Typography>
+                        <Typography fontSize={12}>Target amount</Typography>
+                      </span>
+                      <span>
+                        <Typography>
+                          <strong>
+                            {amountReducer(project.minInvestment)}
+                          </strong>
+                        </Typography>
                         <Typography fontSize={12}> Min Invest </Typography>
-                      </Typography>
+                      </span>
                     </Stack>
                   </Card>
                 </Link>

@@ -6,16 +6,13 @@ const ProjectDashboardPage = () => {
   const [projects, setProjects] = useState([]);
 
   const getAllProject = async () => {
-    const userProjects = await axios.get(
-      "http://localhost:3001/api/projects/user",
-      {
-        withCredentials: true,
-      }
-    );
+    const res = await axios.get("http://localhost:3001/api/project/user", {
+      withCredentials: true,
+    });
 
-    setProjects(userProjects);
+    setProjects(res.data.userProjects);
 
-    return userProjects;
+    return;
   };
 
   useEffect(() => {
@@ -24,8 +21,8 @@ const ProjectDashboardPage = () => {
 
   return (
     <>
-      <DashboardView />
-      {JSON.stringify(projects)}
+      <DashboardView projects={projects} />
+      {/* {JSON.stringify(projects)} */}
     </>
   );
 };
