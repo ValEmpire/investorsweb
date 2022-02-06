@@ -1,8 +1,8 @@
 const Joi = require("joi");
 
 const createProjectSchema = Joi.object({
-  name: Joi.string().min(3).required().lowercase(),
-  location: Joi.string().min(3).required().lowercase(),
+  name: Joi.string().min(3).required(),
+  location: Joi.string().min(3).required(),
   targetFund: Joi.number()
     .precision(2)
     .required()
