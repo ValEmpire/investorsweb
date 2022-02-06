@@ -4,7 +4,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import Navbar from "./navbar";
 import Footer from "./footer";
 import { getTheme } from "../theme";
-import { Container } from "@mui/material";
 
 const Layout = (props) => {
   const [theme, setTheme] = useState();

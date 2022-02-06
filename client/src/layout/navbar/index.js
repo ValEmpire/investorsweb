@@ -81,7 +81,7 @@ const ResponsiveAppBar = () => {
           <Typography variant="h6" noWrap component="div">
             <Avatar
               alt="Logo"
-              src="/images/logo192.png"
+              src="/images/logo192-2.png"
               sx={{ width: 80, height: 80 }}
               variant="square"
             />

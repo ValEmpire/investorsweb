@@ -10,12 +10,12 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import AuthBackground from "../../components/AuthBackground";
 
 //Ridux
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/actions/user.action";
+import { Container } from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -31,8 +31,6 @@ function Copyright(props) {
     </Typography>
   );
 }
-
-const theme = createTheme();
 
 export default function LogIn() {
   //Handels submit
@@ -55,7 +53,7 @@ export default function LogIn() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <Container maxWidth="xl">
       <Grid
         container
         component="main"
@@ -128,6 +126,6 @@ export default function LogIn() {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </Container>
   );
 }
