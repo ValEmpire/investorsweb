@@ -1,18 +1,20 @@
 import React from "react";
-import Section from "./section";
-import Section1 from "./section1";
-import Section3 from "./section3";
-import Section4 from "./section4";
-import Section5 from "./section5";
+import Jumbotron from "./Jumbotron";
+import Count from "./Count";
+import Featured from "./Featured";
+import Slider from "./Slider";
+import { Divider } from "@mui/material";
 
 const Home = () => {
   return (
     <>
-      <Section1 />
-      <Section />
-      <Section3 />
-      <Section5 />
-      <Section4 />
+      <Jumbotron />
+      <Divider />
+      <Count />
+      <Divider />
+      <Featured />
+      <Divider />
+      <Slider />
     </>
   );
 };

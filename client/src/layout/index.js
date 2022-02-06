@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { ThemeProvider } from "@mui/material/styles";
 import Navbar from "./navbar";
+import Footer from "./footer";
 import { getTheme } from "../theme";
 import { Container } from "@mui/material";
 
@@ -20,9 +21,8 @@ const Layout = (props) => {
         <ThemeProvider theme={theme}>
           <Navbar setTheme={setTheme} />
           <Box height={"80px"} />
-          <Container maxWidth="xl">
-            <Box>{props.children}</Box>
-          </Container>
+          {props.children}
+          <Footer />
         </ThemeProvider>
       )}
     </>
