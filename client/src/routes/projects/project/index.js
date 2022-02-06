@@ -7,7 +7,7 @@ const ProjectViewPage = (props) => {
 
   const getProject = async (props) => {
     const userProject = await axios.get(
-      "http://localhost:3001/api/project/:projectId",
+      `${process.env.REACT_APP_SERVER}/api/project/:projectId`,
       {
         withCredentials: true,
       }
