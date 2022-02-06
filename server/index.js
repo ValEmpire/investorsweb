@@ -36,7 +36,7 @@ app.use("/api/favorite", require("./routes/favorite.route"));
 app.use("/api/investment", require("./routes/investment.route"));
 app.use("/api/commentLike", require("./routes/commentLike.route"));
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3001;
 
 db.sequelize
   .sync()
