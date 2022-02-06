@@ -1,13 +1,13 @@
-import React, { Suspense } from "react";
-import PublicRoute from "../HOCs/public";
-import CircularProgress from "@mui/material/CircularProgress";
+import React from "react";
+import Layout from "../layout";
+import ProjectDashboardRoute from "../routes/projects/dashboard";
 
-const ProjectDashboardPage = React.lazy(() =>
-  import("../routes/projects/dashboard")
-);
+const ProjectDashboardPage = () => {
+  return (
+    <Layout>
+      <ProjectDashboardRoute />
+    </Layout>
+  );
+};
 
-export default PublicRoute(() => (
-  <Suspense fallback={<CircularProgress />}>
-    <ProjectDashboardPage />
-  </Suspense>
-));
+export default ProjectDashboardPage;

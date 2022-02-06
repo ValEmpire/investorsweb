@@ -1,12 +1,13 @@
-import { REGISTER_USER, LOGIN_USER } from "../../const";
+import { REGISTER_USER, LOGIN_USER, LOGOUT_USER } from "../../const";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const registerUser =
   ({ firstName, lastName, email, password }) =>
   async (dispatch) => {
     try {
       await axios.post(
-        "http://localhost:3001/api/user/register",
+        `${process.env.REACT_APP_SERVER}/api/user/register`,
         {
           firstName,
           lastName,
@@ -18,12 +19,15 @@ export const registerUser =
         }
       );
 
+      Cookies.set("isAuthenticated", true);
+
+      window.location.replace("/");
+
       return dispatch({
         type: REGISTER_USER,
-        payload: "from api server",
       });
     } catch (err) {
-      // handle error
+      return err;
     }
   };
 
@@ -32,7 +36,7 @@ export const loginUser =
   async (dispatch) => {
     try {
       await axios.post(
-        "http://localhost:3001/api/user/login",
+        `${process.env.REACT_APP_SERVER}/api/user/login`,
         {
           email,
           password,
@@ -42,11 +46,47 @@ export const loginUser =
         }
       );
 
+      Cookies.set("isAuthenticated", true);
+
+      window.location.replace("/");
+
       return dispatch({
         type: LOGIN_USER,
-        payload: "from api server",
       });
     } catch (err) {
-      // handle error
+      return err;
     }
   };
+
+// This function will be use in App.js
+// To initialized user in store
+export const getUser = async () => {
+  try {
+    const isAuthenticated = Cookies.get("isAuthenticated");
+
+    if (!isAuthenticated) return;
+
+    const res = await axios.get(`${process.env.REACT_APP_SERVER}/api/user`, {
+      withCredentials: true,
+    });
+
+    return res.data.user;
+  } catch (err) {
+    // if error happens remove cookie
+    Cookies.remove("isAuthenticated");
+
+    return new Error("Invalid token");
+  }
+};
+
+export const logoutUser = () => async (dispatch) => {
+  await axios.put(`${process.env.REACT_APP_SERVER}/api/user/logout`);
+
+  Cookies.remove("isAuthenticated");
+
+  window.location.replace("/");
+
+  return dispatch({
+    type: LOGOUT_USER,
+  });
+};

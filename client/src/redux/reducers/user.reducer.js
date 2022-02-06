@@ -1,7 +1,10 @@
-import { REGISTER_USER, LOGIN_USER } from "../../const";
+import { REGISTER_USER, LOGIN_USER, GET_USER, LOGOUT_USER } from "../../const";
 
 const initialState = {
-  isAuthenticated: false,
+  firstName: "",
+  lastName: "",
+  email: "",
+  userDetail: {},
 };
 
 export const user = (state = initialState, action) => {
@@ -9,12 +12,24 @@ export const user = (state = initialState, action) => {
     case REGISTER_USER:
       return {
         ...state,
-        isAuthenticated: true,
       };
     case LOGIN_USER:
       return {
         ...state,
-        isAuthenticated: true,
+      };
+    case GET_USER:
+      const { firstName, lastName, email, userDetail } = action.payload;
+
+      return {
+        ...state,
+        firstName,
+        lastName,
+        email,
+        userDetail,
+      };
+    case LOGOUT_USER:
+      return {
+        ...initialState,
       };
 
     default:

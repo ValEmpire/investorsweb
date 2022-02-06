@@ -11,7 +11,7 @@ export const createProject = (field) => (dispatch) => {
 export const submitProject = (proj, cb) => async (dispatch) => {
   try {
     const project = await axios.post(
-      "http://localhost:3001/api/project",
+      `${process.env.REACT_APP_SERVER}/api/project`,
       proj,
       {
         withCredentials: true,
