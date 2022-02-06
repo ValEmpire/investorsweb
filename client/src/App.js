@@ -17,6 +17,7 @@ import LogInPage from "./pages/LogInPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserPage from "./pages/UserPage";
 import CreateProjectPage from "./pages/CreateProjectPage";
+import ProjectViewPage from "./pages/ProjectViewPage";
 import ProjectDashboardPage from "./pages/ProjectDashboardPage";
 
 // theme
@@ -52,6 +53,7 @@ function App() {
   const GuardedUserPage = guardedRoute(UserPage);
   const GuardedProjectDashboardPage = guardedRoute(ProjectDashboardPage);
   const GuardedCreateProjectPage = guardedRoute(CreateProjectPage);
+  const GuardedProjectViewPage = guarded(ProjectViewPage);
 
   // login and register pages does not need to be access by already login user
   const AuthLoginPage = authRoute(LogInPage);
@@ -77,6 +79,7 @@ function App() {
             path="/projects/create"
             element={<GuardedCreateProjectPage />}
           />
+          <Route path="/projects/:projectId" element={<GuardedProjectViewPage />} />
         </Routes>
       </Router>
     </Provider>

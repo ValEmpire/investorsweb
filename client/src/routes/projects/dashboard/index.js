@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import DashboardView from "./DashboardView";
 
 const ProjectDashboardPage = () => {
   const [projects, setProjects] = useState([]);
 
   const getAllProject = async () => {
+    const res = await axios.get("http://localhost:3001/api/project/user", {
+      withCredentials: true,
+    });
     const userProjects = await axios.get(
       `${process.env.REACT_APP_SERVER}/api/project/user`,
       {
@@ -12,9 +16,9 @@ const ProjectDashboardPage = () => {
       }
     );
 
-    setProjects(userProjects);
+    setProjects(res.data.userProjects);
 
-    return userProjects;
+    return;
   };
 
   useEffect(() => {
@@ -23,9 +27,8 @@ const ProjectDashboardPage = () => {
 
   return (
     <>
-      <h1>This is Projects dashboard page</h1>
-
-      {JSON.stringify(projects)}
+      <DashboardView projects={projects} />
+      {/* {JSON.stringify(projects)} */}
     </>
   );
 };
