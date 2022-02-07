@@ -25,7 +25,7 @@ function Jumbotron() {
   const classes = useStyles();
 
   return (
-    <Box className={classes.jumbotronWrapper}>
+    <Box className={classes.jumbotronWrapper} pt={5}>
       <Container maxWidth="lg">
         <Grid container alignItems="center" justifyContent="center">
           <Grid item md={4} sm={6} xs={12}>

@@ -44,3 +44,11 @@
 .bold {
   font-weight: bold;
 }
+
+.avatar {
+  cursor: pointer;
+}
+
+.link {
+  text-decoration: none;
+}
