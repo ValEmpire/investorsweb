@@ -80,9 +80,10 @@ export const getUser = async () => {
 };
 
 export const logoutUser = () => async (dispatch) => {
-  await axios.put(`${process.env.REACT_APP_SERVER}/api/user/logout`);
+  await axios.post(`${process.env.REACT_APP_SERVER}/api/user/logout`);
 
   Cookies.remove("isAuthenticated");
+  Cookies.remove("token");
 
   window.location.replace("/");
 

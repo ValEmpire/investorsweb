@@ -19,7 +19,7 @@ const Layout = (props) => {
       {theme && (
         <ThemeProvider theme={theme}>
           <Navbar setTheme={setTheme} />
-          <Box height={"80px"} />
+          <Box height={"69px"} />
           {props.children}
           <Footer />
         </ThemeProvider>

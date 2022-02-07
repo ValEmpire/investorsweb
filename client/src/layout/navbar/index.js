@@ -4,31 +4,72 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
-import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
+import Avatar from "react-avatar";
+import MessageIcon from "@mui/icons-material/Message";
+import { IconButton } from "@mui/material";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import Badge from "@mui/material/Badge";
+import { useNavigate } from "react-router-dom";
 
-const pages = [
-  "Start Investing",
-  "Get Funding",
-  "Invest in Collectibles",
-  "Trade",
-  "Earn Bonus Shares",
-  "Blog",
-  "Sign In",
-];
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../../redux/actions/user.action";
 
 const ResponsiveAppBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = React.useState(null); // for menu on MenuIcon
+  const [anchorElAvatar, setAnchorElAvatar] = React.useState(null); // for menu in AvatarIcon
 
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // application pages
+  const pages = ["Start Investing", "Get Funding", "About Us"];
+
+  // menu of AvatarIcon
+  const userPages = [
+    {
+      name: "Account",
+      path: "/user",
+    },
+    {
+      name: "My Investments",
+      path: "/user/dashboard",
+    },
+    {
+      name: "My Projects",
+      path: "/projects",
+    },
+  ];
+
+  // this handles opening and closing of MenuIcon
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  // this handles opening and closing of AvatarIcon
+  const handleOpenAvatarMenu = (event) => {
+    setAnchorElAvatar(event.currentTarget);
+  };
+
+  const handleCloseAvatarMenu = () => {
+    setAnchorElAvatar(null);
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
+
+  const handleRedirect = (path) => {
+    navigate(path);
   };
 
   return (
@@ -42,12 +83,11 @@ const ResponsiveAppBar = () => {
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           ></Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          {/* Mobile */}
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <MenuIcon
+              sx={{ marginRight: 2 }}
               size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
             >
@@ -71,6 +111,7 @@ const ResponsiveAppBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
+              {/* Map Pages */}
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
@@ -78,16 +119,21 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
-          <Typography variant="h6" noWrap component="div">
-            <Avatar
-              alt="Logo"
-              src="/images/logo192-2.png"
-              sx={{ width: 80, height: 80 }}
-              variant="square"
-            />
+
+          {/* Logo */}
+          <Typography
+            sx={{ marginRight: 2, cursor: "pointer" }}
+            variant="h4"
+            onClick={() => handleRedirect("/")}
+            fontWeight={900}
+            noWrap
+            component="div"
+          >
+            <i>iWeb</i>
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          {/* Big screen */}
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -98,6 +144,88 @@ const ResponsiveAppBar = () => {
               </Button>
             ))}
           </Box>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "flex" } }}>
+            <Menu
+              id="avatar-menu-appbar"
+              anchorEl={anchorElAvatar}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElAvatar)}
+              onClose={handleCloseAvatarMenu}
+              sx={{
+                display: { xs: "block" },
+              }}
+            >
+              {/* Avatar Menus */}
+              {userPages.map((page) => (
+                <MenuItem key={page} onClick={() => handleRedirect(page.path)}>
+                  <Typography textAlign="center">{page.name}</Typography>
+                </MenuItem>
+              ))}
+              <MenuItem onClick={handleLogout}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
+
+          {/* Auth buttons */}
+
+          {!user.firstName && (
+            <>
+              <Button
+                onClick={() => handleRedirect("/login")}
+                color="inherit"
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Login
+              </Button>
+              <Button
+                onClick={(path) => handleRedirect("/register")}
+                color="inherit"
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Register
+              </Button>
+            </>
+          )}
+          {user.firstName && (
+            <>
+              <IconButton
+                sx={{ marginRight: 2 }}
+                onClick={handleCloseNavMenu}
+                color="inherit"
+              >
+                <Badge badgeContent={100} color="secondary">
+                  <MessageIcon />
+                </Badge>
+              </IconButton>
+              <IconButton
+                onClick={handleCloseNavMenu}
+                color="inherit"
+                sx={{ marginRight: 2 }}
+              >
+                <Badge badgeContent={2} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <Avatar
+                className="avatar"
+                size="50"
+                round
+                name={`${user.firstName} ${user.lastName}`}
+                onClick={handleOpenAvatarMenu}
+                // src="https://www.clipartmax.com/png/small/248-2487966_matthew-man-avatar-icon-png.png"
+              />
+            </>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
