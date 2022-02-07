@@ -10,7 +10,7 @@ import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "react-avatar";
 import MessageIcon from "@mui/icons-material/Message";
-import { Divider, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,24 @@ const ResponsiveAppBar = () => {
   const navigate = useNavigate();
 
   // application pages
-  const pages = ["Start Investing", "Get Funding", "About Us"];
+  const pages = [
+    {
+      name: "Explore",
+      path: "/explore",
+    },
+    {
+      name: "Start Investing",
+      path: "/invest",
+    },
+    {
+      name: "Get Funding",
+      path: "/funding",
+    },
+    {
+      name: "About Us",
+      path: "/aboutus",
+    },
+  ];
 
   // menu of AvatarIcon
   const userPages = [
@@ -112,9 +129,12 @@ const ResponsiveAppBar = () => {
               }}
             >
               {/* Map Pages */}
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {pages.map((page, i) => (
+                <MenuItem
+                  key={page.name + i}
+                  onClick={() => handleRedirect(page.path)}
+                >
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -134,13 +154,13 @@ const ResponsiveAppBar = () => {
 
           {/* Big screen */}
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {pages.map((page, i) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.name + i}
+                onClick={() => handleRedirect(page.path)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
@@ -165,8 +185,11 @@ const ResponsiveAppBar = () => {
               }}
             >
               {/* Avatar Menus */}
-              {userPages.map((page) => (
-                <MenuItem key={page} onClick={() => handleRedirect(page.path)}>
+              {userPages.map((page, i) => (
+                <MenuItem
+                  key={page.name + i}
+                  onClick={() => handleRedirect(page.path)}
+                >
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}

@@ -52,3 +52,8 @@
 .link {
   text-decoration: none;
 }
+
+.projectsCount {
+  color: #1876d2;
+  font-weight: 800;
+}
