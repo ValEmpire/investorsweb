@@ -1,4 +1,4 @@
-import { CREATE_PROJECT, SUBMIT_PROJECT } from "../../const";
+import { CREATE_PROJECT, SUBMIT_PROJECT, ALL_PROJECTS } from "../../const";
 import axios from "axios";
 
 export const createProject = (field) => (dispatch) => {
@@ -10,15 +10,9 @@ export const createProject = (field) => (dispatch) => {
 
 export const submitProject = (proj, cb) => async (dispatch) => {
   try {
-    const project = await axios.post(
-      `${process.env.REACT_APP_SERVER}/api/project`,
-      proj,
-      {
-        withCredentials: true,
-      }
-    );
-
-    console.log(project);
+    await axios.post(`${process.env.REACT_APP_SERVER}/api/project`, proj, {
+      withCredentials: true,
+    });
 
     return dispatch({
       type: SUBMIT_PROJECT,
@@ -26,6 +20,21 @@ export const submitProject = (proj, cb) => async (dispatch) => {
     });
   } catch (err) {
     cb(err);
+    console.log(err);
+
+    // handle error
+  }
+};
+
+export const getAllProjects = () => async (dispatch) => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_SERVER}/api/project`);
+
+    return dispatch({
+      type: ALL_PROJECTS,
+      payload: res.data.projects,
+    });
+  } catch (err) {
     console.log(err);
 
     // handle error

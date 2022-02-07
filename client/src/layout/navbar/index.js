@@ -129,8 +129,11 @@ const ResponsiveAppBar = () => {
               }}
             >
               {/* Map Pages */}
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={() => handleRedirect(page.path)}>
+              {pages.map((page, i) => (
+                <MenuItem
+                  key={page.name + i}
+                  onClick={() => handleRedirect(page.path)}
+                >
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
@@ -151,9 +154,9 @@ const ResponsiveAppBar = () => {
 
           {/* Big screen */}
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {pages.map((page, i) => (
               <Button
-                key={page.name}
+                key={page.name + i}
                 onClick={() => handleRedirect(page.path)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
@@ -182,8 +185,11 @@ const ResponsiveAppBar = () => {
               }}
             >
               {/* Avatar Menus */}
-              {userPages.map((page) => (
-                <MenuItem key={page} onClick={() => handleRedirect(page.path)}>
+              {userPages.map((page, i) => (
+                <MenuItem
+                  key={page.name + i}
+                  onClick={() => handleRedirect(page.path)}
+                >
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}

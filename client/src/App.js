@@ -22,6 +22,7 @@ import ProjectDashboardPage from "./pages/ProjectDashboardPage";
 
 // theme
 import { setTheme } from "./theme";
+import ExplorePage from "./pages/ExplorePage";
 
 function App() {
   const [user, setUser] = useState({});
@@ -71,6 +72,7 @@ function App() {
 
           {/* public route */}
           <Route path="/" element={<HomePage />} />
+          <Route path="/explore" element={<ExplorePage />} />
 
           {/* secured route */}
           <Route path="/user" element={<GuardedUserPage />} />
