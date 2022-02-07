@@ -10,7 +10,7 @@ import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "react-avatar";
 import MessageIcon from "@mui/icons-material/Message";
-import { IconButton } from "@mui/material";
+import { Divider, IconButton } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
 import { useNavigate } from "react-router-dom";
@@ -187,6 +187,7 @@ const ResponsiveAppBar = () => {
               >
                 Login
               </Button>
+
               <Button
                 onClick={(path) => handleRedirect("/register")}
                 color="inherit"

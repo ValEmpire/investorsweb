@@ -1,13 +1,10 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { Link } from "react-router-dom";
 import { Divider } from "@mui/material";
 
@@ -16,130 +13,74 @@ import { amountReducer } from "../../../helpers/amountReducer";
 
 export default function DashboardView(props) {
   const projects = props.projects;
-  return (
-    <Grid>
-      <Box pt={8} pb={6}>
-        <Container maxWidth="lg">
-          <Typography
-            component="h1"
-            variant="h3"
-            align="center"
-            color="text.primary"
-            gutterBottom
-          >
-            Project Dashboard
-          </Typography>
-          <Typography
-            variant="h6"
-            align="center"
-            color="text.secondary"
-            paragraph
-          >
-            Something short and leading about the collection below—its contents,
-            the creator, etc. Make it short and sweet, but not too short so
-            folks don&apos;t simply skip over it entirely.
-          </Typography>
-          <Stack
-            sx={{ pt: 4 }}
-            direction="row"
-            spacing={2}
-            justifyContent="center"
-          >
-            <Link className="link" to="/projects/create">
-              <Button variant="contained">Create New Project</Button>
-            </Link>
-          </Stack>
-        </Container>
-      </Box>
 
-      {/* Project container */}
-      <Container maxWidth="lg">
+  return (
+    <>
+      <Box mt={2} pt={2} pb={2} mb={2}>
         <Grid container spacing={12}>
           {projects.map((project, i) => (
-            <Grid item key={i} xs={8} sm={5} md={4}>
+            <Grid item key={i} xs={12} sm={6} md={4}>
               <Link className="link" to="/projects/:projectId">
-                <Card
-                  sx={{
-                    height: "100%",
-                    weight: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
+                <Card>
                   <CardMedia
                     component="img"
                     image={project.logo.url}
                     alt={"image id #" + project.logo.id}
                   />
-                  <CardContent
-                    sx={{
-                      flexGrow: 2,
-                      ml: 2,
-                      mr: 2,
-                      mt: 1,
-                      pb: 1,
-                      pt: 1,
-                    }}
-                  ></CardContent>
-                  <Box
-                    sx={{
-                      // flexGrow: 2,
-                      ml: 2,
-                      mr: 2,
-                      mt: 1,
-                      pb: 1,
-                      pt: 1,
-                    }}
-                  >
-                    <Typography
-                      sx={{ pb: 1, pt: 4, pl: 1 }}
-                      gutterBottom
-                      variant="h4"
-                      component="h3"
-                    >
-                      <strong>{project.name}</strong>
-                    </Typography>
-                    <Typography
-                      sx={{ pb: 1, pt: 4, pl: 1 }}
-                      display={"inline"}
-                    ></Typography>
-                    <Typography sx={{ overflow: "auto" }}>
-                      {project.story}
-                    </Typography>
+                  <Box>
+                    <Box textAlign="center" pt={2} mt={1} pb={2}>
+                      <Typography
+                        className="capitalize"
+                        gutterBottom
+                        variant="h5"
+                        color="primary"
+                      >
+                        <strong>{project.name}</strong>
+                      </Typography>
+                    </Box>
 
-                    <Typography sx={{ pb: 1, pt: 1, pl: 1, mt: 2 }}>
-                      Dedline:{" "}
-                      <strong>
-                        {Moment(project.deadline).format("d MMM YYYY")}
-                      </strong>
-                    </Typography>
+                    <Box pb={3} pl={2} pr={2}>
+                      <Typography noWrap>{project.story}</Typography>
+                      <br />
+                      <Typography>
+                        Dedline:{" "}
+                        <strong>
+                          {Moment(project.deadline).format("d MMM YYYY")}
+                        </strong>
+                      </Typography>
+                    </Box>
                   </Box>
-                  <Divider color="#e3f2fd" />
+
+                  <Box mr={2} ml={2}>
+                    <Divider sx={{ background: "#1876D2" }} />
+                  </Box>
 
                   <Stack
-                    sx={{ pb: 2, pt: 4, pl: 1, pr: 1 }}
+                    sx={{ pb: 3, pt: 3, pl: 1, pr: 1 }}
                     direction="row"
                     spacing={3}
                     justifyContent="space-around"
                   >
                     <span>
-                      <Typography fontFamily={"sans-serif"}>
+                      <Typography variant="h6">
                         <strong>{amountReducer(project.raisedAmount)}</strong>
                       </Typography>
 
-                      <Typography fontSize={12}>{"Raised amoubt"}</Typography>
+                      <Typography fontSize={12}>{"Raised Amount"}</Typography>
                     </span>
+                    <Divider orientation="vertical" flexItem />
                     <span>
-                      <Typography>
+                      <Typography variant="h6">
                         <strong>{amountReducer(project.targetFund)}</strong>
                       </Typography>
-                      <Typography fontSize={12}>Target amount</Typography>
+                      <Typography fontSize={12}>Target Fund</Typography>
                     </span>
+                    <Divider orientation="vertical" flexItem />
                     <span>
-                      <Typography>
+                      <Typography variant="h6">
                         <strong>{amountReducer(project.minInvestment)}</strong>
                       </Typography>
-                      <Typography fontSize={12}> Min Invest </Typography>
+                      <Typography fontSize={12}> Min Investment </Typography>
                     </span>
                   </Stack>
                 </Card>
@@ -147,7 +88,7 @@ export default function DashboardView(props) {
             </Grid>
           ))}
         </Grid>
-      </Container>
-    </Grid>
+      </Box>
+    </>
   );
 }
