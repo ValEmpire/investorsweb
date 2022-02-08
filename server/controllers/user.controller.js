@@ -8,7 +8,7 @@ const { generateToken } = require("../helpers");
 module.exports = {
   register: async (req, res) => {
     try {
-      if (req.user) throw new Error("Email is already taken.");
+      if (req.userFound) throw new Error("Email is already taken.");
 
       const { firstName, lastName, email, password } = req.validatedBody;
 
@@ -60,9 +60,9 @@ module.exports = {
 
   logIn: async (req, res) => {
     try {
-      if (!req.user) throw new Error("Invalid credentials.");
+      if (!req.userFound) throw new Error("Invalid credentials.");
 
-      const hashPassword = req.user.password;
+      const hashPassword = req.userFound.password;
 
       const { password } = req.body;
 
@@ -70,7 +70,7 @@ module.exports = {
 
       if (!isMatch) throw new Error("Email and password do not match.");
 
-      const token = generateToken(req.user.id);
+      const token = generateToken(req.userFound.id);
 
       res.cookie("token", token, {
         maxAge: 86400000, // 24hrs
@@ -112,6 +112,45 @@ module.exports = {
       return res.status(200).send({
         success: true,
         user,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
+
+  updateUser: async (req, res) => {
+    try {
+      const { password, currentPassword, firstName, lastName } =
+        req.validatedBody;
+
+      // if password is present
+      // then user wants to update password
+      if (password) {
+        const foundPassword = req.userFound.password;
+
+        const isMatch = bcrypt.compareSync(currentPassword, foundPassword);
+
+        if (!isMatch) throw new Error("Current password do not match.");
+
+        const hashPassword = bcrypt.hashSync(password, 12);
+
+        req.user.password = hashPassword;
+      }
+
+      req.user.firstName = firstName;
+
+      req.user.lastName = lastName;
+
+      await req.user.save();
+
+      return res.status(200).send({
+        success: true,
+        user: req.user,
       });
     } catch (err) {
       console.log(err);

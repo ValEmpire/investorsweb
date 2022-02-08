@@ -17,21 +17,6 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../redux/actions/user.action";
 import { Container } from "@mui/material";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      InvestorsWeb {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 export default function Register() {
   // This must be inside the component
   const dispatch = useDispatch();
@@ -68,7 +53,7 @@ export default function Register() {
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <AuthBackground />
-        <Grid item xs={12} sm={8} md={5}>
+        <Grid item xs={12} sm={8} md={4}>
           <Box
             sx={{
               my: 8,
@@ -154,7 +139,6 @@ export default function Register() {
                   <Link to="/login">{"Already have an account? Log in"}</Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>

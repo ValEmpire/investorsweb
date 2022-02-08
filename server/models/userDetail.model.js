@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
 
-      description: {
+      headline: {
         type: DataTypes.STRING(1000),
       },
 

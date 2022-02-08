@@ -6,13 +6,13 @@ module.exports = {
     try {
       if (req.userDetail) throw new Error("User details already exists.");
 
-      const { description, city, province, phoneNumber } = req.validatedBody;
+      const { headline, city, province, phoneNumber } = req.validatedBody;
 
       const user = req.user;
 
       await UserDetail.create({
         userId: user.id,
-        description,
+        headline,
         city,
         province,
         phoneNumber,
@@ -35,8 +35,25 @@ module.exports = {
     try {
       const userDetail = req.userDetail;
 
-      if (!userDetail) throw new Error("User details does not exists");
+      // if no userDetail Create new one
+      if (!userDetail) {
+        const { headline, city, province, phoneNumber } = req.validatedBody;
 
+        const newUserDetail = await UserDetail.create({
+          userId: req.user.id,
+          headline,
+          city,
+          province,
+          phoneNumber,
+        });
+
+        return res.status(200).send({
+          success: true,
+          userDetail: newUserDetail,
+        });
+      }
+
+      // if userDetail exists, update it
       for (const detail in req.validatedBody) {
         userDetail[detail] = req.validatedBody[detail];
       }
