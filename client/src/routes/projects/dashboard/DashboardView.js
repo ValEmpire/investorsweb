@@ -24,7 +24,7 @@ export default function DashboardView(props) {
         <Grid container spacing={12}>
           {projects.map((project, i) => (
             <Grid item key={i} xs={12} sm={6} md={4}>
-              <Link className="link" to="/projects/:projectId">
+              <Link className="link" to={"/projects/" + project.id}>
                 <Card>
                   <CardMedia
                     component="img"
@@ -64,7 +64,11 @@ export default function DashboardView(props) {
                   </Box>
 
                   <Box mr={2} ml={2}>
-                    <Divider sx={{ background: "#1876D2" }} />
+                    <Divider
+                      variant="full"
+                      color="#0277bd"
+                      sx={{ height: 2 }}
+                    />
                   </Box>
 
                   <Stack
