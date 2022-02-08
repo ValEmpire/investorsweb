@@ -3,6 +3,7 @@ import {
   LOGIN_USER,
   LOGOUT_USER,
   UPDATE_USER_DETAIL,
+  UPDATE_USER_SECURITY,
 } from "../../const";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -123,5 +124,42 @@ export const updateUserDetail = (userDetail) => async (dispatch) => {
     });
   } catch (err) {
     // handle error here
+  }
+};
+
+export const updateUserSecurity = (security) => async (dispatch) => {
+  try {
+    const {
+      firstName,
+      lastName,
+      currentPassword,
+      password,
+      repeatPassword,
+      email,
+    } = security;
+
+    if (password !== repeatPassword)
+      throw new Error("Password and Repeat Password do not match.");
+
+    const res = await axios.put(
+      `${process.env.REACT_APP_SERVER}/api/user`,
+      {
+        firstName,
+        lastName,
+        currentPassword,
+        password,
+        email,
+      },
+      { withCredentials: true }
+    );
+
+    return dispatch({
+      type: UPDATE_USER_SECURITY,
+      payload: res.data.user,
+    });
+  } catch (err) {
+    // handle error here
+
+    console.log(err);
   }
 };

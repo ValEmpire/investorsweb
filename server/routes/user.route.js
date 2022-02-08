@@ -6,6 +6,7 @@ const {
   logOut,
   logIn,
   getUser,
+  updateUser,
 } = require("../controllers/user.controller");
 
 const { validate } = require("../validators");
@@ -13,11 +14,15 @@ const { validate } = require("../validators");
 const {
   userRegisterSchema,
   userLoginSchema,
+  updateUserSchema,
 } = require("../validators/user.validator");
 
 const { userMiddleware, userAuth } = require("../middlewares/user.middleware");
 
-router.route("/").get(userAuth, getUser);
+router
+  .route("/")
+  .get(userAuth, getUser)
+  .put(userAuth, validate(updateUserSchema), userMiddleware, updateUser);
 
 router
   .route("/register")

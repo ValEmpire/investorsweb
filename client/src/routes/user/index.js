@@ -102,7 +102,7 @@ export default function UserPage() {
             <UpdateDetails open={open} user={user} handleClose={handleClose} />
           )}
           {value === 1 && (
-            <UpdateSecurity open={open} handleClose={handleClose} />
+            <UpdateSecurity open={open} user={user} handleClose={handleClose} />
           )}
         </Box>
       </Paper>

@@ -4,6 +4,7 @@ import {
   GET_USER,
   LOGOUT_USER,
   UPDATE_USER_DETAIL,
+  UPDATE_USER_SECURITY,
 } from "../../const";
 
 const initialState = {
@@ -25,6 +26,13 @@ export const user = (state = initialState, action) => {
         ...state,
       };
 
+    case UPDATE_USER_SECURITY:
+      return {
+        ...state,
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+      };
+
     case GET_USER:
       const { firstName, lastName, email, userDetail } = action.payload;
       return {
@@ -35,15 +43,15 @@ export const user = (state = initialState, action) => {
         userDetail,
       };
 
-    case LOGOUT_USER:
-      return {
-        ...initialState,
-      };
-
     case UPDATE_USER_DETAIL:
       return {
         ...state,
         userDetail: action.payload,
+      };
+
+    case LOGOUT_USER:
+      return {
+        ...initialState,
       };
 
     default:

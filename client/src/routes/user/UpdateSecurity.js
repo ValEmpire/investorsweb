@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -13,15 +13,34 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
+// Redux
+import { useDispatch } from "react-redux";
+import { updateUserSecurity } from "../../redux/actions/user.action";
+
 const UpdateSecurity = (props) => {
-  const { open, handleClose } = props;
+  const dispatch = useDispatch();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const { open, handleClose, user } = props;
 
-    const data = new FormData(event.currentTarget);
+  const [security, setSecurity] = useState(user);
 
-    console.log(data);
+  const handleForm = (e) => {
+    setSecurity({
+      ...security,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+
+      await dispatch(updateUserSecurity(security));
+
+      handleClose();
+    } catch (err) {
+      // handle error here
+    }
   };
 
   return (
@@ -53,17 +72,23 @@ const UpdateSecurity = (props) => {
                     margin="normal"
                     required
                     fullWidth
+                    value={security.firstName}
                     name="firstName"
                     label="First Name"
                     id="firstName"
+                    inputProps={{ style: { textTransform: "capitalize" } }}
+                    onChange={(e) => handleForm(e)}
                   />
                   <TextField
                     margin="normal"
                     required
                     fullWidth
+                    value={security.lastName}
                     name="lastName"
                     label="Last Name"
                     id="lastName"
+                    inputProps={{ style: { textTransform: "capitalize" } }}
+                    onChange={(e) => handleForm(e)}
                   />
                   <Box mt={2} />
                   <Accordion>
@@ -78,29 +103,35 @@ const UpdateSecurity = (props) => {
                       <TextField
                         margin="normal"
                         required
+                        value={security.currentPassword || ""}
                         fullWidth
                         name="currentPassword"
                         label="Current Password"
                         id="currentPassword"
                         type="password"
+                        onChange={(e) => handleForm(e)}
                       />
                       <TextField
                         margin="normal"
                         required
+                        value={security.password || ""}
                         fullWidth
                         name="password"
                         label="Password"
                         id="password"
                         type="password"
+                        onChange={(e) => handleForm(e)}
                       />
                       <TextField
                         margin="normal"
                         required
                         fullWidth
+                        value={security.repeatPassword || ""}
                         name="repeatPassword"
                         label="Repeat Password"
                         id="repeatPassword"
                         type="password"
+                        onChange={(e) => handleForm(e)}
                       />
                     </AccordionDetails>
                   </Accordion>

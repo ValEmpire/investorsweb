@@ -15,7 +15,18 @@ const userRegisterSchema = Joi.object({
       )
     )
     .required(),
-  immageId: Joi.number(),
+});
+
+const updateUserSchema = Joi.object({
+  email: Joi.string().required(),
+
+  firstName: Joi.string().min(3).lowercase().required(),
+
+  lastName: Joi.string().min(3).lowercase().required(),
+
+  currentPassword: Joi.string(),
+
+  password: Joi.string().min(7),
 });
 
 const userLoginSchema = Joi.object({
@@ -24,4 +35,4 @@ const userLoginSchema = Joi.object({
   email: Joi.string().lowercase().required(),
 });
 
-module.exports = { userRegisterSchema, userLoginSchema };
+module.exports = { userRegisterSchema, userLoginSchema, updateUserSchema };
