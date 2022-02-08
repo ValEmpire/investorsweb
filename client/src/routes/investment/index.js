@@ -1,17 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { withStyles } from "@material-ui/core/styles";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import { Tooltip } from "@material-ui/core";
-import { createMuiTheme } from "@material-ui/core/styles";
-
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -29,6 +17,18 @@ import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
+import { withStyles } from "@mui/styles";
+
+import {
+  Button,
+  Paper,
+  Step,
+  StepContent,
+  StepLabel,
+  Stepper,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 
 const styles = (theme) => ({
   root: {
@@ -43,14 +43,6 @@ const styles = (theme) => ({
   },
   resetContainer: {
     padding: theme.spacing.unit * 3,
-  },
-});
-
-const theme = createMuiTheme({
-  typography: {
-    body1: {
-      fontWeight: 600, // or 'bold'
-    },
   },
 });
 
