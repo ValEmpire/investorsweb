@@ -70,7 +70,10 @@ export const getUser = async () => {
       withCredentials: true,
     });
 
-    return res.data.user;
+    return {
+      ...res.data.user,
+      userDetail: res.data.user.userDetail || {},
+    };
   } catch (err) {
     // if error happens remove cookie
     Cookies.remove("isAuthenticated");

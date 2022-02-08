@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -12,6 +12,8 @@ import Security from "./Security";
 import Details from "./Details";
 import Billings from "./Billings";
 import { Button } from "@mui/material";
+import UpdateDetails from "./UpdateDetails";
+import UpdateSecurity from "./UpdateSecurity";
 
 // Redux
 import { useSelector } from "react-redux";
@@ -52,6 +54,12 @@ export default function UserPage() {
     setValue(newValue);
   };
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+
+  const handleClose = () => setOpen(false);
+
   const user = useSelector((state) => state.user);
 
   return (
@@ -86,9 +94,16 @@ export default function UserPage() {
           </TabPanel>
         </Box>
         <Box textAlign="center" pb={2}>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={handleOpen}>
             Update
           </Button>
+
+          {value === 0 && (
+            <UpdateDetails open={open} user={user} handleClose={handleClose} />
+          )}
+          {value === 1 && (
+            <UpdateSecurity open={open} handleClose={handleClose} />
+          )}
         </Box>
       </Paper>
     </Container>

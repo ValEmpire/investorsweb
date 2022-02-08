@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Box,
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -8,14 +9,32 @@ import {
   TableRow,
 } from "@mui/material";
 import Avatar from "react-avatar";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 const Details = (props) => {
   const userDetail = props.user;
 
   return (
-    <Box textAlign="center">
+    <Box>
       <Box pb={3}>
-        <Avatar size="150" round name="Diego Silang" />
+        <Box display={"flex"} justifyContent="center">
+          <Box position="relative">
+            <Avatar size="150" round name="Diego Silang" />
+            <Box position="absolute" right={0} bottom={3}>
+              <IconButton sx={{ background: "#e9e9e9" }} component="label">
+                <CameraAltIcon />
+                <input
+                  type="file"
+                  hidden
+                  accept="image/png, image/jpeg"
+                  onChange={() => {
+                    console.log("uploading");
+                  }}
+                />
+              </IconButton>
+            </Box>
+          </Box>
+        </Box>
       </Box>
       <TableContainer>
         <Table>
@@ -25,9 +44,7 @@ const Details = (props) => {
                 Headline:
               </TableCell>
               <TableCell align="right">
-                <span className="capitalize bold">
-                  {userDetail.description}
-                </span>
+                <span className="capitalize bold">{userDetail.headline}</span>
               </TableCell>
             </TableRow>
             <TableRow>
