@@ -64,7 +64,7 @@ module.exports = {
         },
       });
 
-      req.user = user;
+      req.userFound = user;
 
       next();
     } catch (err) {

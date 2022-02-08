@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Box,
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -8,14 +9,33 @@ import {
   TableRow,
 } from "@mui/material";
 import Avatar from "react-avatar";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { formatPhoneNumber } from "../../helpers/amountReducer";
 
-const Details = props => {
-  const userDetail = props.user;
+const Details = (props) => {
+  const { userDetail } = props.user;
 
   return (
-    <Box textAlign="center">
+    <Box>
       <Box pb={3}>
-        <Avatar size="150" round name="Diego Silang" />
+        <Box display={"flex"} justifyContent="center">
+          <Box position="relative">
+            <Avatar size="150" round name="Diego Silang" />
+            <Box position="absolute" right={0} bottom={3}>
+              <IconButton sx={{ background: "#e9e9e9" }} component="label">
+                <CameraAltIcon />
+                <input
+                  type="file"
+                  hidden
+                  accept="image/png, image/jpeg"
+                  onChange={() => {
+                    console.log("uploading");
+                  }}
+                />
+              </IconButton>
+            </Box>
+          </Box>
+        </Box>
       </Box>
       <TableContainer>
         <Table>
@@ -48,7 +68,11 @@ const Details = props => {
               <TableCell component="th" scope="row">
                 Phone number:
               </TableCell>
-              <TableCell align="right">{userDetail.phoneNumber}</TableCell>
+              <TableCell align="right">
+                <span className="bold">
+                  {formatPhoneNumber(userDetail.phoneNumber)}
+                </span>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

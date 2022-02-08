@@ -11,19 +11,19 @@ const createUserDetailSchema = Joi.object({
 
   province: Joi.string()
     .valid(
-      "NL",
-      "PE",
-      "NS",
-      "NB",
-      "QC",
-      "ON",
-      "MB",
-      "SK",
-      "AB",
-      "BC",
-      "YT",
-      "NT",
-      "NU"
+      "Quebec",
+      "Ontario",
+      "Manitoba",
+      "Saskatchewan",
+      "Alberta",
+      "British Columbia",
+      "Yukon",
+      "Northwest Territories",
+      "Newfoundland and Labrador",
+      "Prince Edward Island",
+      "Nova Scotia",
+      "New Brunswick",
+      "Nunavut"
     )
     .required(),
 

@@ -9,30 +9,13 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import AuthBackground from "../../components/AuthBackground";
 import { Link } from "react-router-dom";
 
 // Redux
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../redux/actions/user.action";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      InvestorsWeb {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
+import { Container } from "@mui/material";
 
 export default function Register() {
   // This must be inside the component
@@ -66,11 +49,11 @@ export default function Register() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <Container maxWidth="xl">
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <AuthBackground />
-        <Grid item xs={12} sm={8} md={5}>
+        <Grid item xs={12} sm={8} md={4}>
           <Box
             sx={{
               my: 8,
@@ -156,11 +139,10 @@ export default function Register() {
                   <Link to="/login">{"Already have an account? Log in"}</Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </Container>
   );
 }
