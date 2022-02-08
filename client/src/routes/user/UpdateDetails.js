@@ -13,7 +13,13 @@ import {
   Typography,
 } from "@mui/material";
 
+// Redux
+import { useDispatch } from "react-redux";
+import { updateUserDetail } from "../../redux/actions/user.action";
+
 const UpdateDetails = (props) => {
+  const dispatch = useDispatch();
+
   const { open, handleClose, user } = props;
 
   const [userDetail, setUserDetail] = useState(user.userDetail);
@@ -47,10 +53,16 @@ const UpdateDetails = (props) => {
     setProvince(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
 
-    console.log(userDetail);
+      await dispatch(updateUserDetail({ ...userDetail, province: province }));
+
+      handleClose();
+    } catch (err) {
+      // handle error
+    }
   };
 
   return (
@@ -106,6 +118,7 @@ const UpdateDetails = (props) => {
                       labelId="provinceField"
                       value={province || ""}
                       label="Province"
+                      name="province"
                       onChange={handleProvince}
                     >
                       {provinces.map((province, i) => (

@@ -1,4 +1,9 @@
-import { REGISTER_USER, LOGIN_USER, LOGOUT_USER } from "../../const";
+import {
+  REGISTER_USER,
+  LOGIN_USER,
+  LOGOUT_USER,
+  UPDATE_USER_DETAIL,
+} from "../../const";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -98,4 +103,25 @@ export const logoutUser = () => async (dispatch) => {
   return dispatch({
     type: LOGOUT_USER,
   });
+};
+
+export const updateUserDetail = (userDetail) => async (dispatch) => {
+  try {
+    const { city, province, phoneNumber, headline } = userDetail;
+
+    const res = await axios.put(
+      `${process.env.REACT_APP_SERVER}/api/userdetail`,
+      { city, province, phoneNumber, headline },
+      {
+        withCredentials: true,
+      }
+    );
+
+    return dispatch({
+      type: UPDATE_USER_DETAIL,
+      payload: res.data.userDetail,
+    });
+  } catch (err) {
+    // handle error here
+  }
 };

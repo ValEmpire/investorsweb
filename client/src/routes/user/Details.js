@@ -10,9 +10,10 @@ import {
 } from "@mui/material";
 import Avatar from "react-avatar";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { formatPhoneNumber } from "../../helpers/amountReducer";
 
 const Details = (props) => {
-  const userDetail = props.user;
+  const { userDetail } = props.user;
 
   return (
     <Box>
@@ -67,7 +68,11 @@ const Details = (props) => {
               <TableCell component="th" scope="row">
                 Phone number:
               </TableCell>
-              <TableCell align="right">{userDetail.phoneNumber}</TableCell>
+              <TableCell align="right">
+                <span className="bold">
+                  {formatPhoneNumber(userDetail.phoneNumber)}
+                </span>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

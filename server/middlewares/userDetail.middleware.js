@@ -11,8 +11,6 @@ module.exports = {
         },
       });
 
-      // console.log(userDetail);
-
       req.userDetail = userDetail;
 
       next();
