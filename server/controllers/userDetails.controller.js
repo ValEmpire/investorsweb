@@ -6,13 +6,13 @@ module.exports = {
     try {
       if (req.userDetail) throw new Error("User details already exists.");
 
-      const { description, city, province, phoneNumber } = req.validatedBody;
+      const { headline, city, province, phoneNumber } = req.validatedBody;
 
       const user = req.user;
 
       await UserDetail.create({
         userId: user.id,
-        description,
+        headline,
         city,
         province,
         phoneNumber,

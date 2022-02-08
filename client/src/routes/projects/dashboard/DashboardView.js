@@ -1,23 +1,17 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
-import CameraIcon from "@mui/icons-material/PhotoCamera";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Divider, unstable_composeClasses } from "@mui/material";
-import { display } from "@mui/system";
-import { blue, blueGrey } from "@mui/material/colors";
+import { Divider } from "@mui/material";
 import Moment from "moment";
 import { amountReducer } from "../../../helpers/amountReducer";
 
@@ -37,7 +31,6 @@ function Copyright() {
 const theme = createTheme();
 
 export default function DashboardView(props) {
-  console.log(props.projects);
   const projects = props.projects;
   return (
     <ThemeProvider theme={theme}>
@@ -88,9 +81,9 @@ export default function DashboardView(props) {
           {/* End hero unit */}
 
           <Grid container spacing={12}>
-            {projects.map((project) => (
+            {projects.map(project => (
               <Grid item key={project.id} xs={8} sm={5} md={4} mt={0}>
-                <Link href="/projects/:projectId" underline="none">
+                <Link href={"/projects/" + project.id} underline="none">
                   <Card
                     sx={{
                       height: "100%",
@@ -136,9 +129,12 @@ export default function DashboardView(props) {
                         sx={{ pb: 1, pt: 4, pl: 1 }}
                         display={"inline"}
                       ></Typography>
-                      <Typography sx={{ overflow: "auto" }}>
-                        {project.story}
-                      </Typography>
+                      <Box
+                        component="div"
+                        sx={{ display: "line", textOverflow: "ellipsis" }}
+                      >
+                        <Typography>{project.story.slice(0, 36)}...</Typography>
+                      </Box>
 
                       <Typography sx={{ pb: 1, pt: 1, pl: 1, mt: 2 }}>
                         Dedline:{" "}

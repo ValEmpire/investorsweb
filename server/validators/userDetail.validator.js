@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const createUserDetailSchema = Joi.object({
-  description: Joi.string().required(),
+  headline: Joi.string().required(),
 
   city: Joi.string()
     .min(5)

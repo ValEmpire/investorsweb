@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
 
-      description: {
+      headline: {
         type: DataTypes.STRING(1000),
       },
 
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  UserDetail.associate = (model) => {
+  UserDetail.associate = model => {
     UserDetail.belongsTo(model.user, {
       foreignKey: "userId",
     });

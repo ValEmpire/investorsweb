@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import Avatar from "react-avatar";
 
-const Details = (props) => {
+const Details = props => {
   const userDetail = props.user;
 
   return (
@@ -25,9 +25,7 @@ const Details = (props) => {
                 Headline:
               </TableCell>
               <TableCell align="right">
-                <span className="capitalize bold">
-                  {userDetail.description}
-                </span>
+                <span className="capitalize bold">{userDetail.headline}</span>
               </TableCell>
             </TableRow>
             <TableRow>
