@@ -68,7 +68,7 @@ const Team = () => {
                     justifyContent="center"
                   >
                     <Typography variant="h5" color="primary">
-                      <b>Valera Neg</b>
+                      <b>ValeraNeg</b>
                     </Typography>
                     <Button
                       href="https://github.com/Valera-Neg"
