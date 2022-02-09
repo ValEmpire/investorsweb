@@ -37,7 +37,9 @@ const AddCard = props => {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async e => {
+    e.preventDefault();
+
     await dispatch(addCard(card));
   };
 
@@ -88,7 +90,7 @@ const AddCard = props => {
                 <Box
                   component="form"
                   noValidate
-                  onSubmit={handleSubmit}
+                  onSubmit={e => handleSubmit(e)}
                   sx={{ mt: 1 }}
                 >
                   <TextField
