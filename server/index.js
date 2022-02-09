@@ -35,6 +35,7 @@ app.use("/api/comment", require("./routes/comment.route"));
 app.use("/api/favorite", require("./routes/favorite.route"));
 app.use("/api/investment", require("./routes/investment.route"));
 app.use("/api/commentLike", require("./routes/commentLike.route"));
+app.use("/api/stripe", require("./routes/stripe.route"));
 
 const PORT = process.env.PORT || 3001;
 
@@ -45,4 +46,4 @@ db.sequelize
       console.log(`Server started on port ${PORT}`);
     });
   })
-  .catch((err) => console.log(err));
+  .catch(err => console.log(err));

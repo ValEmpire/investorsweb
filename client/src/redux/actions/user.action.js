@@ -8,9 +8,11 @@ import {
 import axios from "axios";
 import Cookies from "js-cookie";
 
+import { createAccount } from "./stripe.action";
+
 export const registerUser =
   ({ firstName, lastName, email, password }) =>
-  async (dispatch) => {
+  async dispatch => {
     try {
       await axios.post(
         `${process.env.REACT_APP_SERVER}/api/user/register`,
@@ -27,6 +29,9 @@ export const registerUser =
 
       Cookies.set("isAuthenticated", true);
 
+      // Create stripe account when user register
+      await createAccount(null);
+
       window.location.replace("/");
 
       return dispatch({
@@ -39,7 +44,7 @@ export const registerUser =
 
 export const loginUser =
   ({ email, password }) =>
-  async (dispatch) => {
+  async dispatch => {
     try {
       await axios.post(
         `${process.env.REACT_APP_SERVER}/api/user/login`,
@@ -88,7 +93,7 @@ export const getUser = async () => {
   }
 };
 
-export const logoutUser = () => async (dispatch) => {
+export const logoutUser = () => async dispatch => {
   await axios.post(
     `${process.env.REACT_APP_SERVER}/api/user/logout`,
     {},
@@ -106,7 +111,7 @@ export const logoutUser = () => async (dispatch) => {
   });
 };
 
-export const updateUserDetail = (userDetail) => async (dispatch) => {
+export const updateUserDetail = userDetail => async dispatch => {
   try {
     const { city, province, phoneNumber, headline } = userDetail;
 
@@ -127,7 +132,7 @@ export const updateUserDetail = (userDetail) => async (dispatch) => {
   }
 };
 
-export const updateUserSecurity = (security) => async (dispatch) => {
+export const updateUserSecurity = security => async dispatch => {
   try {
     const {
       firstName,

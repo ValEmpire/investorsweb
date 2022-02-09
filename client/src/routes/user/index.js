@@ -60,7 +60,7 @@ export default function UserPage() {
 
   const handleClose = () => setOpen(false);
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector(state => state.user);
 
   return (
     <Container component="main" maxWidth="md">
@@ -95,7 +95,9 @@ export default function UserPage() {
         </Box>
         <Box textAlign="center" pb={2}>
           <Button variant="contained" color="primary" onClick={handleOpen}>
-            Update
+            {value === 0 && "Update Details"}
+            {value === 1 && "Update Security"}
+            {value === 2 && "Add Account"}
           </Button>
 
           {value === 0 && (

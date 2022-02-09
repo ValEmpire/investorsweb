@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       imageId: {
         type: DataTypes.INTEGER,
       },
+
+      stripeId: {
+        type: DataTypes.INTEGER,
+      },
     },
 
     {
@@ -37,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  User.associate = (model) => {
+  User.associate = model => {
     User.hasOne(model.userDetail, {
       foreignKey: "userId",
     });
