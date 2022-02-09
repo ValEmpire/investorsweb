@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 
 import Cards from "react-credit-cards";
-import "react-credit-cards/es/styles-compiled.css";
 
 // Redux
 import { useDispatch } from "react-redux";
@@ -38,9 +37,15 @@ const AddCard = props => {
   };
 
   const handleSubmit = async e => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    await dispatch(addCard(card));
+      await dispatch(addCard(card));
+
+      handleClose();
+    } catch (err) {
+      // handle error
+    }
   };
 
   const handleInputChange = e => {

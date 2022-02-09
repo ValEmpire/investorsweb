@@ -8,8 +8,6 @@ import {
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import { createAccount } from "./stripe.action";
-
 export const registerUser =
   ({ firstName, lastName, email, password }) =>
   async dispatch => {
@@ -28,9 +26,6 @@ export const registerUser =
       );
 
       Cookies.set("isAuthenticated", true);
-
-      // Create stripe account when user register
-      await createAccount(null);
 
       window.location.replace("/");
 

@@ -46,7 +46,7 @@ export const addCard = card => async dispatch => {
   console.log("calling here");
 
   try {
-    await axios.post(
+    const res = await axios.post(
       `${process.env.REACT_APP_SERVER}/api/stripe/add-card`,
       card,
       {
@@ -56,6 +56,7 @@ export const addCard = card => async dispatch => {
 
     return dispatch({
       type: ADD_CARD,
+      payload: res.data.card,
     });
   } catch (err) {
     console.log(err);

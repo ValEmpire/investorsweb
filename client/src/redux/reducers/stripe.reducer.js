@@ -14,6 +14,7 @@ export const stripe = (state = initialState, action) => {
     case ADD_CARD:
       return {
         ...state,
+        cards: [...state.cards, action.payload],
       };
 
     default:

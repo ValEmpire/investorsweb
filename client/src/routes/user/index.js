@@ -21,6 +21,9 @@ import AddCard from "./AddCard";
 // Redux
 import { useSelector } from "react-redux";
 
+// CSS
+import "react-credit-cards/es/styles-compiled.css";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
