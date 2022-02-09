@@ -12,8 +12,11 @@ import Security from "./Security";
 import Details from "./Details";
 import Billings from "./Billings";
 import { Button } from "@mui/material";
+
+// Modal
 import UpdateDetails from "./UpdateDetails";
 import UpdateSecurity from "./UpdateSecurity";
+import AddCard from "./AddCard";
 
 // Redux
 import { useSelector } from "react-redux";
@@ -106,6 +109,7 @@ export default function UserPage() {
           {value === 1 && (
             <UpdateSecurity open={open} user={user} handleClose={handleClose} />
           )}
+          {value === 2 && <AddCard open={open} handleClose={handleClose} />}
         </Box>
       </Paper>
     </Container>

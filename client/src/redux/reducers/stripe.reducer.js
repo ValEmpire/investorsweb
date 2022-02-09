@@ -1,4 +1,4 @@
-import { ALL_CARDS } from "../../const";
+import { ADD_CARD, ALL_CARDS } from "../../const";
 
 const initialState = {
   cards: [],
@@ -9,6 +9,11 @@ export const stripe = (state = initialState, action) => {
     case ALL_CARDS:
       return {
         cards: action.payload,
+      };
+
+    case ADD_CARD:
+      return {
+        ...state,
       };
 
     default:

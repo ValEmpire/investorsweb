@@ -20,6 +20,7 @@
     "moment": "^2.29.1",
     "react": "^16.9.0",
     "react-avatar": "^4.0.0",
+    "react-credit-cards": "^0.8.3",
     "react-dom": "^16.9.0",
     "react-redux": "^7.2.6",
     "react-responsive-carousel": "^3.2.22",

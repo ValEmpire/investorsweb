@@ -12,6 +12,8 @@ const Billings = props => {
 
   const { cards } = useSelector(state => state.stripe);
 
+  console.log(cards);
+
   useEffect(() => {
     // this is just a validation
     // in case theres an error on stripe create account

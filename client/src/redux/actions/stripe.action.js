@@ -1,4 +1,4 @@
-import { ALL_CARDS } from "../../const";
+import { ALL_CARDS, ADD_CARD } from "../../const";
 import axios from "axios";
 
 // We can put this as a middleware in server when user registered
@@ -9,7 +9,7 @@ export const createAccount = async stripeId => {
 
   try {
     await axios.post(
-      `${process.env.REACT_APP_SERVER}/api/stripe/createaccount`,
+      `${process.env.REACT_APP_SERVER}/api/stripe/create-account`,
       {},
       { withCredentials: true }
     );
@@ -39,5 +39,27 @@ export const getAllCards = stripeId => async dispatch => {
     console.log(err);
 
     // handle error
+  }
+};
+
+export const addCard = card => async dispatch => {
+  console.log("calling here");
+
+  try {
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/api/stripe/add-card`,
+      card,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return dispatch({
+      type: ADD_CARD,
+    });
+  } catch (err) {
+    console.log(err);
+
+    // handle error here
   }
 };
