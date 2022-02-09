@@ -1,16 +1,6 @@
 const stripe = require("../stripe");
 
 module.exports = {
-  getAccount: async (req, res, next) => {
-    try {
-      const { stripeId } = req.user;
-
-      const account = await stripe.accounts.retrieve(req.user.stripeId);
-    } catch (err) {
-      console.log(err.message);
-    }
-  },
-
   paymentIntent: async (req, res, next) => {
     try {
       const { amount } = req.validatedBody;
@@ -35,20 +25,6 @@ module.exports = {
 
       // need to return this to client
       // res.json({client_secret: intent.client_secret});
-    } catch (err) {
-      console.log(err.message);
-    }
-  },
-
-  getAllCards: async (req, res, next) => {
-    try {
-      const { stripeId } = req.user;
-
-      const accountCards = await stripe.accounts.listExternalAccounts(stripeId);
-
-      req.accountCards = accountCards;
-
-      next();
     } catch (err) {
       console.log(err.message);
     }

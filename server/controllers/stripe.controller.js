@@ -1,7 +1,7 @@
 const stripe = require("../stripe");
 
 module.exports = {
-  createConnectedAccount: async (req, res, next) => {
+  createConnectedAccount: async (req, res) => {
     try {
       const { email } = req.user;
 
@@ -25,6 +25,28 @@ module.exports = {
         success: true,
       });
     } catch (err) {
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
+
+  getAllCards: async (req, res) => {
+    try {
+      const { stripeId } = req.user;
+
+      const account = await stripe.accounts.listExternalAccounts(stripeId, {
+        object: "card",
+      });
+
+      return res.status(200).send({
+        success: true,
+        cards: account.data,
+      });
+    } catch (err) {
+      console.log(err.message);
+
       return res.status(400).send({
         success: false,
         error: err.message,

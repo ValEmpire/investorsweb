@@ -7,9 +7,14 @@ const router = express.Router();
 const { userAuth } = require("../middlewares/user.middleware");
 
 //CONTROLLERS
-const { createConnectedAccount } = require("../controllers/stripe.controller");
+const {
+  createConnectedAccount,
+  getAllCards,
+} = require("../controllers/stripe.controller");
 
 //ROUTES
+router.route("/all-cards").get(userAuth, getAllCards);
+
 router.route("/create-account").post(userAuth, createConnectedAccount);
 
 module.exports = router;

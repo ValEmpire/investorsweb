@@ -1,3 +1,4 @@
+import { ALL_CARDS } from "../../const";
 import axios from "axios";
 
 // We can put this as a middleware in server when user registered
@@ -16,5 +17,27 @@ export const createAccount = async stripeId => {
     // handle error
 
     return err;
+  }
+};
+
+export const getAllCards = stripeId => async dispatch => {
+  if (!stripeId) return;
+
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/stripe/all-cards`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return dispatch({
+      type: ALL_CARDS,
+      payload: res.data.cards,
+    });
+  } catch (err) {
+    console.log(err);
+
+    // handle error
   }
 };
