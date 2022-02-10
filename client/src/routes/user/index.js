@@ -12,11 +12,17 @@ import Security from "./Security";
 import Details from "./Details";
 import Billings from "./Billings";
 import { Button } from "@mui/material";
+
+// Modal
 import UpdateDetails from "./UpdateDetails";
 import UpdateSecurity from "./UpdateSecurity";
+import AddCard from "./AddCard";
 
 // Redux
 import { useSelector } from "react-redux";
+
+// CSS
+import "react-credit-cards/es/styles-compiled.css";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -60,7 +66,7 @@ export default function UserPage() {
 
   const handleClose = () => setOpen(false);
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector(state => state.user);
 
   return (
     <Container component="main" maxWidth="md">
@@ -95,7 +101,9 @@ export default function UserPage() {
         </Box>
         <Box textAlign="center" pb={2}>
           <Button variant="contained" color="primary" onClick={handleOpen}>
-            Update
+            {value === 0 && "Update Details"}
+            {value === 1 && "Update Security"}
+            {value === 2 && "Add Account"}
           </Button>
 
           {value === 0 && (
@@ -104,6 +112,7 @@ export default function UserPage() {
           {value === 1 && (
             <UpdateSecurity open={open} user={user} handleClose={handleClose} />
           )}
+          {value === 2 && <AddCard open={open} handleClose={handleClose} />}
         </Box>
       </Paper>
     </Container>
