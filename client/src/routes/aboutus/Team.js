@@ -3,86 +3,62 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import { Container, Row, Col } from "react-grid-system";
+import { Container } from "@mui/material";
+import Avatar from "react-avatar";
+
+const Member = props => {
+  const { name, img, github } = props;
+
+  return (
+    <Grid item sm={4} xs={12}>
+      <Box textAlign="center" pt={2} mt={2} mb={2} pb={3}>
+        <Box pt={2} pb={2}>
+          <Avatar name={name} size={200} src={img} round />
+        </Box>
+        <Box pb={1}>
+          <Typography variant="h5" color="primary">
+            <b>{name} </b>
+          </Typography>
+        </Box>
+        <Button href={github} target="_blank" variant="outlined">
+          Follow
+        </Button>
+      </Box>
+    </Grid>
+  );
+};
 
 const Team = () => {
+  const members = [
+    {
+      name: "ValEmpire",
+      img: "https://avatars.githubusercontent.com/u/35951681?v=4",
+      github: "https://github.com/ValEmpire",
+    },
+    {
+      name: "NehaYadav",
+      img: "",
+      github: "https://github.com/NehaYadav903",
+    },
+    {
+      name: "ValeraNeg",
+      img: "",
+      github: "https://github.com/Valera-Neg",
+    },
+  ];
+
   return (
     <Container>
-      <Row>
-        <Grid container alignItems="center" justifyContent="center">
-          <Typography variant="h4" className="header-message">
-            <b>OUR TEAM</b>
-          </Typography>
-        </Grid>
-        <Box pt={1} pb={6}>
-          <Grid container alignItems="center" justifyContent="center">
-            <Grid item md={6} sm={8} xs={12}>
-              <Row>
-                <Col sm={4}>
-                  <Box
-                    pt={8}
-                    pb={6}
-                    width={500}
-                    height={100}
-                    alignItems="center"
-                    justifyContent="center"
-                  >
-                    <Typography variant="h5" color="primary">
-                      <b>ValEmpire </b>
-                    </Typography>
-                    <Button
-                      href="https://github.com/ValEmpire"
-                      variant="outlined"
-                    >
-                      Follow
-                    </Button>
-                  </Box>
-                </Col>
-                <Col sm={4}>
-                  <Box
-                    pt={8}
-                    pb={12}
-                    width={500}
-                    height={100}
-                    alignItems="center"
-                    justifyContent="center"
-                  >
-                    <Typography variant="h5" color="primary">
-                      <b>NehaYadav</b>
-                    </Typography>
-                    <Button
-                      href="https://github.com/NehaYadav903"
-                      variant="outlined"
-                    >
-                      Follow
-                    </Button>
-                  </Box>
-                </Col>
-                <Col sm={4}>
-                  <Box
-                    pt={8}
-                    pb={12}
-                    width={500}
-                    height={100}
-                    alignItems="center"
-                    justifyContent="center"
-                  >
-                    <Typography variant="h5" color="primary">
-                      <b>ValeraNeg</b>
-                    </Typography>
-                    <Button
-                      href="https://github.com/Valera-Neg"
-                      variant="outlined"
-                    >
-                      Follow
-                    </Button>
-                  </Box>
-                </Col>
-              </Row>
-            </Grid>
-          </Grid>
-        </Box>
-      </Row>
+      <Box textAlign={"center"}>
+        <Typography variant="h4">
+          <b>OUR TEAM</b>
+        </Typography>
+      </Box>
+      <Grid container justifyContent="center">
+        {members.map((member, i) => (
+          <Member {...member} key={member.name + i} />
+        ))}
+      </Grid>
     </Container>
   );
 };
