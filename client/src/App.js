@@ -19,6 +19,7 @@ import UserPage from "./pages/UserPage";
 import CreateProjectPage from "./pages/CreateProjectPage";
 import ViewProjectPage from "./pages/ViewProjectPage";
 import ProjectDashboardPage from "./pages/ProjectDashboardPage";
+import AboutUsPage from "./pages/AboutUsPage";
 import InvestmentPage from "./pages/InvestmentPage";
 
 // theme
@@ -75,6 +76,8 @@ function App() {
           {/* public route */}
           <Route path="/" element={<HomePage />} />
           <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/aboutus" element={<AboutUsPage />} />
+
 
           {/* secured route */}
           <Route path="/user" element={<GuardedUserPage />} />
@@ -92,6 +95,8 @@ function App() {
             element={<GuardedInvestmentPage />}
           />
         </Routes>
+        
+        
       </Router>
     </Provider>
   );
