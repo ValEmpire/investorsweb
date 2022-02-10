@@ -1,282 +1,165 @@
-import React from "react";
-import PropTypes from "prop-types";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
-import TextField from "@mui/material/TextField";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
-import { withStyles } from "@mui/styles";
+import Typography from "@mui/material/Typography";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import { useParams } from "react-router-dom";
+import Amount from "./Amount";
+import Payment from "./Payment";
+import Review from "./Review";
 
-import {
-  Button,
-  Paper,
-  Step,
-  StepContent,
-  StepLabel,
-  Stepper,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { submitInvestment } from "../../redux/actions/investment.action";
 
-const styles = (theme) => ({
-  root: {
-    width: "90%",
-  },
-  button: {
-    marginTop: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-  },
-  actionsContainer: {
-    marginBottom: theme.spacing.unit * 2,
-  },
-  resetContainer: {
-    padding: theme.spacing.unit * 3,
-  },
-});
+const ProjectViewPage = () => {
+  const investment = useSelector(state => state.investment);
 
-function getSteps() {
-  return ["1. Investment Amount", "2 .Verification", "3. Review"];
-}
+  const dispatch = useDispatch();
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return (
-        <>
-          <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">
-              <b>Amount</b>
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-amount"
-              startAdornment={
-                <InputAdornment position="start">$</InputAdornment>
-              }
-              label="Amount"
-            />
-            <FormHelperText id="filled-weight-helper-text">
-              Your investment amount will be rounded up to be a multiple of the
-              share price. The minimum investment in this offering is $255.68.
-            </FormHelperText>
-          </FormControl>
-          <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">
-              <b>Annual Income</b>{" "}
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-amount"
-              startAdornment={
-                <InputAdornment position="start">$0.00</InputAdornment>
-              }
-              label="Annual Income"
-            />
-          </FormControl>
-          <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">
-              <b>Net Worth</b>
-              <Tooltip title="Calculating net worth involves adding up all your assets and subtracting all your liabilities.The result sum is your net worth.">
-                <IconButton>
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-amount"
-              startAdornment={
-                <InputAdornment position="start">$0.00</InputAdornment>
-              }
-              label="Net Worth"
-            />
+  const [project, setProject] = useState({});
+  const [activeStep, setActiveStep] = useState(0);
+  const [amount, setAmount] = useState("");
 
-            <FormHelperText id="filled-weight-helper-text">
-              This information is used to calculate your investment limits for
-              crowdfunding.
-            </FormHelperText>
-          </FormControl>
-        </>
-      );
-    case 1:
-      return (
-        <>
-          <FormControl>
-            <FormLabel id="demo-controlled-radio-buttons-group">
-              Citizenship
-            </FormLabel>
-            <br />
-            <RadioGroup
-              aria-labelledby="demo-controlled-radio-buttons-group"
-              name="controlled-radio-buttons-group"
-            >
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="I am a US Citizen or US Legal Resident"
-              />
-              <FormControlLabel
-                value="male"
-                control={<Radio />}
-                label="I am not a US Citizen or US Legal Resident"
-              />
-            </RadioGroup>
-          </FormControl>
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 2, width: "35ch" },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField
-              label="Government Issued Identification Number"
-              focused
-            />
-          </Box>
-        </>
-      );
+  const { projectId } = useParams();
 
-    case 2:
-      return (
-        <>
-          <Card sx={{ minWidth: 275 }}>
-            <CardContent>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                This Project is the part of our Finals in LightouseLabs as a
-                Full Stack Developer.This is for demo purpose only.
-              </Typography>
-            </CardContent>
-          </Card>
-        </>
-      );
-
-    default:
-      return `Thanks for Investing with us`;
-  }
-}
-
-class VerticalLinearStepper extends React.Component {
-  state = {
-    activeStep: 0,
-  };
-
-  handleNext = () => {
-    this.setState((state) => ({
-      activeStep: state.activeStep + 1,
-    }));
-  };
-
-  handleBack = () => {
-    this.setState((state) => ({
-      activeStep: state.activeStep - 1,
-    }));
-  };
-
-  handleReset = () => {
-    this.setState({
-      activeStep: 0,
-    });
-  };
-
-  render() {
-    const { classes } = this.props;
-    const steps = getSteps();
-    const { activeStep } = this.state;
-
-    return (
-      <Box className={classes.jumbotronWrapper}>
-        <Container maxWidth="lg">
-          <Box sx={{ m: 2 }}>
-            <Typography variant="h3">
-              Invest in <b>Monogram Orthopaedics</b>
-            </Typography>
-            <Typography variant="h8" color="primary">
-              <b>$7.52 Per Share</b>
-            </Typography>
-          </Box>
-          <Divider variant="middle" />
-          <div className={classes.root}>
-            <Stepper activeStep={activeStep} orientation="vertical">
-              {steps.map((label, index) => {
-                console.log("steps---->", steps);
-                console.log("label---->", label);
-                console.log("index---->", index);
-
-                return (
-                  <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
-                    <StepContent>
-                      <Typography>{getStepContent(index)}</Typography>
-                      <div className={classes.actionsContainer}>
-                        <div>
-                          <Box
-                            component="form"
-                            sx={{
-                              "& > :not(style)": { m: 2, width: "35ch" },
-                            }}
-                            noValidate
-                            autoComplete="off"
-                          >
-                            <Button
-                              disabled={activeStep === 0}
-                              onClick={this.handleBack}
-                              className={classes.button}
-                            >
-                              Back
-                            </Button>
-
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={this.handleNext}
-                              className={classes.button}
-                            >
-                              {activeStep === steps.length - 1
-                                ? "Complete Investment"
-                                : "Continue"}
-                            </Button>
-                          </Box>
-                        </div>
-                      </div>
-                    </StepContent>
-                  </Step>
-                );
-              })}
-            </Stepper>
-            {activeStep === steps.length && (
-              <Paper square elevation={0} className={classes.resetContainer}>
-                <Typography variant="h6" component="h6">
-                  Thanks for investing with us.
-                </Typography>
-                <Button
-                  variant="outlined"
-                  onClick={this.handleReset}
-                  className={classes.button}
-                >
-                  Reset
-                </Button>
-              </Paper>
-            )}
-          </div>
-        </Container>
-      </Box>
+  const getProject = async () => {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/project/${projectId}`,
+      {
+        withCredentials: true,
+      }
     );
-  }
-}
 
-VerticalLinearStepper.propTypes = {
-  classes: PropTypes.object,
+    setProject(res.data.project);
+
+    return;
+  };
+
+  const handleAmount = e => {
+    setAmount(e.target.value);
+    return;
+  };
+
+  useEffect(() => {
+    getProject();
+  }, []);
+
+  const handleNext = () => {
+    if (activeStep === steps.length - 1) {
+      dispatch(submitInvestment({ amount, projectId }, err => {}));
+      setActiveStep(activeStep + 1);
+    } else {
+      setActiveStep(activeStep + 1);
+    }
+  };
+
+  const handleBack = () => {
+    setActiveStep(activeStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
+  // const hendleInvest = input => e => {
+  //   if (activeStep <= 0) return;
+  //   const newAmount = {
+  //     amount,
+  //     createdAt: Date.now(),
+  //     updatedAt: Date.now(),
+  //   };
+  //   setAmount([newAmount]);
+  //   setActiveStep(0);
+  // };
+
+  const steps = ["1. Investment Amount", "2. Payment", "3. Review"];
+
+  return (
+    <Box>
+      <Container maxWidth="lg">
+        <Box sx={{ m: 2 }}>
+          <Typography variant="h3">
+            Invest in <b>{project.name}</b>
+          </Typography>
+        </Box>
+        <Divider variant="middle" />
+        <div>
+          <Stepper activeStep={activeStep} orientation="vertical">
+            {steps.map((label, index) => {
+              console.log("steps---->", steps);
+              console.log("label---->", label);
+              console.log("index---->", index);
+
+              return (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                  <StepContent>
+                    <Box>
+                      {activeStep === 0 && (
+                        <Amount
+                          project={project}
+                          amount={amount}
+                          handleAmount={handleAmount}
+                        />
+                      )}
+                      {activeStep === 1 && <Payment />}
+                      {activeStep === 2 && <Review amount={amount} />}
+                    </Box>
+                    <div>
+                      <div>
+                        <Box
+                          component="form"
+                          sx={{
+                            "& > :not(style)": { m: 2, width: "35ch" },
+                          }}
+                          noValidate
+                          autoComplete="off"
+                        >
+                          <Button
+                            disabled={activeStep === 0}
+                            onClick={handleBack}
+                          >
+                            Back
+                          </Button>
+
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleNext}
+                          >
+                            {activeStep === steps.length - 1
+                              ? "Complete Investment"
+                              : "Continue"}
+                          </Button>
+                        </Box>
+                      </div>
+                    </div>
+                  </StepContent>
+                </Step>
+              );
+            })}
+          </Stepper>
+          {activeStep === steps.length && (
+            <Paper square elevation={0}>
+              <Typography variant="h6" component="h6">
+                Thanks for investing with us.
+              </Typography>
+              <Button variant="outlined" onClick={handleReset}>
+                Reset
+              </Button>
+            </Paper>
+          )}
+        </div>
+      </Container>
+    </Box>
+  );
 };
-
-export default withStyles(styles)(VerticalLinearStepper);
+export default ProjectViewPage;

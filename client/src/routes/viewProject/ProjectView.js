@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import ProjectTabs from "./ProjectTabs";
 import Moment from "moment";
 import { amountReducer } from "../../helpers/amountReducer";
+import { currencyFormat } from "../../helpers/amountReducer";
 
 export default function MediaCard(props) {
   const project = props.project;
@@ -83,7 +84,7 @@ export default function MediaCard(props) {
           >
             <Box display="flex" alignItems="center" mb={2}>
               <Typography sx={{ paddingRight: 2, pb: 1 }} variant="h4">
-                <b>{`$${amountReducer(project.raisedAmount)}`}</b>
+                <b>{`${currencyFormat(Number(project.raisedAmount))}`}</b>
               </Typography>
               Raised
             </Box>
@@ -252,7 +253,7 @@ export default function MediaCard(props) {
                     fontSize: 20,
                   }}
                 >
-                  ${amountReducer(remainingAmount())}
+                  {currencyFormat(Number(remainingAmount()))}
                 </Typography>
                 <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
                   Left to raise expected investment
@@ -260,8 +261,13 @@ export default function MediaCard(props) {
                 </Typography>
               </Box>
             </Box>
-            <Box mt={12} pb={4}>
-              <Button variant="contained" size="large" fullWidth>
+            <Box mt={12}>
+              <Button
+                href={"/investment/" + project.id}
+                variant="contained"
+                size="large"
+                fullWidth
+              >
                 Invest Now
               </Button>
             </Box>
