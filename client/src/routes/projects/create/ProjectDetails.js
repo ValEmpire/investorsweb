@@ -10,7 +10,7 @@ import { createProject } from "../../../redux/actions/project.action";
 export default function ProjectDetails() {
   const dispatch = useDispatch();
 
-  const handleField = (e) => {
+  const handleField = e => {
     const field = {};
 
     field[e.target.name] = e.target.value;
