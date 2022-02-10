@@ -13,8 +13,10 @@ import ProjectTabs from "./ProjectTabs";
 import Moment from "moment";
 import { amountReducer } from "../../helpers/amountReducer";
 import { currencyFormat } from "../../helpers/amountReducer";
+import { useSelector } from "react-redux";
 
 export default function MediaCard(props) {
+  const user = useSelector(state => state.user);
   const project = props.project;
 
   const daysLeft = function () {
@@ -28,7 +30,7 @@ export default function MediaCard(props) {
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" key={project.id}>
       <Grid container spacing={4} mt={10}>
         <Grid item md={8} xs={12}>
           <Card
@@ -78,6 +80,7 @@ export default function MediaCard(props) {
         <Grid item md={4} xs={12}>
           <Card
             sx={{
+              pb: 4,
               border: "none",
               boxShadow: "none",
             }}
@@ -261,7 +264,12 @@ export default function MediaCard(props) {
                 </Typography>
               </Box>
             </Box>
-            <Box mt={12}>
+            <Box
+              mt={12}
+              pb={3}
+              key={project.id}
+              display={project.owner.id === user.id ? "none" : ""}
+            >
               <Button
                 href={"/investment/" + project.id}
                 variant="contained"

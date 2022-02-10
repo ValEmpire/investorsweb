@@ -94,8 +94,8 @@ export default function DashboardView(props) {
                   >
                     <CardMedia
                       component="img"
-                      image={project.logo.url}
-                      alt={"image id #" + project.logo.id}
+                      image={project.logo ? project.logo.url : null}
+                      alt={project.name}
                     />
                     <CardContent
                       sx={{
