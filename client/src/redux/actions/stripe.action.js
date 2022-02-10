@@ -1,4 +1,4 @@
-import { ALL_CARDS, ADD_CARD } from "../../const";
+import { ALL_CARDS, ADD_CARD, DELETE_CARD } from "../../const";
 import axios from "axios";
 
 // We can put this as a middleware in server when user registered
@@ -34,6 +34,7 @@ export const getAllCards = stripeId => async dispatch => {
     return dispatch({
       type: ALL_CARDS,
       payload: res.data.cards,
+      pc: res.data.primaryCard,
     });
   } catch (err) {
     console.log(err);
@@ -57,6 +58,52 @@ export const addCard = card => async dispatch => {
     return dispatch({
       type: ADD_CARD,
       payload: res.data.card,
+    });
+  } catch (err) {
+    console.log(err);
+
+    // handle error here
+  }
+};
+
+export const deleteCard = cardId => async dispatch => {
+  try {
+    const res = await axios.delete(
+      `${process.env.REACT_APP_SERVER}/api/stripe/delete-card`,
+      {
+        withCredentials: true,
+        data: {
+          cardId,
+        },
+      }
+    );
+
+    return dispatch({
+      type: ALL_CARDS,
+      payload: res.data.cards,
+      pc: res.data.primaryCard,
+    });
+  } catch (err) {
+    console.log(err);
+
+    // handle error here
+  }
+};
+
+export const updateCard = cardId => async dispatch => {
+  try {
+    const res = await axios.put(
+      `${process.env.REACT_APP_SERVER}/api/stripe/update-card`,
+      { cardId },
+      {
+        withCredentials: true,
+      }
+    );
+
+    return dispatch({
+      type: ALL_CARDS,
+      payload: res.data.cards,
+      pc: res.data.primaryCard,
     });
   } catch (err) {
     console.log(err);
