@@ -68,3 +68,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### Debit card for testing Connected Accounts
+
+Connected Accounts are entrepeneurs who created the project. Need to setup this account first before creating project. This connected accounts debit card will receive investment from investors.
+
+4000051240000005 - Visa Debit - Canada
+5510121240000006 - MasterCard Debit - Canada
