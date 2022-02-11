@@ -69,17 +69,6 @@ const ProjectViewPage = () => {
     setActiveStep(0);
   };
 
-  // const hendleInvest = input => e => {
-  //   if (activeStep <= 0) return;
-  //   const newAmount = {
-  //     amount,
-  //     createdAt: Date.now(),
-  //     updatedAt: Date.now(),
-  //   };
-  //   setAmount([newAmount]);
-  //   setActiveStep(0);
-  // };
-
   const steps = ["1. Investment Amount", "2. Payment", "3. Review"];
 
   return (
