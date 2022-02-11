@@ -12,8 +12,6 @@ import axios from "axios";
 // Cause stripe may fail, this will make our route return an error
 export const createAccount = accountId => async dispatch => {
   try {
-    console.log(accountId);
-
     if (accountId) return;
 
     const res = await axios.post(

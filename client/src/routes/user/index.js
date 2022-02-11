@@ -103,7 +103,7 @@ export default function UserPage() {
           <Button variant="contained" color="primary" onClick={handleOpen}>
             {value === 0 && "Update Details"}
             {value === 1 && "Update Security"}
-            {value === 2 && "Add Account"}
+            {value === 2 && "Add Debit Card"}
           </Button>
 
           {value === 0 && (

@@ -53,6 +53,10 @@
   text-decoration: none;
 }
 
+.color-primary {
+  color: #1876d2;
+}
+
 .projectsCount {
   color: #1876d2;
   font-weight: 800;
