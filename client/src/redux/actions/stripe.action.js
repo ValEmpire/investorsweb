@@ -1,4 +1,4 @@
-import { ALL_CARDS, ADD_CARD, DELETE_CARD } from "../../const";
+import { ALL_CARDS, ADD_CARD, CREATE_PAYMENT_INTENT } from "../../const";
 import axios from "axios";
 
 // We can put this as a middleware in server when user registered
@@ -109,5 +109,28 @@ export const updateCard = cardId => async dispatch => {
     console.log(err);
 
     // handle error here
+  }
+};
+
+export const createPaymentIntent = amount => async dispatch => {
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_SERVER}/api/stripe/create-payment-intent`,
+      { amount },
+      {
+        withCredentials: true,
+      }
+    );
+
+    return console.log(res.data.clientSecret);
+
+    return dispatch({
+      type: CREATE_PAYMENT_INTENT,
+      payload: res.data.clientSecret,
+    });
+  } catch (err) {
+    console.log(err);
+
+    //hendle error
   }
 };

@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { useSelector } from "react-redux";
 
 export default function Preview() {
-  const project = useSelector((state) => state.project);
+  const { projectFields } = useSelector(state => state.project);
 
   return (
     <React.Fragment>
@@ -16,10 +16,10 @@ export default function Preview() {
         Project Preview
       </Typography>
       <List disablePadding>
-        {Object.keys(project).map((key) => (
+        {Object.keys(projectFields).map(key => (
           <ListItem key={key} sx={{ py: 1, px: 0 }}>
             <ListItemText primary={key} />
-            <Typography variant="body2">{project[key]}</Typography>
+            <Typography variant="body2">{projectFields[key]}</Typography>
           </ListItem>
         ))}
       </List>
