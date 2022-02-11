@@ -11,9 +11,18 @@ import { useSelector } from "react-redux";
 const Payment = props => {
   const { clientSecret } = useSelector(state => state.stripe);
 
+  const options = {
+    // passing the client secret obtained in step 2
+    clientSecret,
+    // Fully customizable with appearance API.
+    appearance: {
+      theme: "stripe",
+    },
+  };
+
   return (
-    <Elements stripe={stripePromise}>
-      <CheckoutForm clientSecret={clientSecret} />
+    <Elements stripe={stripePromise} options={options}>
+      <CheckoutForm />
     </Elements>
   );
 };

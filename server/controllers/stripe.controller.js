@@ -1,30 +1,46 @@
 const stripe = require("../stripe");
 
 module.exports = {
-  createConnectedAccount: async (req, res) => {
+  createInvestorAccount: async (req, res) => {
     try {
       const { email } = req.user;
+
+      if (req.user.accountId)
+        throw new Error("User is already registered as investor in stripe");
 
       const newAccount = await stripe.accounts.create({
         type: "express",
         country: "CA",
         email,
         capabilities: {
-          card_payments: { requested: true },
-          transfers: { requested: true },
+          acss_debit_payments: {
+            requested: true,
+          },
+          card_payments: {
+            requested: true,
+          },
+          transfers: {
+            requested: true,
+          },
+          legacy_payments: {
+            requested: true,
+          },
         },
       });
 
-      const { id } = newAccount;
+      const accountId = newAccount.id;
 
-      req.user.stripeId = id;
+      req.user.accountId = accountId;
 
       await req.user.save();
 
       return res.status(200).send({
         success: true,
+        accountId,
       });
     } catch (err) {
+      console.log(err.message);
+
       return res.status(400).send({
         success: false,
         error: err.message,
@@ -32,11 +48,38 @@ module.exports = {
     }
   },
 
+  createCustomerAccount: async (req, res) => {
+    try {
+      if (req.user.customerId)
+        throw new Error("User is already registered as customer in stripe");
+
+      const { email, firstName, lastName } = req.user;
+
+      const newCustomer = await stripe.customers.create({
+        email,
+        name: `${firstName} ${lastName}`,
+      });
+
+      const customerId = newCustomer.id;
+
+      req.user.customerId = customerId;
+
+      await req.user.save();
+
+      return res.status(200).send({
+        success: true,
+        customerId,
+      });
+    } catch (err) {
+      return;
+    }
+  },
+
   getAllCards: async (req, res) => {
     try {
-      const { stripeId } = req.user;
+      const { accountId } = req.user;
 
-      const account = await stripe.accounts.listExternalAccounts(stripeId, {
+      const account = await stripe.accounts.listExternalAccounts(accountId, {
         object: "card",
       });
 
@@ -69,7 +112,7 @@ module.exports = {
 
   addCard: async (req, res) => {
     try {
-      const { stripeId } = req.user;
+      const { accountId } = req.user;
 
       const { number, expiry, cvc, name } = req.body;
 
@@ -88,7 +131,7 @@ module.exports = {
         },
       });
 
-      const card = await stripe.accounts.createExternalAccount(stripeId, {
+      const card = await stripe.accounts.createExternalAccount(accountId, {
         external_account: token.id,
       });
 
@@ -108,11 +151,11 @@ module.exports = {
 
   deleteCard: async (req, res, next) => {
     try {
-      const { stripeId } = req.user;
+      const { accountId } = req.user;
 
       const { cardId } = req.body;
 
-      await stripe.accounts.deleteExternalAccount(stripeId, cardId);
+      await stripe.accounts.deleteExternalAccount(accountId, cardId);
 
       next();
     } catch (err) {
@@ -127,15 +170,51 @@ module.exports = {
 
   updateCard: async (req, res, next) => {
     try {
-      const { stripeId } = req.user;
+      const { accountId } = req.user;
 
       const { cardId } = req.body;
 
-      await stripe.accounts.updateExternalAccount(stripeId, cardId, {
+      await stripe.accounts.updateExternalAccount(accountId, cardId, {
         default_for_currency: true,
       });
 
       next();
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
+
+  createPaymentIntent: async (req, res) => {
+    try {
+      const { customerId } = req.user;
+
+      const { amount, projectOwner } = req.body;
+
+      console.log(projectOwner);
+
+      const intent = await stripe.paymentIntents.create({
+        customer: customerId,
+        setup_future_usage: "off_session",
+        amount,
+        currency: "CAD",
+        automatic_payment_methods: {
+          enabled: true,
+        },
+        application_fee_amount: 0,
+        transfer_data: {
+          destination: projectOwner,
+        },
+      });
+
+      return res.status(200).send({
+        success: true,
+        clientSecret: intent.client_secret,
+      });
     } catch (err) {
       console.log(err.message);
 

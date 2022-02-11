@@ -15,13 +15,15 @@ import Payment from "./Payment";
 import Review from "./Review";
 
 //REDUX
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { submitInvestment } from "../../redux/actions/investment.action";
+import { createCustomer } from "../../redux/actions/stripe.action";
 import { createPaymentIntent } from "../../redux/actions/stripe.action";
 
 const ProjectViewPage = () => {
   // hooks
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
   const { projectId } = useParams();
 
   // states
@@ -57,7 +59,9 @@ const ProjectViewPage = () => {
     try {
       // if active step is zero send payment intent
       if (activeStep === 0) {
-        await dispatch(createPaymentIntent(amount, project.owner.stripeId));
+        await dispatch(createCustomer(user.customerId));
+
+        await dispatch(createPaymentIntent(amount, project.owner.accountId));
 
         setActiveStep(activeStep + 1);
       }

@@ -1,11 +1,9 @@
 import React from "react";
-import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
 
 import CardSection from "./CardSection";
 
-export default function CheckoutForm(props) {
-  const { clientSecret } = props;
-
+export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -20,12 +18,20 @@ export default function CheckoutForm(props) {
       return;
     }
 
-    const result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: "Jenny Rosen",
+    const result = await stripe.confirmPayment({
+      //`Elements` instance that was used to create the Payment Element
+      elements,
+
+      confirmParams: {
+        payment_method_data: {
+          billing_details: {
+            name: "Val",
+            email: "palma_arcival@yahoo.com",
+            phone: "343-202-7130",
+          },
         },
+        save_payment_method: true,
+        return_url: "http://localhost/order/123/complete",
       },
     });
 

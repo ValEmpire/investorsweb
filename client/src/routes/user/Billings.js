@@ -97,14 +97,16 @@ const Billings = props => {
   const [loading, setLoading] = useState(true);
 
   const setUpStripe = useCallback(async () => {
-    await createAccount(user.stripeId);
+    console.log(user);
 
-    await dispatch(getAllCards(user.stripeId));
+    await dispatch(createAccount(user.accountId));
+
+    await dispatch(getAllCards(user.accountId));
 
     setLoading(false);
 
     return;
-  }, [dispatch, user.stripeId]);
+  }, [dispatch, user.accountId]);
 
   useEffect(() => {
     setUpStripe();

@@ -1,27 +1,38 @@
-import { ALL_CARDS, ADD_CARD, CREATE_PAYMENT_INTENT } from "../../const";
+import {
+  ALL_CARDS,
+  ADD_CARD,
+  CREATE_PAYMENT_INTENT,
+  CREATE_ACCOUNT,
+  CREATE_CUSTOMER,
+} from "../../const";
 import axios from "axios";
 
 // We can put this as a middleware in server when user registered
 // But I think its not a good idea to put it in same route
 // Cause stripe may fail, this will make our route return an error
-export const createAccount = async stripeId => {
-  if (stripeId) return;
-
+export const createAccount = accountId => async dispatch => {
   try {
-    await axios.post(
+    console.log(accountId);
+
+    if (accountId) return;
+
+    const res = await axios.post(
       `${process.env.REACT_APP_SERVER}/api/stripe/create-account`,
       {},
       { withCredentials: true }
     );
-  } catch (err) {
-    // handle error
 
-    return err;
+    return dispatch({
+      type: CREATE_ACCOUNT,
+      payload: res.data.accountId,
+    });
+  } catch (err) {
+    // handle error here
   }
 };
 
-export const getAllCards = stripeId => async dispatch => {
-  if (!stripeId) return;
+export const getAllCards = accountId => async dispatch => {
+  if (!accountId) return;
 
   try {
     const res = await axios.get(
@@ -44,8 +55,6 @@ export const getAllCards = stripeId => async dispatch => {
 };
 
 export const addCard = card => async dispatch => {
-  console.log("calling here");
-
   try {
     const res = await axios.post(
       `${process.env.REACT_APP_SERVER}/api/stripe/add-card`,
@@ -130,5 +139,26 @@ export const createPaymentIntent = (amount, ownerId) => async dispatch => {
     console.log(err);
 
     //hendle error
+  }
+};
+
+export const createCustomer = customerId => async dispatch => {
+  try {
+    if (customerId) return;
+
+    const res = await axios.post(
+      `${process.env.REACT_APP_SERVER}/api/stripe/create-customer`,
+      {},
+      { withCredentials: true }
+    );
+
+    return dispatch({
+      type: CREATE_CUSTOMER,
+      payload: res.data.customerId,
+    });
+  } catch (err) {
+    console.log(err);
+
+    // handle err
   }
 };
