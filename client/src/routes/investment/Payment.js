@@ -22,7 +22,7 @@ const Payment = props => {
 
   return (
     <Elements stripe={stripePromise} options={options}>
-      <CheckoutForm />
+      <CheckoutForm user={props.user} />
     </Elements>
   );
 };

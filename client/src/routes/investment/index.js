@@ -116,7 +116,7 @@ const ProjectViewPage = () => {
                             handleAmount={handleAmount}
                           />
                         )}
-                        {activeStep === 1 && <Payment />}
+                        {activeStep === 1 && <Payment user={user} />}
                         {activeStep === 2 && <Review amount={amount} />}
                       </Box>
                       <div>

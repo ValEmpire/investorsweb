@@ -2,8 +2,11 @@ import React from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 
 import CardSection from "./CardSection";
+import { Box, Button } from "@mui/material";
 
-export default function CheckoutForm() {
+export default function CheckoutForm(props) {
+  const { firstName, lastName, email } = props.user;
+
   const stripe = useStripe();
   const elements = useElements();
 
@@ -25,9 +28,8 @@ export default function CheckoutForm() {
       confirmParams: {
         payment_method_data: {
           billing_details: {
-            name: "Val",
-            email: "palma_arcival@yahoo.com",
-            phone: "343-202-7130",
+            name: `${firstName} ${lastName}`,
+            email,
           },
         },
         save_payment_method: true,
@@ -53,7 +55,11 @@ export default function CheckoutForm() {
   return (
     <form onSubmit={handleSubmit}>
       <CardSection />
-      <button disabled={!stripe}>Confirm order</button>
+      <Box textAlign={"center"} p={2}>
+        <Button variant="contained" type="submit" disabled={!stripe}>
+          Confirm Investment
+        </Button>
+      </Box>
     </form>
   );
 }
