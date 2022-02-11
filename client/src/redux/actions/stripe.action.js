@@ -112,17 +112,15 @@ export const updateCard = cardId => async dispatch => {
   }
 };
 
-export const createPaymentIntent = amount => async dispatch => {
+export const createPaymentIntent = (amount, ownerId) => async dispatch => {
   try {
     const res = await axios.post(
       `${process.env.REACT_APP_SERVER}/api/stripe/create-payment-intent`,
-      { amount },
+      { amount, projectOwner: ownerId },
       {
         withCredentials: true,
       }
     );
-
-    return console.log(res.data.clientSecret);
 
     return dispatch({
       type: CREATE_PAYMENT_INTENT,

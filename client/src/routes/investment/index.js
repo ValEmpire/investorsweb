@@ -53,18 +53,24 @@ const ProjectViewPage = () => {
     return;
   };
 
-  const handleNext = () => {
-    // if active step is zero send payment intent
-    if (activeStep === 0) {
-      dispatch(createPaymentIntent(amount));
-    }
+  const handleNext = async () => {
+    try {
+      // if active step is zero send payment intent
+      if (activeStep === 0) {
+        await dispatch(createPaymentIntent(amount, project.owner.stripeId));
 
-    // if (activeStep === steps.length - 1) {
-    //   dispatch(submitInvestment({ amount, projectId }, err => {}));
-    //   setActiveStep(activeStep + 1);
-    // } else {
-    //   setActiveStep(activeStep + 1);
-    // }
+        setActiveStep(activeStep + 1);
+      }
+
+      // if (activeStep === steps.length - 1) {
+      //   dispatch(submitInvestment({ amount, projectId }, err => {}));
+      //   setActiveStep(activeStep + 1);
+      // } else {
+      //   setActiveStep(activeStep + 1);
+      // }
+    } catch (err) {
+      // handle error here
+    }
   };
 
   const handleBack = () => {
