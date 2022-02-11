@@ -30,9 +30,11 @@ const AddCard = props => {
   });
 
   const handleInputFocus = e => {
+    const name = e.target.name;
+
     setCard({
       ...card,
-      focus: e.target.name,
+      focus: name,
     });
   };
 

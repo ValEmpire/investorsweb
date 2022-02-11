@@ -43,5 +43,7 @@ export const getAllInvestments = () => async dispatch => {
     });
   } catch (err) {
     console.log(err);
+
+    //hendle error
   }
 };

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { TextField } from "@mui/material";
+import React from "react";
+import { InputAdornment, TextField } from "@mui/material";
 import { FormControl, FormHelperText } from "@mui/material";
 import { currencyFormat } from "../../helpers/amountReducer";
 
@@ -8,22 +8,24 @@ export default function Amount(props) {
 
   return (
     <>
-      <FormControl fullWidth sx={{ m: 1 }}>
+      <FormControl>
         <TextField
-          type="number"
           required
           id="amount"
           name="amount"
           label="Amount"
-          value={amount}
-          fullWidth
           onChange={e => handleAmount(e)}
+          InputProps={{
+            type: "number",
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+            value: amount,
+          }}
         />
 
         <FormHelperText id="filled-weight-helper-text">
           Your investment amount will be rounded up to be a multiple of the
           share price. The minimum investment in this offering is{" "}
-          <b>{currencyFormat(Number(project.minInvestment))}</b>.
+          <b>{currencyFormat(project.minInvestment)}</b>.
         </FormHelperText>
       </FormControl>
     </>

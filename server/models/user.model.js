@@ -31,7 +31,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
 
-      stripeId: {
+      accountId: {
+        type: DataTypes.INTEGER,
+      },
+
+      customerId: {
         type: DataTypes.INTEGER,
       },
     },

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Container from "@mui/material/Container";
-import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stepper from "@mui/material/Stepper";
@@ -18,17 +17,19 @@ import Review from "./Review";
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { submitInvestment } from "../../redux/actions/investment.action";
+import { createCustomer } from "../../redux/actions/stripe.action";
+import { createPaymentIntent } from "../../redux/actions/stripe.action";
 
 const ProjectViewPage = () => {
-  const investment = useSelector(state => state.investment);
-
+  // hooks
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+  const { projectId } = useParams();
 
+  // states
   const [project, setProject] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [amount, setAmount] = useState("");
-
-  const { projectId } = useParams();
 
   const getProject = async () => {
     const res = await axios.get(
@@ -43,21 +44,36 @@ const ProjectViewPage = () => {
     return;
   };
 
-  const handleAmount = e => {
-    setAmount(e.target.value);
-    return;
-  };
-
   useEffect(() => {
     getProject();
   }, []);
 
-  const handleNext = () => {
-    if (activeStep === steps.length - 1) {
-      dispatch(submitInvestment({ amount, projectId }, err => {}));
-      setActiveStep(activeStep + 1);
-    } else {
-      setActiveStep(activeStep + 1);
+  // handlers
+  const handleAmount = e => {
+    setAmount(e.target.value);
+
+    return;
+  };
+
+  const handleNext = async () => {
+    try {
+      // if active step is zero send payment intent
+      if (activeStep === 0) {
+        await dispatch(createCustomer(user.customerId));
+
+        await dispatch(createPaymentIntent(amount, project.owner.accountId));
+
+        setActiveStep(activeStep + 1);
+      }
+
+      // if (activeStep === steps.length - 1) {
+      //   dispatch(submitInvestment({ amount, projectId }, err => {}));
+      //   setActiveStep(activeStep + 1);
+      // } else {
+      //   setActiveStep(activeStep + 1);
+      // }
+    } catch (err) {
+      // handle error here
     }
   };
 
@@ -69,84 +85,75 @@ const ProjectViewPage = () => {
     setActiveStep(0);
   };
 
-  // const hendleInvest = input => e => {
-  //   if (activeStep <= 0) return;
-  //   const newAmount = {
-  //     amount,
-  //     createdAt: Date.now(),
-  //     updatedAt: Date.now(),
-  //   };
-  //   setAmount([newAmount]);
-  //   setActiveStep(0);
-  // };
-
+  // vars
   const steps = ["1. Investment Amount", "2. Payment", "3. Review"];
 
   return (
-    <Box>
-      <Container maxWidth="lg">
-        <Box sx={{ m: 2 }}>
-          <Typography variant="h3">
+    <Box mt={2} pt={3}>
+      <Container maxWidth="md">
+        <Box pb={3} textAlign="center">
+          <Typography variant="h4">
             Invest in <b>{project.name}</b>
           </Typography>
         </Box>
-        <Divider variant="middle" />
         <div>
-          <Stepper activeStep={activeStep} orientation="vertical">
-            {steps.map((label, index) => {
-              console.log("steps---->", steps);
-              console.log("label---->", label);
-              console.log("index---->", index);
-
-              return (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                  <StepContent>
-                    <Box>
-                      {activeStep === 0 && (
-                        <Amount
-                          project={project}
-                          amount={amount}
-                          handleAmount={handleAmount}
-                        />
-                      )}
-                      {activeStep === 1 && <Payment />}
-                      {activeStep === 2 && <Review amount={amount} />}
-                    </Box>
-                    <div>
+          <Paper component={Box} p={3}>
+            <Stepper activeStep={activeStep} orientation="vertical">
+              {steps.map((label, i) => {
+                return (
+                  <Step key={label + i}>
+                    <StepLabel>
+                      <Typography variant="h6" fontWeight={700}>
+                        {label}
+                      </Typography>
+                    </StepLabel>
+                    <StepContent>
+                      <Box pt={2} pb={2}>
+                        {activeStep === 0 && (
+                          <Amount
+                            project={project}
+                            amount={amount}
+                            handleAmount={handleAmount}
+                          />
+                        )}
+                        {activeStep === 1 && <Payment user={user} />}
+                        {activeStep === 2 && <Review amount={amount} />}
+                      </Box>
                       <div>
-                        <Box
-                          component="form"
-                          sx={{
-                            "& > :not(style)": { m: 2, width: "35ch" },
-                          }}
-                          noValidate
-                          autoComplete="off"
-                        >
-                          <Button
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
+                        <div>
+                          <Box
+                            component="form"
+                            sx={{
+                              "& > :not(style)": { m: 2, width: "35ch" },
+                            }}
+                            noValidate
+                            autoComplete="off"
                           >
-                            Back
-                          </Button>
+                            <Button
+                              disabled={activeStep === 0}
+                              onClick={handleBack}
+                            >
+                              Back
+                            </Button>
 
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleNext}
-                          >
-                            {activeStep === steps.length - 1
-                              ? "Complete Investment"
-                              : "Continue"}
-                          </Button>
-                        </Box>
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={handleNext}
+                            >
+                              {activeStep === steps.length - 1
+                                ? "Complete Investment"
+                                : "Continue"}
+                            </Button>
+                          </Box>
+                        </div>
                       </div>
-                    </div>
-                  </StepContent>
-                </Step>
-              );
-            })}
-          </Stepper>
+                    </StepContent>
+                  </Step>
+                );
+              })}
+            </Stepper>
+          </Paper>
           {activeStep === steps.length && (
             <Paper square elevation={0}>
               <Typography variant="h6" component="h6">
