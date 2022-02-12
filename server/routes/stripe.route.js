@@ -16,10 +16,12 @@ const {
   createPaymentIntent,
   createCustomerAccount,
   getLink,
+  getAccount,
 } = require("../controllers/stripe.controller");
 
 //ROUTES
 router.route("/create-account").post(userAuth, createInvestorAccount);
+router.route("/get-account").get(userAuth, getAccount);
 router.route("/create-customer").post(userAuth, createCustomerAccount);
 
 // cards

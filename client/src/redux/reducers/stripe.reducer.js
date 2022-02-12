@@ -4,6 +4,7 @@ import {
   DELETE_CARD,
   CREATE_PAYMENT_INTENT,
   ADD_LINK,
+  GET_ACCOUNT,
 } from "../../const";
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   primaryCard: {},
   clientSecret: "",
   link: "",
+  account: {},
 };
 
 export const stripe = (state = initialState, action) => {
@@ -51,6 +53,12 @@ export const stripe = (state = initialState, action) => {
       return {
         ...state,
         link: action.payload,
+      };
+
+    case GET_ACCOUNT:
+      return {
+        ...state,
+        account: action.payload,
       };
 
     default:

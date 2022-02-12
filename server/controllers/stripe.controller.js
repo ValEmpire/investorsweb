@@ -252,4 +252,24 @@ module.exports = {
       });
     }
   },
+
+  getAccount: async (req, res) => {
+    try {
+      const { accountId } = req.user;
+
+      const account = await stripe.accounts.retrieve(accountId);
+
+      return res.status(200).send({
+        success: true,
+        account,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
 };

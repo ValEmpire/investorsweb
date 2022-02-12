@@ -12,7 +12,7 @@ import { Button } from "@mui/material";
 import Security from "./Security";
 import Details from "./Details";
 import PaymentMethod from "./PaymentMethod";
-import BankAccount from "./BankAccount";
+import CompanyAccount from "./CompanyAccount";
 // Modal
 import UpdateDetails from "./UpdateDetails";
 import UpdateSecurity from "./UpdateSecurity";
@@ -56,7 +56,9 @@ function a11yProps(index) {
 export default function UserPage() {
   const user = useSelector(state => state.user);
 
-  const { link } = useSelector(state => state.stripe);
+  const { link, account } = useSelector(state => state.stripe);
+
+  const { payouts_enabled } = account;
 
   const [value, setValue] = React.useState(0);
 
@@ -67,7 +69,7 @@ export default function UserPage() {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
-    // if in bank account tab
+    // if in company account tab
     if (value === 2) {
       window.location.href = link;
       return;
@@ -96,7 +98,7 @@ export default function UserPage() {
             >
               <Tab label="Details" {...a11yProps(0)} />
               <Tab label="Security" {...a11yProps(1)} />
-              <Tab label="Bank Account" {...a11yProps(2)} />
+              <Tab label="Company Account" {...a11yProps(2)} />
               <Tab label="Payment Method" {...a11yProps(3)} />
             </Tabs>
           </Box>
@@ -107,17 +109,22 @@ export default function UserPage() {
             <Security user={user} />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <BankAccount user={user} />
+            <CompanyAccount account={account} user={user} />
           </TabPanel>
           <TabPanel value={value} index={3}>
             <PaymentMethod user={user} />
           </TabPanel>
         </Box>
         <Box textAlign="center" pb={2}>
-          <Button variant="contained" color="primary" onClick={handleOpen}>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={payouts_enabled && value === 2}
+            onClick={handleOpen}
+          >
             {value === 0 && "Update Details"}
             {value === 1 && "Update Security"}
-            {value === 2 && "Add Bank Account"}
+            {value === 2 && "Add Company Account"}
             {value === 3 && "Add Card"}
           </Button>
 
