@@ -41,6 +41,10 @@
   text-transform: capitalize;
 }
 
+.uppercase {
+  text-transform: uppercase;
+}
+
 .bold {
   font-weight: bold;
 }

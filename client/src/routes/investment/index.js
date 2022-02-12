@@ -5,24 +5,20 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
+import StepButton from "@mui/material/StepButton";
 import StepContent from "@mui/material/StepContent";
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
 import { useParams } from "react-router-dom";
 import Amount from "./Amount";
 import Payment from "./Payment";
 import Review from "./Review";
 
 //REDUX
-import { useDispatch, useSelector } from "react-redux";
-import { submitInvestment } from "../../redux/actions/investment.action";
-import { createCustomer } from "../../redux/actions/stripe.action";
-import { createPaymentIntent } from "../../redux/actions/stripe.action";
+import { useSelector } from "react-redux";
 
-const ProjectViewPage = () => {
+import { Grid, StepLabel } from "@mui/material";
+
+const InvestmentPage = () => {
   // hooks
-  const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   const { projectId } = useParams();
 
@@ -55,50 +51,24 @@ const ProjectViewPage = () => {
     return;
   };
 
-  const handleNext = async () => {
-    try {
-      // if active step is zero send payment intent
-      if (activeStep === 0) {
-        await dispatch(createCustomer(user.customerId));
-
-        await dispatch(createPaymentIntent(amount, project.owner.accountId));
-
-        setActiveStep(activeStep + 1);
-      }
-
-      // if (activeStep === steps.length - 1) {
-      //   dispatch(submitInvestment({ amount, projectId }, err => {}));
-      //   setActiveStep(activeStep + 1);
-      // } else {
-      //   setActiveStep(activeStep + 1);
-      // }
-    } catch (err) {
-      // handle error here
-    }
-  };
-
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
+  const handleStep = i => {
+    setActiveStep(i);
   };
 
   // vars
-  const steps = ["1. Investment Amount", "2. Payment", "3. Review"];
+  const steps = ["1. Investment Amount", "2. Review", "3. Payment"];
 
   return (
-    <Box mt={2} pt={3}>
-      <Container maxWidth="md">
+    <Box mt={2} pt={3} mb={10}>
+      <Container maxWidth="lg">
         <Box pb={3} textAlign="center">
           <Typography variant="h4">
             Invest in <b>{project.name}</b>
           </Typography>
         </Box>
-        <div>
-          <Paper component={Box} p={3}>
-            <Stepper activeStep={activeStep} orientation="vertical">
+        <Grid container justifyContent={"center"}>
+          <Grid item md={8} sm={10}>
+            <Stepper activeStep={activeStep} nonLinear orientation="vertical">
               {steps.map((label, i) => {
                 return (
                   <Step key={label + i}>
@@ -114,59 +84,32 @@ const ProjectViewPage = () => {
                             project={project}
                             amount={amount}
                             handleAmount={handleAmount}
+                            handleStep={handleStep}
+                            i={i}
                           />
                         )}
-                        {activeStep === 1 && <Payment user={user} />}
-                        {activeStep === 2 && <Review amount={amount} />}
+                        {activeStep === 1 && (
+                          <Review
+                            user={user}
+                            amount={amount}
+                            project={project}
+                            handleStep={handleStep}
+                            i={i}
+                          />
+                        )}
+                        {activeStep === 2 && (
+                          <Payment i={i} handleStep={handleStep} user={user} />
+                        )}
                       </Box>
-                      <div>
-                        <div>
-                          <Box
-                            component="form"
-                            sx={{
-                              "& > :not(style)": { m: 2, width: "35ch" },
-                            }}
-                            noValidate
-                            autoComplete="off"
-                          >
-                            <Button
-                              disabled={activeStep === 0}
-                              onClick={handleBack}
-                            >
-                              Back
-                            </Button>
-
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={handleNext}
-                            >
-                              {activeStep === steps.length - 1
-                                ? "Complete Investment"
-                                : "Continue"}
-                            </Button>
-                          </Box>
-                        </div>
-                      </div>
                     </StepContent>
                   </Step>
                 );
               })}
             </Stepper>
-          </Paper>
-          {activeStep === steps.length && (
-            <Paper square elevation={0}>
-              <Typography variant="h6" component="h6">
-                Thanks for investing with us.
-              </Typography>
-              <Button variant="outlined" onClick={handleReset}>
-                Reset
-              </Button>
-            </Paper>
-          )}
-        </div>
+          </Grid>
+        </Grid>
       </Container>
     </Box>
   );
 };
-export default ProjectViewPage;
+export default InvestmentPage;
