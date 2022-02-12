@@ -3,7 +3,7 @@ import axios from "axios";
 import InvestmenstsDashboardView from "./InvectmentsDashboardView";
 import Loading from "../../../components/Loading";
 
-const InvestmentsDashboardPage = props => {
+const InvestmentsDashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [investments, setInvestments] = useState({});
 
@@ -16,8 +16,7 @@ const InvestmentsDashboardPage = props => {
     );
 
     setInvestments(res.data.investments);
-    console.log(res.data.investments);
-
+    // console.log(res.data);
     setLoading(false);
 
     return;
@@ -27,7 +26,14 @@ const InvestmentsDashboardPage = props => {
     getAllInvectments();
   }, []);
 
-  return <>{<InvestmenstsDashboardView investments={investments} />}</>;
+  return (
+    <>
+      {loading && <Loading height={400} />}
+      {!loading && investments.length > 0 && (
+        <InvestmenstsDashboardView investments={investments} />
+      )}
+    </>
+  );
 };
 
 export default InvestmentsDashboardPage;

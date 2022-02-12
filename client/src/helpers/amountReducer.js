@@ -1,3 +1,4 @@
+//FORMATING NUM TO M; B; K
 export const amountReducer = function (num) {
   let d = ["B", "M", "k"];
   for (let i = 0; i < 3; i++) {
@@ -12,6 +13,7 @@ function round(num) {
   return +(Math.round(num + "e+3") + "e-3");
 }
 
+//FORMATINF PHONE NUMBER
 export const formatPhoneNumber = str => {
   //Filter only numbers from the input
   let cleaned = ("" + str).replace(/\D/g, "");
@@ -25,6 +27,7 @@ export const formatPhoneNumber = str => {
 
   return null;
 };
+
 //RETURN STRING
 export const currencyFormat = num => {
   return "$" + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
