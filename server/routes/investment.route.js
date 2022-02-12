@@ -33,6 +33,7 @@ router
     investmentMiddleware,
     createInvestment
   );
+
 router
   .route("/:investmentId")
   .get(userAuth, checkInvestmentMiddleware, getInvestment)

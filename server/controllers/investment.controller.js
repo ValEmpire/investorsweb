@@ -2,6 +2,7 @@ const model = require("../models");
 const Investment = model.investment;
 const Project = model.project;
 const Image = model.image;
+const User = model.user;
 
 module.exports = {
   createInvestment: async (req, res) => {
@@ -96,10 +97,18 @@ module.exports = {
         include: [
           {
             model: Project,
+
             include: [
               {
                 model: Image,
                 as: "logo",
+              },
+              {
+                model: User,
+                as: "owner",
+                attributes: {
+                  exclude: ["password"],
+                },
               },
             ],
           },

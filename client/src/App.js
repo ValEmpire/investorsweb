@@ -21,7 +21,7 @@ import ViewProjectPage from "./pages/ViewProjectPage";
 import ProjectDashboardPage from "./pages/ProjectDashboardPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import InvestmentPage from "./pages/InvestmentPage";
-import InvestmentsDashboardPage from "./routes/investment/dashboardInvestments";
+import InvestmentsDashboardPage from "./pages/InvestmentsDashboardPage";
 
 // theme
 import { setTheme } from "./theme";

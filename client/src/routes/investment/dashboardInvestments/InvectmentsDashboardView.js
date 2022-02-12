@@ -13,7 +13,8 @@ const Img = styled("img")({
 
 const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
-export default function InvestmentsDashboard() {
+export default function InvestmentsDashboard(props) {
+  // console.log(props);
   return (
     <Container xs={12} md={8} sx={{}}>
       <Grid container xs={12} md={12}>
@@ -24,13 +25,14 @@ export default function InvestmentsDashboard() {
             spacing={4}
             key={item}
             sx={{
+              ml: 0,
               border: 1,
               justifyContent: "space-around",
               boxShadow: 1,
               bgcolor: "background.paper",
             }}
           >
-            <Grid item>
+            <Grid item sx={{ mb: 6, mr: 10 }}>
               <ButtonBase sx={{ width: 128, height: 128 }}>
                 <Img
                   alt="complex"
@@ -43,11 +45,11 @@ export default function InvestmentsDashboard() {
               item
               container
               xs={8}
-              md={6}
+              md={8}
               spacing={12}
               sx={{ mb: 4, justifyContent: "center" }}
             >
-              <Grid item xs container direction="column" spacing={2}>
+              <Grid item xs container direction="column" spacing={4}>
                 <Grid item xs>
                   <Typography gutterBottom variant="subtitle1" component="div">
                     Project Name
@@ -57,41 +59,59 @@ export default function InvestmentsDashboard() {
                     Date Of Invecting
                   </Typography>
                 </Grid>
+
+                <Grid item>
+                  <Typography sx={{ cursor: "pointer" }} variant="body2">
+                    Your Invest $
+                  </Typography>
+                </Grid>
                 <Grid item>
                   <Typography sx={{ cursor: "pointer" }} variant="body2">
                     Your Invest $
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid item xs container direction="column" spacing={2}>
+              <Grid item xs container direction="column" spacing={4}>
                 <Grid item xs>
                   <Typography gutterBottom variant="subtitle1" component="div">
-                    Owner Name
+                    Project Name
                   </Typography>
                   <Typography variant="body2" gutterBottom></Typography>
                   <Typography variant="body2" color="text.secondary">
+                    Date Of Invecting
+                  </Typography>
+                </Grid>
+
+                <Grid item>
+                  <Typography sx={{ cursor: "pointer" }} variant="body2">
                     Your Invest $
                   </Typography>
                 </Grid>
                 <Grid item>
                   <Typography sx={{ cursor: "pointer" }} variant="body2">
-                    Date Of Invecting
+                    Your Invest $
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid item xs container direction="column" spacing={2}>
+              <Grid item xs container direction="column" spacing={4}>
                 <Grid item xs>
                   <Typography gutterBottom variant="subtitle1" component="div">
-                    Owner Name
+                    Project Name
                   </Typography>
                   <Typography variant="body2" gutterBottom></Typography>
                   <Typography variant="body2" color="text.secondary">
+                    Date Of Invecting
+                  </Typography>
+                </Grid>
+
+                <Grid item>
+                  <Typography sx={{ cursor: "pointer" }} variant="body2">
                     Your Invest $
                   </Typography>
                 </Grid>
                 <Grid item>
                   <Typography sx={{ cursor: "pointer" }} variant="body2">
-                    Date Of Invecting
+                    Your Invest $
                   </Typography>
                 </Grid>
               </Grid>
