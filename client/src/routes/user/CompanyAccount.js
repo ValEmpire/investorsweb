@@ -44,10 +44,6 @@ const ConnectedAccount = props => {
     external_accounts,
   } = account;
 
-  const { user } = props;
-
-  console.log(user);
-
   const [loading, setLoading] = useState(true);
 
   const setupAccount = useCallback(async () => {

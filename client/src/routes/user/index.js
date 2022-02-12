@@ -109,7 +109,7 @@ export default function UserPage() {
             <Security user={user} />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <CompanyAccount account={account} user={user} />
+            <CompanyAccount account={account} />
           </TabPanel>
           <TabPanel value={value} index={3}>
             <PaymentMethod user={user} />
