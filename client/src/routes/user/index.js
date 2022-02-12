@@ -6,13 +6,13 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
+import { Button } from "@mui/material";
 
 // Tabs
 import Security from "./Security";
 import Details from "./Details";
-import Billings from "./Billings";
-import { Button } from "@mui/material";
-
+import PaymentMethod from "./PaymentMethod";
+import BankAccount from "./BankAccount";
 // Modal
 import UpdateDetails from "./UpdateDetails";
 import UpdateSecurity from "./UpdateSecurity";
@@ -54,6 +54,10 @@ function a11yProps(index) {
 }
 
 export default function UserPage() {
+  const user = useSelector(state => state.user);
+
+  const { link } = useSelector(state => state.stripe);
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -62,11 +66,17 @@ export default function UserPage() {
 
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    // if in bank account tab
+    if (value === 2) {
+      window.location.href = link;
+      return;
+    }
+
+    setOpen(true);
+  };
 
   const handleClose = () => setOpen(false);
-
-  const user = useSelector(state => state.user);
 
   return (
     <Container component="main" maxWidth="md">
@@ -86,7 +96,8 @@ export default function UserPage() {
             >
               <Tab label="Details" {...a11yProps(0)} />
               <Tab label="Security" {...a11yProps(1)} />
-              <Tab label="Billings" {...a11yProps(2)} />
+              <Tab label="Bank Account" {...a11yProps(2)} />
+              <Tab label="Payment Method" {...a11yProps(3)} />
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
@@ -96,14 +107,18 @@ export default function UserPage() {
             <Security user={user} />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <Billings user={user} />
+            <BankAccount user={user} />
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <PaymentMethod user={user} />
           </TabPanel>
         </Box>
         <Box textAlign="center" pb={2}>
           <Button variant="contained" color="primary" onClick={handleOpen}>
             {value === 0 && "Update Details"}
             {value === 1 && "Update Security"}
-            {value === 2 && "Add Debit Card"}
+            {value === 2 && "Add Bank Account"}
+            {value === 3 && "Add Card"}
           </Button>
 
           {value === 0 && (

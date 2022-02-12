@@ -4,6 +4,7 @@ import {
   CREATE_PAYMENT_INTENT,
   CREATE_ACCOUNT,
   CREATE_CUSTOMER,
+  ADD_LINK,
 } from "../../const";
 import axios from "axios";
 
@@ -153,6 +154,26 @@ export const createCustomer = customerId => async dispatch => {
     return dispatch({
       type: CREATE_CUSTOMER,
       payload: res.data.customerId,
+    });
+  } catch (err) {
+    console.log(err);
+
+    // handle err
+  }
+};
+
+export const generateLink = bankAccount => async dispatch => {
+  try {
+    if (bankAccount) return;
+
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/stripe/generate-link`,
+      { withCredentials: true }
+    );
+
+    return dispatch({
+      type: ADD_LINK,
+      payload: res.data.link,
     });
   } catch (err) {
     console.log(err);

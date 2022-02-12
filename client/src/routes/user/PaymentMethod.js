@@ -13,7 +13,6 @@ import Loading from "../../components/Loading";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import {
-  createAccount,
   getAllCards,
   deleteCard,
   updateCard,
@@ -99,9 +98,6 @@ const Billings = props => {
   const [loading, setLoading] = useState(true);
 
   const setUpStripe = useCallback(async () => {
-    // this will create an account if user has no accountId
-    await dispatch(createAccount(user.accountId));
-
     await dispatch(getAllCards(user.accountId));
 
     setLoading(false);
@@ -142,10 +138,8 @@ const Billings = props => {
       {loading && <Loading />}
 
       {!loading && !primaryCard.id && (
-        <Typography variant="subtitle1">
-          Please add a <b>debit card deposit</b>.{" "}
-          <b className="color-primary">IWeb</b> will transfer all collected
-          investments to this account.
+        <Typography variant="subtitle1" fontWeight={700}>
+          There is no credit/debit cards associated with your iWeb account.
         </Typography>
       )}
 

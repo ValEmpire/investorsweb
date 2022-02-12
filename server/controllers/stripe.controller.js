@@ -224,4 +224,32 @@ module.exports = {
       });
     }
   },
+
+  getLink: async (req, res) => {
+    try {
+      const { accountId } = req.user;
+
+      if (!accountId)
+        throw new Error("Cannot create link. User has no account id.");
+
+      const accountLink = await stripe.accountLinks.create({
+        account: accountId,
+        refresh_url: "http://localhost:3000/user",
+        return_url: "http://localhost:3000/user",
+        type: "account_onboarding",
+      });
+
+      return res.status(200).send({
+        success: true,
+        link: accountLink.url,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
 };

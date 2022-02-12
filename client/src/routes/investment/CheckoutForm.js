@@ -37,6 +37,7 @@ export default function CheckoutForm(props) {
           },
         },
         save_payment_method: true,
+        return_url: "http://localhost:3000/investment/success",
       },
     });
 
