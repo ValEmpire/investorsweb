@@ -21,6 +21,13 @@ export const stripe = (state = initialState, action) => {
       };
 
     case ADD_CARD:
+      if (action.payload.default_for_currency) {
+        return {
+          ...state,
+          primaryCard: action.payload,
+        };
+      }
+
       return {
         ...state,
         cards: [...state.cards, action.payload],
