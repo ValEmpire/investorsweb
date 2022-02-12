@@ -1,11 +1,15 @@
 import React from "react";
-import { useStripe, useElements } from "@stripe/react-stripe-js";
+import {
+  useStripe,
+  useElements,
+  PaymentElement,
+} from "@stripe/react-stripe-js";
 
-import CardSection from "./CardSection";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Grid, Paper } from "@mui/material";
 
 export default function CheckoutForm(props) {
   const { firstName, lastName, email } = props.user;
+  const { handleStep, i } = props;
 
   const stripe = useStripe();
   const elements = useElements();
@@ -33,7 +37,6 @@ export default function CheckoutForm(props) {
           },
         },
         save_payment_method: true,
-        return_url: "http://localhost/order/123/complete",
       },
     });
 
@@ -54,11 +57,29 @@ export default function CheckoutForm(props) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <CardSection />
-      <Box textAlign={"center"} p={2}>
-        <Button variant="contained" type="submit" disabled={!stripe}>
-          Confirm Investment
-        </Button>
+      <Grid container justifyContent={"center"}>
+        <Grid item md={8}>
+          <Paper component={Box} p={4}>
+            <PaymentElement />
+          </Paper>
+        </Grid>
+      </Grid>
+
+      <Box mt={1} pt={2} pb={2} mb={1} display="flex" justifyContent={"center"}>
+        <Box m={1} width={110}>
+          <Button
+            variant="outlined"
+            fullWidth
+            onClick={() => handleStep(i - 1)}
+          >
+            Back
+          </Button>
+        </Box>
+        <Box m={1} width={110}>
+          <Button variant="contained" fullWidth type="submit">
+            Authorize
+          </Button>
+        </Box>
       </Box>
     </form>
   );

@@ -96,8 +96,6 @@ const Billings = props => {
 
   const { cards, primaryCard } = useSelector(state => state.stripe);
 
-  console.log(cards);
-
   const [loading, setLoading] = useState(true);
 
   const setUpStripe = useCallback(async () => {

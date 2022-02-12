@@ -7,8 +7,11 @@ import { stripePromise } from "../../stripe";
 
 // redux
 import { useSelector } from "react-redux";
+import { Box, Divider } from "@mui/material";
 
 const Payment = props => {
+  const { user, i, handleStep } = props;
+
   const { clientSecret } = useSelector(state => state.stripe);
 
   const options = {
@@ -21,9 +24,12 @@ const Payment = props => {
   };
 
   return (
-    <Elements stripe={stripePromise} options={options}>
-      <CheckoutForm user={props.user} />
-    </Elements>
+    <Box>
+      <Elements stripe={stripePromise} options={options}>
+        <CheckoutForm handleStep={handleStep} i={i} user={user} />
+      </Elements>
+      <Divider />
+    </Box>
   );
 };
 
