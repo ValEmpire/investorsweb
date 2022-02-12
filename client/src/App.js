@@ -78,7 +78,6 @@ function App() {
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/aboutus" element={<AboutUsPage />} />
 
-
           {/* secured route */}
           <Route path="/user" element={<GuardedUserPage />} />
           <Route path="/projects" element={<GuardedProjectDashboardPage />} />
@@ -95,8 +94,6 @@ function App() {
             element={<GuardedInvestmentPage />}
           />
         </Routes>
-        
-        
       </Router>
     </Provider>
   );

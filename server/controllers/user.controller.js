@@ -21,7 +21,40 @@ module.exports = {
         password: hashPassword,
       });
 
-      const token = generateToken(newUser.id);
+      const { id } = newUser.id;
+
+      const newAccount = await stripe.accounts.create({
+        type: "express",
+        country: "CA",
+        email,
+        capabilities: {
+          acss_debit_payments: {
+            requested: true,
+          },
+          card_payments: {
+            requested: true,
+          },
+          transfers: {
+            requested: true,
+          },
+          legacy_payments: {
+            requested: true,
+          },
+        },
+      });
+
+      const newCustomer = await stripe.customers.create({
+        email,
+        name: `${firstName} ${lastName}`,
+      });
+
+      newUser.accountId = newAccount.id;
+
+      newUser.customerId = newCustomer.id;
+
+      await newUser.save();
+
+      const token = generateToken(id);
 
       res.cookie("token", token, {
         maxAge: 86400000, // 24hrs

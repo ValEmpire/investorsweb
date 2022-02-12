@@ -2,37 +2,14 @@ import {
   ALL_CARDS,
   ADD_CARD,
   CREATE_PAYMENT_INTENT,
-  CREATE_ACCOUNT,
-  CREATE_CUSTOMER,
   ADD_LINK,
   GET_ACCOUNT,
 } from "../../const";
 import axios from "axios";
 
-// We can put this as a middleware in server when user registered
-// But I think its not a good idea to put it in same route
-// Cause stripe may fail, this will make our route return an error
-export const createAccount = accountId => async dispatch => {
-  try {
-    if (accountId) return;
-
-    const res = await axios.post(
-      `${process.env.REACT_APP_SERVER}/api/stripe/create-account`,
-      {},
-      { withCredentials: true }
-    );
-
-    return dispatch({
-      type: CREATE_ACCOUNT,
-      payload: res.data.accountId,
-    });
-  } catch (err) {
-    // handle error here
-  }
-};
-
-export const getAllCards = accountId => async dispatch => {
-  if (!accountId) return;
+export const getAllCards = customerId => async dispatch => {
+  // if customerId is not present means the user has no card
+  if (!customerId) return;
 
   try {
     const res = await axios.get(
@@ -45,7 +22,6 @@ export const getAllCards = accountId => async dispatch => {
     return dispatch({
       type: ALL_CARDS,
       payload: res.data.cards,
-      pc: res.data.primaryCard,
     });
   } catch (err) {
     console.log(err);
@@ -90,7 +66,6 @@ export const deleteCard = cardId => async dispatch => {
     return dispatch({
       type: ALL_CARDS,
       payload: res.data.cards,
-      pc: res.data.primaryCard,
     });
   } catch (err) {
     console.log(err);
@@ -112,7 +87,6 @@ export const updateCard = cardId => async dispatch => {
     return dispatch({
       type: ALL_CARDS,
       payload: res.data.cards,
-      pc: res.data.primaryCard,
     });
   } catch (err) {
     console.log(err);
@@ -139,27 +113,6 @@ export const createPaymentIntent = (amount, ownerId) => async dispatch => {
     console.log(err);
 
     //hendle error
-  }
-};
-
-export const createCustomer = customerId => async dispatch => {
-  try {
-    if (customerId) return;
-
-    const res = await axios.post(
-      `${process.env.REACT_APP_SERVER}/api/stripe/create-customer`,
-      {},
-      { withCredentials: true }
-    );
-
-    return dispatch({
-      type: CREATE_CUSTOMER,
-      payload: res.data.customerId,
-    });
-  } catch (err) {
-    console.log(err);
-
-    // handle err
   }
 };
 

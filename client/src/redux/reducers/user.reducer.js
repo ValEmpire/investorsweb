@@ -5,8 +5,6 @@ import {
   LOGOUT_USER,
   UPDATE_USER_DETAIL,
   UPDATE_USER_SECURITY,
-  CREATE_ACCOUNT,
-  CREATE_CUSTOMER,
 } from "../../const";
 
 const initialState = {
@@ -56,18 +54,6 @@ export const user = (state = initialState, action) => {
     case LOGOUT_USER:
       return {
         ...initialState,
-      };
-
-    case CREATE_ACCOUNT:
-      return {
-        ...state,
-        accountId: action.payload,
-      };
-
-    case CREATE_CUSTOMER:
-      return {
-        ...state,
-        customerId: action.payload,
       };
 
     default:

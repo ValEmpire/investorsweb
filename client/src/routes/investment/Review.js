@@ -3,10 +3,7 @@ import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 
 // Redux
 import { useDispatch } from "react-redux";
-import {
-  createCustomer,
-  createPaymentIntent,
-} from "../../redux/actions/stripe.action";
+import { createPaymentIntent } from "../../redux/actions/stripe.action";
 
 const Summary = props => {
   const { name, value } = props;
@@ -62,8 +59,6 @@ export default function Review(props) {
 
   const handleReview = async () => {
     try {
-      await dispatch(createCustomer(customerId));
-
       await dispatch(createPaymentIntent(amount, project.owner.accountId));
 
       handleStep(i + 1);

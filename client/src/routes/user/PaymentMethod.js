@@ -12,14 +12,10 @@ import Loading from "../../components/Loading";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllCards,
-  deleteCard,
-  updateCard,
-} from "../../redux/actions/stripe.action";
+import { getAllCards, deleteCard } from "../../redux/actions/stripe.action";
 
-const DebitCard = props => {
-  const { card, handleDeleteCard, handleUpdateCard } = props;
+const Card = props => {
+  const { card, handleDeleteCard, id } = props;
 
   return (
     <Box mb={3} pt={2}>
@@ -29,11 +25,11 @@ const DebitCard = props => {
             <Box m={2}>
               <Grid container spacing={3}>
                 <Grid item xs={4}>
-                  <Box pt={card.brand === "Visa" ? 1 : 0}>
+                  <Box pt={card.brand === "visa" ? 1 : 0}>
                     <CardMedia
                       component="img"
                       image={
-                        card.brand === "Visa"
+                        card.brand === "visa"
                           ? "/images/visa.png"
                           : "/images/mastercard.png"
                       }
@@ -43,7 +39,9 @@ const DebitCard = props => {
                 </Grid>
                 <Grid item xs={8}>
                   <Box>
-                    <Typography variant="h5">{card.brand}</Typography>
+                    <Typography className="capitalize" variant="h5">
+                      {card.brand}
+                    </Typography>
                     <Typography variant="h6">• • • • {card.last4}</Typography>
                     <Typography variant="subtitle2">
                       Expires: {card.exp_month}/{card.exp_year}
@@ -54,32 +52,14 @@ const DebitCard = props => {
             </Box>
 
             <Divider />
-            <Box display="flex" justifyContent={"space-between"} p={2}>
-              {card.default_for_currency && (
-                <Typography variant="subtitle1" fontWeight={700}>
-                  Primary
-                </Typography>
-              )}
-
-              {!card.default_for_currency && (
-                <Button
-                  size="small"
-                  variant="text"
-                  onClick={() => handleUpdateCard(card.id)}
-                >
-                  Make Primary Card
-                </Button>
-              )}
-
-              {!card.default_for_currency && (
-                <Button
-                  size="small"
-                  variant="text"
-                  onClick={() => handleDeleteCard(card.id)}
-                >
-                  Remove
-                </Button>
-              )}
+            <Box textAlign={"right"} p={2}>
+              <Button
+                size="small"
+                variant="text"
+                onClick={() => handleDeleteCard(id)}
+              >
+                Remove
+              </Button>
             </Box>
           </Paper>
         </Grid>
@@ -93,17 +73,18 @@ const Billings = props => {
 
   const { user } = props;
 
-  const { cards, primaryCard } = useSelector(state => state.stripe);
+  const { cards } = useSelector(state => state.stripe);
 
   const [loading, setLoading] = useState(true);
 
   const setUpStripe = useCallback(async () => {
-    await dispatch(getAllCards(user.accountId));
+    // pass user.customerId
+    await dispatch(getAllCards(user.customerId));
 
     setLoading(false);
 
     return;
-  }, [dispatch, user.accountId]);
+  }, [dispatch, user.customerId]);
 
   useEffect(() => {
     setUpStripe();
@@ -121,63 +102,29 @@ const Billings = props => {
     }
   };
 
-  const handleUpdateCard = async id => {
-    try {
-      setLoading(true);
-
-      await dispatch(updateCard(id));
-
-      setLoading(false);
-    } catch (err) {
-      //handle error here
-    }
-  };
-
   return (
     <Box>
       {loading && <Loading />}
 
-      {!loading && !primaryCard.id && (
+      {!loading && cards.length === 0 && (
         <Typography variant="subtitle1" fontWeight={700}>
           There is no credit/debit cards associated with your iWeb account.
         </Typography>
       )}
+      {!loading && cards.length > 0 && (
+        <Grid container spacing={4}>
+          {/* Backup Card */}
 
-      {!loading && primaryCard.id && (
-        <Box>
-          <Grid container spacing={4}>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="h6">Primary</Typography>
-              <DebitCard
-                card={primaryCard}
+          {cards.map(data => (
+            <Grid key={data.id} item xs={12} sm={6}>
+              <Card
+                card={data.card}
+                id={data.id}
                 handleDeleteCard={handleDeleteCard}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="h6">Backup</Typography>
-              {cards.length === 0 && (
-                <Box mt={1} pt={1}>
-                  <Typography variant="subtitle2">
-                    You have no backup card.
-                  </Typography>
-                </Box>
-              )}
-              {cards.map(card => (
-                <DebitCard
-                  key={card.id}
-                  card={card}
-                  handleDeleteCard={handleDeleteCard}
-                  handleUpdateCard={handleUpdateCard}
-                />
-              ))}
-            </Grid>
-          </Grid>
-
-          <Typography>
-            <b className="color-primary">IWeb</b> will transfer all collected
-            investments to your primary card.
-          </Typography>
-        </Box>
+          ))}
+        </Grid>
       )}
     </Box>
   );

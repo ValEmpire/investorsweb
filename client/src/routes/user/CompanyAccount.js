@@ -4,12 +4,8 @@ import { Box, Typography } from "@mui/material";
 import Loading from "../../components/Loading";
 
 // Redux
-import { useDispatch, useSelector } from "react-redux";
-import {
-  createAccount,
-  generateLink,
-  getAccount,
-} from "../../redux/actions/stripe.action";
+import { useDispatch } from "react-redux";
+import { generateLink, getAccount } from "../../redux/actions/stripe.action";
 
 const Field = props => {
   const { name, value } = props;
@@ -50,12 +46,11 @@ const ConnectedAccount = props => {
 
   const { user } = props;
 
+  console.log(user);
+
   const [loading, setLoading] = useState(true);
 
   const setupAccount = useCallback(async () => {
-    // this will create an account if user has no accountId
-    await dispatch(createAccount(user.accountId));
-
     await dispatch(getAccount());
 
     await dispatch(generateLink(payouts_enabled));
@@ -63,7 +58,7 @@ const ConnectedAccount = props => {
     setLoading(false);
 
     return;
-  }, [dispatch, user.accountId, payouts_enabled]);
+  }, [dispatch, payouts_enabled]);
 
   useEffect(() => {
     setupAccount();
