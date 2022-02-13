@@ -5,17 +5,17 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
-import StepButton from "@mui/material/StepButton";
 import StepContent from "@mui/material/StepContent";
 import { useParams } from "react-router-dom";
 import Amount from "./Amount";
 import Payment from "./Payment";
 import Review from "./Review";
+import { Grid, StepLabel } from "@mui/material";
+
+import PageTitle from "../../components/PageTitle";
 
 //REDUX
 import { useSelector } from "react-redux";
-
-import { Grid, StepLabel } from "@mui/material";
 
 const InvestmentPage = () => {
   // hooks
@@ -59,13 +59,13 @@ const InvestmentPage = () => {
   const steps = ["1. Investment Amount", "2. Review", "3. Payment"];
 
   return (
-    <Box mt={2} pt={3} mb={10}>
+    <Box mb={10}>
       <Container maxWidth="lg">
-        <Box pb={3} textAlign="center">
-          <Typography variant="h4">
-            Invest in <b>{project.name}</b>
-          </Typography>
-        </Box>
+        {/* Page Title */}
+        <PageTitle>
+          Invest in <b>{`${project.name}`}</b>
+        </PageTitle>
+
         <Grid container justifyContent={"center"}>
           <Grid item md={8} sm={10}>
             <Stepper activeStep={activeStep} nonLinear orientation="vertical">

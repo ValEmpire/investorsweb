@@ -84,17 +84,23 @@ export default function UserPage() {
     <Container component="main" maxWidth="md">
       <Paper
         variant="outlined"
-        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+        component={Box}
+        mt={5}
+        pt={6}
+        pl={2}
+        pr={2}
+        pb={5}
       >
-        <Typography component="h1" variant="h3" align="center">
+        <Typography component="h1" variant="h4" align="center">
           Your Account
         </Typography>
         <Box sx={{ width: "100%" }} pt={2} pb={2}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
+              variant="scrollable"
+              allowScrollButtonsMobile
               value={value}
               onChange={handleChange}
-              aria-label="basic tabs example"
             >
               <Tab label="Details" {...a11yProps(0)} />
               <Tab label="Security" {...a11yProps(1)} />
