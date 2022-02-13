@@ -11,13 +11,14 @@ import { Divider } from "@mui/material";
 import Container from "@mui/material/Container";
 import ProjectTabs from "./ProjectTabs";
 import Moment from "moment";
-import { amountReducer } from "../../helpers/amountReducer";
-import { currencyFormat } from "../../helpers/amountReducer";
+import { amountReducer } from "../../helpers/allHelpers";
+import { currencyFormat } from "../../helpers/allHelpers";
 import { useSelector } from "react-redux";
 
 export default function MediaCard(props) {
   const user = useSelector(state => state.user);
   const project = props.project;
+  console.log(project);
 
   const daysLeft = function () {
     const eventDate = Moment(project.deadline);

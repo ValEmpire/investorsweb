@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField } from "@mui/material";
 import { FormControl, FormHelperText } from "@mui/material";
-import { currencyFormat } from "../../helpers/amountReducer";
+import { currencyFormat } from "../../helpers/allHelpers";
 
 export default function Amount(props) {
   const { amount, handleAmount, project } = props;

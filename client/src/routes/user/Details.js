@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import Avatar from "react-avatar";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import { formatPhoneNumber } from "../../helpers/amountReducer";
+import { formatPhoneNumber } from "../../helpers/allHelpers";
 
-const Details = (props) => {
+const Details = props => {
   const { userDetail } = props.user;
 
   return (

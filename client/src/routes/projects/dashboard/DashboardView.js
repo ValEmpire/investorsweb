@@ -13,7 +13,7 @@ import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Divider } from "@mui/material";
 import Moment from "moment";
-import { amountReducer } from "../../../helpers/amountReducer";
+import { amountReducer } from "../../../helpers/allHelpers";
 
 function Copyright() {
   return (
@@ -32,6 +32,7 @@ const theme = createTheme();
 
 export default function DashboardView(props) {
   const projects = props.projects;
+  console.log(projects);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

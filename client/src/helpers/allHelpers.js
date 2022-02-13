@@ -32,3 +32,9 @@ export const formatPhoneNumber = str => {
 export const currencyFormat = num => {
   return "$" + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 };
+
+//CAPITALIZE FIRST LETTER
+export const capitalizeFirstLetter = (
+  [first, ...rest],
+  locale = navigator.language
+) => first.toLocaleUpperCase(locale) + rest.join("");
