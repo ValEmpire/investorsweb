@@ -1,4 +1,4 @@
-import { ALL_PROJECTS, CREATE_PROJECT } from "../../const";
+import { ALL_PROJECTS, CREATE_PROJECT, GET_PROJECT } from "../../const";
 
 const initialState = {
   projectFields: {
@@ -12,6 +12,7 @@ const initialState = {
     name: "",
   },
   projects: [],
+  project: {},
 };
 
 export const project = (state = initialState, action) => {
@@ -34,6 +35,12 @@ export const project = (state = initialState, action) => {
     case ALL_PROJECTS:
       return {
         projects: action.payload,
+      };
+
+    case GET_PROJECT:
+      return {
+        ...state,
+        project: action.payload,
       };
 
     default:

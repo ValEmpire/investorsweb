@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useCallback, useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -15,41 +14,27 @@ import { Grid, StepLabel } from "@mui/material";
 import PageTitle from "../../components/PageTitle";
 
 //REDUX
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getProject } from "../../redux/actions/project.action";
 
 const InvestmentPage = () => {
-  // hooks
+  const dispatch = useDispatch();
+
   const user = useSelector(state => state.user);
+
+  const { project } = useSelector(state => state.project);
+
+  const [activeStep, setActiveStep] = useState(0);
+
   const { projectId } = useParams();
 
-  // states
-  const [project, setProject] = useState({});
-  const [activeStep, setActiveStep] = useState(0);
-  const [amount, setAmount] = useState("");
-
-  const getProject = async () => {
-    const res = await axios.get(
-      `${process.env.REACT_APP_SERVER}/api/project/${projectId}`,
-      {
-        withCredentials: true,
-      }
-    );
-
-    setProject(res.data.project);
-
-    return;
-  };
+  const handleProject = useCallback(async () => {
+    dispatch(getProject(projectId));
+  }, [dispatch, projectId]);
 
   useEffect(() => {
-    getProject();
-  }, []);
-
-  // handlers
-  const handleAmount = e => {
-    setAmount(e.target.value);
-
-    return;
-  };
+    handleProject();
+  }, [handleProject]);
 
   const handleStep = i => {
     setActiveStep(i);
@@ -82,8 +67,6 @@ const InvestmentPage = () => {
                         {activeStep === 0 && (
                           <Amount
                             project={project}
-                            amount={amount}
-                            handleAmount={handleAmount}
                             handleStep={handleStep}
                             i={i}
                           />
@@ -91,7 +74,6 @@ const InvestmentPage = () => {
                         {activeStep === 1 && (
                           <Review
                             user={user}
-                            amount={amount}
                             project={project}
                             handleStep={handleStep}
                             i={i}

@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createPaymentIntent } from "../../redux/actions/stripe.action";
 
 const Summary = props => {
@@ -31,8 +31,11 @@ const Summary = props => {
 export default function Review(props) {
   const dispatch = useDispatch();
 
-  const { firstName, lastName, email, customerId } = props.user;
-  const { amount, project, handleStep, i } = props;
+  const { amount } = useSelector(state => state.investment);
+
+  const { firstName, lastName, email } = props.user;
+
+  const { project, handleStep, i } = props;
 
   const fields = [
     {

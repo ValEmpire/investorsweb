@@ -1,7 +1,11 @@
-import { CREATE_INVESTMENT, ALL_INVESTMENTS } from "../../const";
+import {
+  CREATE_INVESTMENT,
+  ALL_INVESTMENTS,
+  SET_INVESTMENT_AMOUNT,
+} from "../../const";
 
 const initialState = {
-  amount: "",
+  amount: "0.00",
   investments: [],
 };
 
@@ -15,10 +19,18 @@ export const investment = (state = initialState, action) => {
         ...state,
         [fieldName]: fieldValue,
       };
+
     case ALL_INVESTMENTS:
       return {
         investments: action.payload,
       };
+
+    case SET_INVESTMENT_AMOUNT:
+      return {
+        ...state,
+        amount: action.payload,
+      };
+
     default:
       return { ...state };
   }

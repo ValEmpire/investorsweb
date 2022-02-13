@@ -2,6 +2,7 @@ import {
   CREATE_INVESTMENT,
   SUBMIT_INVESTMENT,
   ALL_INVESTMENTS,
+  SET_INVESTMENT_AMOUNT,
 } from "../../const";
 import axios from "axios";
 
@@ -45,4 +46,13 @@ export const getAllInvestments = () => async dispatch => {
 
     //hendle error
   }
+};
+
+export const setInvestmentAmount = amount => dispatch => {
+  if (isNaN(amount)) return;
+
+  return dispatch({
+    type: SET_INVESTMENT_AMOUNT,
+    payload: amount,
+  });
 };
