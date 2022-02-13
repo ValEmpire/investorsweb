@@ -3,12 +3,14 @@ import {
   ALL_INVESTMENTS,
   SET_INVESTMENT_AMOUNT,
   SET_PAYMENT_METHOD,
+  FIND_PROJECT_INVESTMENT,
 } from "../../const";
 
 const initialState = {
   amount: "0.00",
   investments: [],
   paymentMethod: false,
+  isProjectInvested: null,
 };
 
 export const investment = (state = initialState, action) => {
@@ -37,6 +39,12 @@ export const investment = (state = initialState, action) => {
       return {
         ...state,
         paymentMethod: action.payload,
+      };
+
+    case FIND_PROJECT_INVESTMENT:
+      return {
+        ...state,
+        isProjectInvested: action.payload,
       };
 
     default:

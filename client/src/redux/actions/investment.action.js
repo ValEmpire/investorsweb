@@ -4,6 +4,7 @@ import {
   ALL_INVESTMENTS,
   SET_INVESTMENT_AMOUNT,
   SET_PAYMENT_METHOD,
+  FIND_PROJECT_INVESTMENT,
 } from "../../const";
 import axios from "axios";
 
@@ -47,6 +48,24 @@ export const getAllInvestments = () => async dispatch => {
     console.log(err);
 
     //hendle error
+  }
+};
+
+export const findProjectInvestment = projectId => async dispatch => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/investment/project/${projectId}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    dispatch({
+      type: FIND_PROJECT_INVESTMENT,
+      payload: res.data.isFound,
+    });
+  } catch (err) {
+    console.log(err);
   }
 };
 
