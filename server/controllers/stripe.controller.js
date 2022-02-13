@@ -150,6 +150,8 @@ module.exports = {
 
   submitStripePayment: async (req, res, next) => {
     try {
+      const { amount, projectOwner, paymentMethod } = req.validatedBody;
+
       // if no payment method means user already submit the payment using
       // element ui provided by stripe
       if (!paymentMethod) {
@@ -158,8 +160,6 @@ module.exports = {
       }
 
       const { customerId } = req.user;
-
-      const { amount, projectOwner, paymentMethod } = req.validatedBody;
 
       const amountInt = amount * 100;
 

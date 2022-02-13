@@ -67,7 +67,11 @@ export default function Review(props) {
       // and will get paymentIntent to get secretKey from stripe
       if (!paymentMethod) {
         await dispatch(createPaymentIntent(amount, project.owner.accountId));
+
+        handleStep(i + 1);
       } else {
+        // else user selected payment method
+        // we will use this instead of user filling up the card again
         await dispatch(
           submitInvestment({
             amount,
@@ -76,9 +80,9 @@ export default function Review(props) {
             paymentMethod,
           })
         );
-      }
 
-      handleStep(i + 1);
+        console.log("successful investment of " + amount);
+      }
     } catch (err) {
       // handle error
     }

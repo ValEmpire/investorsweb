@@ -14,15 +14,11 @@ export const createInvestment = field => dispatch => {
   });
 };
 
-export const submitInvestment = amount => async dispatch => {
+export const submitInvestment = body => async dispatch => {
   try {
-    await axios.post(
-      `${process.env.REACT_APP_SERVER}/api/investment`,
-      { amount },
-      {
-        withCredentials: true,
-      }
-    );
+    await axios.post(`${process.env.REACT_APP_SERVER}/api/investment`, body, {
+      withCredentials: true,
+    });
 
     return dispatch({
       type: SUBMIT_INVESTMENT,
