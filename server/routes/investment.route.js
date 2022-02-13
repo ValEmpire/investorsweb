@@ -22,6 +22,8 @@ const {
   getInvestment,
 } = require("../controllers/investment.controller");
 
+const { submitStripePayment } = require("../controllers/stripe.controller");
+
 //ROUTES
 router
   .route("/")
@@ -31,8 +33,10 @@ router
     validate(investmentSchema),
     checkProjectMiddleware,
     investmentMiddleware,
+    submitStripePayment,
     createInvestment
   );
+
 router
   .route("/:investmentId")
   .get(userAuth, checkInvestmentMiddleware, getInvestment)

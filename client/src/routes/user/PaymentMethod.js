@@ -17,6 +17,8 @@ import { getAllCards, deleteCard } from "../../redux/actions/stripe.action";
 const Card = props => {
   const { card, handleDeleteCard, id } = props;
 
+  const { brand, last4, exp_month, exp_year } = card;
+
   return (
     <Box mb={3} pt={2}>
       <Grid container justifyContent={"center"}>
@@ -25,11 +27,11 @@ const Card = props => {
             <Box m={2}>
               <Grid container spacing={3}>
                 <Grid item xs={4}>
-                  <Box pt={card.brand === "visa" ? 1 : 0}>
+                  <Box pt={brand.toLowerCase() === "visa" ? 1 : 0}>
                     <CardMedia
                       component="img"
                       image={
-                        card.brand === "visa"
+                        brand.toLowerCase() === "visa"
                           ? "/images/visa.png"
                           : "/images/mastercard.png"
                       }
@@ -40,11 +42,11 @@ const Card = props => {
                 <Grid item xs={8}>
                   <Box>
                     <Typography className="capitalize" variant="h5">
-                      {card.brand}
+                      {brand}
                     </Typography>
-                    <Typography variant="h6">• • • • {card.last4}</Typography>
+                    <Typography variant="h6">• • • • {last4}</Typography>
                     <Typography variant="subtitle2">
-                      Expires: {card.exp_month}/{card.exp_year}
+                      Expires: {exp_month}/{exp_year}
                     </Typography>
                   </Box>
                 </Grid>
@@ -115,11 +117,11 @@ const Billings = props => {
         <Grid container spacing={4}>
           {/* Backup Card */}
 
-          {cards.map(data => (
-            <Grid key={data.id} item xs={12} sm={6}>
+          {cards.map((card, i) => (
+            <Grid key={card.fingerprint + i} item xs={12} sm={6}>
               <Card
-                card={data.card}
-                id={data.id}
+                card={card}
+                id={card.id}
                 handleDeleteCard={handleDeleteCard}
               />
             </Grid>

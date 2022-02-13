@@ -99,7 +99,10 @@ export const createPaymentIntent = (amount, ownerId) => async dispatch => {
   try {
     const res = await axios.post(
       `${process.env.REACT_APP_SERVER}/api/stripe/create-payment-intent`,
-      { amount, projectOwner: ownerId },
+      {
+        amount,
+        projectOwner: ownerId,
+      },
       {
         withCredentials: true,
       }

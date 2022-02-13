@@ -2,11 +2,13 @@ import {
   CREATE_INVESTMENT,
   ALL_INVESTMENTS,
   SET_INVESTMENT_AMOUNT,
+  SET_PAYMENT_METHOD,
 } from "../../const";
 
 const initialState = {
   amount: "0.00",
   investments: [],
+  paymentMethod: false,
 };
 
 export const investment = (state = initialState, action) => {
@@ -29,6 +31,12 @@ export const investment = (state = initialState, action) => {
       return {
         ...state,
         amount: action.payload,
+      };
+
+    case SET_PAYMENT_METHOD:
+      return {
+        ...state,
+        paymentMethod: action.payload,
       };
 
     default:

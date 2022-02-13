@@ -3,6 +3,7 @@ import {
   SUBMIT_INVESTMENT,
   ALL_INVESTMENTS,
   SET_INVESTMENT_AMOUNT,
+  SET_PAYMENT_METHOD,
 } from "../../const";
 import axios from "axios";
 
@@ -13,18 +14,21 @@ export const createInvestment = field => dispatch => {
   });
 };
 
-export const submitInvestment = (invest, cb) => async dispatch => {
+export const submitInvestment = amount => async dispatch => {
   try {
-    await axios.post(`${process.env.REACT_APP_SERVER}/api/investment`, invest, {
-      withCredentials: true,
-    });
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/api/investment`,
+      { amount },
+      {
+        withCredentials: true,
+      }
+    );
 
     return dispatch({
       type: SUBMIT_INVESTMENT,
       payload: "from api",
     });
   } catch (err) {
-    cb(err);
     console.log(err.message);
 
     //hendle error
@@ -49,10 +53,15 @@ export const getAllInvestments = () => async dispatch => {
 };
 
 export const setInvestmentAmount = amount => dispatch => {
-  if (isNaN(amount)) return;
-
   return dispatch({
     type: SET_INVESTMENT_AMOUNT,
     payload: amount,
+  });
+};
+
+export const setPaymentMethod = method => dispatch => {
+  return dispatch({
+    type: SET_PAYMENT_METHOD,
+    payload: method,
   });
 };

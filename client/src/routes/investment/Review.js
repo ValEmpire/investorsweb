@@ -4,6 +4,7 @@ import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { createPaymentIntent } from "../../redux/actions/stripe.action";
+import { submitInvestment } from "../../redux/actions/investment.action";
 
 const Summary = props => {
   const { name, value } = props;
@@ -31,7 +32,7 @@ const Summary = props => {
 export default function Review(props) {
   const dispatch = useDispatch();
 
-  const { amount } = useSelector(state => state.investment);
+  const { amount, paymentMethod } = useSelector(state => state.investment);
 
   const { firstName, lastName, email } = props.user;
 
@@ -62,7 +63,20 @@ export default function Review(props) {
 
   const handleReview = async () => {
     try {
-      await dispatch(createPaymentIntent(amount, project.owner.accountId));
+      // if no paymentmethod means user will add new payment method
+      // and will get paymentIntent to get secretKey from stripe
+      if (!paymentMethod) {
+        await dispatch(createPaymentIntent(amount, project.owner.accountId));
+      } else {
+        await dispatch(
+          submitInvestment({
+            amount,
+            projectId: project.id,
+            projectOwner: project.owner.accountId,
+            paymentMethod,
+          })
+        );
+      }
 
       handleStep(i + 1);
     } catch (err) {

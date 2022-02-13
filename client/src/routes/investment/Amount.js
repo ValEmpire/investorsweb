@@ -1,22 +1,45 @@
-import React from "react";
-import { Box, Button, Divider, TextField } from "@mui/material";
+import React, { useCallback, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Divider,
+  FormControl,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { FormHelperText } from "@mui/material";
 import { currencyFormat } from "../../helpers/amountReducer";
 import NumberFormat from "react-number-format";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-import { setInvestmentAmount } from "../../redux/actions/investment.action";
+import {
+  setInvestmentAmount,
+  setPaymentMethod,
+} from "../../redux/actions/investment.action";
+import { getAllCards } from "../../redux/actions/stripe.action";
 
 export default function Amount(props) {
   const dispatch = useDispatch();
 
-  const { amount } = useSelector(state => state.investment);
+  const { amount, paymentMethod } = useSelector(state => state.investment);
+
+  const { cards } = useSelector(state => state.stripe);
+
+  const user = useSelector(state => state.user);
 
   const { project, handleStep, i } = props;
 
   const handleAmount = e => {
     dispatch(setInvestmentAmount(e));
+  };
+
+  const handlePaymentMethod = e => {
+    const method = e.target.value;
+
+    dispatch(setPaymentMethod(method));
   };
 
   const error = () => {
@@ -27,32 +50,60 @@ export default function Amount(props) {
     return true;
   };
 
+  const handleCards = useCallback(async () => {
+    await dispatch(getAllCards(user.customerId));
+
+    return;
+  }, [dispatch, user.customerId]);
+
+  useEffect(() => {
+    handleCards();
+  }, [handleCards]);
+
   return (
     <Box>
-      <NumberFormat
-        customInput={TextField}
-        onValueChange={values => handleAmount(values.value)}
-        value={amount}
-        variant="outlined"
-        fullWidth
-        decimalScale={2}
-        thousandSeparator=","
-        fixedDecimalScale
-        prefix="$ "
-      />
-      {/* <TextField
-        label="Amount"
-        variant="outlined"
-        autoFocus
-        fullWidth
-        value={amount}
-        onChange={e => handleAmount(e)}
-      /> */}
+      <Box pb={2} mb={2}>
+        <Box pb={1}>
+          <Typography variant="body2">Amount</Typography>
+        </Box>
+        <NumberFormat
+          customInput={TextField}
+          onValueChange={values => handleAmount(values.value)}
+          value={amount}
+          variant="outlined"
+          fullWidth
+          decimalScale={2}
+          thousandSeparator=","
+          fixedDecimalScale
+          prefix="$ "
+        />
 
-      <FormHelperText error={error()}>
-        The minimum investment in this offering is{" "}
-        <b>{currencyFormat(project.minInvestment)}</b>.
-      </FormHelperText>
+        <FormHelperText error={error()}>
+          The minimum investment in this offering is{" "}
+          <b>{currencyFormat(project.minInvestment)}</b>.
+        </FormHelperText>
+      </Box>
+
+      <Box pb={2}>
+        <Box pb={1}>
+          <Typography variant="body2">Payment Method</Typography>
+        </Box>
+        <FormControl fullWidth>
+          <Select value={paymentMethod} onChange={e => handlePaymentMethod(e)}>
+            {cards.map((card, i) => (
+              <MenuItem key={card.id + i} value={card.id}>
+                {
+                  <span className="capitalize">
+                    {card.brand} •••• {card.last4}
+                  </span>
+                }
+              </MenuItem>
+            ))}
+
+            <MenuItem value={false}>Setup new card</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
 
       <Box mt={1} pt={2} pb={2} mb={1} textAlign={"center"}>
         <Button

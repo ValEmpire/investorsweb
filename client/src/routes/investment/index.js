@@ -22,6 +22,8 @@ const InvestmentPage = () => {
 
   const user = useSelector(state => state.user);
 
+  const { paymentMethod } = useSelector(state => state.investment);
+
   const { project } = useSelector(state => state.project);
 
   const [activeStep, setActiveStep] = useState(0);
@@ -41,7 +43,11 @@ const InvestmentPage = () => {
   };
 
   // vars
-  const steps = ["1. Investment Amount", "2. Review", "3. Payment"];
+  const steps = [
+    "1. Investment Amount",
+    "2. Review",
+    !paymentMethod ? "3. Payment" : false,
+  ];
 
   return (
     <Box mb={10}>
@@ -56,35 +62,41 @@ const InvestmentPage = () => {
             <Stepper activeStep={activeStep} nonLinear orientation="vertical">
               {steps.map((label, i) => {
                 return (
-                  <Step key={label + i}>
-                    <StepLabel>
-                      <Typography variant="h6" fontWeight={700}>
-                        {label}
-                      </Typography>
-                    </StepLabel>
-                    <StepContent>
-                      <Box pt={2} pb={2}>
-                        {activeStep === 0 && (
-                          <Amount
-                            project={project}
-                            handleStep={handleStep}
-                            i={i}
-                          />
-                        )}
-                        {activeStep === 1 && (
-                          <Review
-                            user={user}
-                            project={project}
-                            handleStep={handleStep}
-                            i={i}
-                          />
-                        )}
-                        {activeStep === 2 && (
-                          <Payment i={i} handleStep={handleStep} user={user} />
-                        )}
-                      </Box>
-                    </StepContent>
-                  </Step>
+                  label && (
+                    <Step key={label + i}>
+                      <StepLabel>
+                        <Typography variant="h6" fontWeight={700}>
+                          {label}
+                        </Typography>
+                      </StepLabel>
+                      <StepContent>
+                        <Box pt={2} pb={2}>
+                          {activeStep === 0 && (
+                            <Amount
+                              project={project}
+                              handleStep={handleStep}
+                              i={i}
+                            />
+                          )}
+                          {activeStep === 1 && (
+                            <Review
+                              user={user}
+                              project={project}
+                              handleStep={handleStep}
+                              i={i}
+                            />
+                          )}
+                          {activeStep === 2 && (
+                            <Payment
+                              i={i}
+                              handleStep={handleStep}
+                              user={user}
+                            />
+                          )}
+                        </Box>
+                      </StepContent>
+                    </Step>
+                  )
                 );
               })}
             </Stepper>
