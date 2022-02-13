@@ -5,6 +5,7 @@ import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { createPaymentIntent } from "../../redux/actions/stripe.action";
 import { submitInvestment } from "../../redux/actions/investment.action";
+import { currencyFormat } from "../../helpers/amountReducer";
 
 const Summary = props => {
   const { name, value } = props;
@@ -45,7 +46,7 @@ export default function Review(props) {
     },
     {
       name: "Amount",
-      value: amount,
+      value: currencyFormat(amount),
     },
     {
       name: "First Name",

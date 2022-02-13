@@ -15,6 +15,8 @@ export const createInvestment = field => dispatch => {
 };
 
 export const submitInvestment = body => async dispatch => {
+  console.log("submitting investment");
+
   try {
     await axios.post(`${process.env.REACT_APP_SERVER}/api/investment`, body, {
       withCredentials: true,

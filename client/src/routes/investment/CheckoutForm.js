@@ -7,9 +7,16 @@ import {
 
 import { Box, Button, Grid, Paper } from "@mui/material";
 
+// Redux
+import { useDispatch } from "react-redux";
+import { submitInvestment } from "../../redux/actions/investment.action";
+
 export default function CheckoutForm(props) {
+  const dispatch = useDispatch();
+
   const { firstName, lastName, email } = props.user;
-  const { handleStep, i } = props;
+
+  const { handleStep, i, project, amount } = props;
 
   const stripe = useStripe();
   const elements = useElements();
@@ -39,19 +46,31 @@ export default function CheckoutForm(props) {
         save_payment_method: true,
         return_url: "http://localhost:3000/investment/success",
       },
+
+      redirect: "if_required",
     });
 
     if (result.error) {
       // Show error to your customer (for example, insufficient funds)
       console.log(result.error.message);
     } else {
-      // The payment has been processed!
       if (result.paymentIntent.status === "succeeded") {
         // Show a success message to your customer
         // There's a risk of the customer closing the window before callback
         // execution. Set up a webhook or plugin to listen for the
         // payment_intent.succeeded event that handles any business critical
         // post-payment actions.
+
+        await dispatch(
+          submitInvestment({
+            amount,
+            projectId: project.id,
+            projectOwner: project.owner.accountId,
+            paymentMethod: false,
+          })
+        );
+
+        console.log("successful investment of " + amount);
       }
     }
   };

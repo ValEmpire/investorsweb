@@ -91,6 +91,7 @@ const InvestmentPage = () => {
                               i={i}
                               handleStep={handleStep}
                               user={user}
+                              project={project}
                             />
                           )}
                         </Box>
