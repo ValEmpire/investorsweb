@@ -2,7 +2,9 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import { currencyFormat } from "../../helpers/amountReducer";
 
-const Message = () => {
+const Message = props => {
+  const { amount } = props.investment;
+
   return (
     <Box
       minHeight={"30vh"}
@@ -16,7 +18,7 @@ const Message = () => {
       <Box>
         <Box pb={2}>
           <Typography variant="h5">
-            Thank you for investing <b>{currencyFormat(4322.19)}</b> to this
+            Thank you for investing <b>{currencyFormat(amount)}</b> to this
             Project.
           </Typography>
         </Box>

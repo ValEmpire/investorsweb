@@ -4,11 +4,13 @@ import {
   SET_INVESTMENT_AMOUNT,
   SET_PAYMENT_METHOD,
   FIND_PROJECT_INVESTMENT,
+  SUCCESSFUL_INVESTMENT,
 } from "../../const";
 
 const initialState = {
   amount: "0.00",
   investments: [],
+  investment: {},
   paymentMethod: false,
   isProjectInvested: null,
 };
@@ -42,9 +44,22 @@ export const investment = (state = initialState, action) => {
       };
 
     case FIND_PROJECT_INVESTMENT:
+      const { isFound, investment } = action.payload;
+
       return {
         ...state,
-        isProjectInvested: action.payload,
+        isProjectInvested: isFound,
+        investment,
+      };
+
+    case SUCCESSFUL_INVESTMENT:
+      return {
+        ...state,
+        isProjectInvested: true,
+        investment: {
+          ...state.investment,
+          amount: action.payload,
+        },
       };
 
     default:

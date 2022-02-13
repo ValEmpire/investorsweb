@@ -4,12 +4,14 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-
 import { Box, Button, Grid, Paper } from "@mui/material";
 
 // Redux
 import { useDispatch } from "react-redux";
-import { submitInvestment } from "../../redux/actions/investment.action";
+import {
+  onSuccessfulInvestment,
+  submitInvestment,
+} from "../../redux/actions/investment.action";
 
 export default function CheckoutForm(props) {
   const dispatch = useDispatch();
@@ -70,7 +72,8 @@ export default function CheckoutForm(props) {
           })
         );
 
-        console.log("successful investment of " + amount);
+        // if everything is successful
+        dispatch(onSuccessfulInvestment(amount));
       }
     }
   };

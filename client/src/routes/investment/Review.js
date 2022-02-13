@@ -1,11 +1,14 @@
 import React from "react";
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
+import { currencyFormat } from "../../helpers/amountReducer";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { createPaymentIntent } from "../../redux/actions/stripe.action";
-import { submitInvestment } from "../../redux/actions/investment.action";
-import { currencyFormat } from "../../helpers/amountReducer";
+import {
+  onSuccessfulInvestment,
+  submitInvestment,
+} from "../../redux/actions/investment.action";
 
 const Summary = props => {
   const { name, value } = props;
@@ -82,7 +85,8 @@ export default function Review(props) {
           })
         );
 
-        console.log("successful investment of " + amount);
+        // if everything is successful
+        dispatch(onSuccessfulInvestment(amount));
       }
     } catch (err) {
       // handle error

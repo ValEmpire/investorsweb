@@ -5,6 +5,7 @@ import {
   SET_INVESTMENT_AMOUNT,
   SET_PAYMENT_METHOD,
   FIND_PROJECT_INVESTMENT,
+  SUCCESSFUL_INVESTMENT,
 } from "../../const";
 import axios from "axios";
 
@@ -60,9 +61,14 @@ export const findProjectInvestment = projectId => async dispatch => {
       }
     );
 
+    const { isFound, investment } = res.data;
+
     dispatch({
       type: FIND_PROJECT_INVESTMENT,
-      payload: res.data.isFound,
+      payload: {
+        isFound,
+        investment,
+      },
     });
   } catch (err) {
     console.log(err);
@@ -80,5 +86,12 @@ export const setPaymentMethod = method => dispatch => {
   return dispatch({
     type: SET_PAYMENT_METHOD,
     payload: method,
+  });
+};
+
+export const onSuccessfulInvestment = amount => dispatch => {
+  return dispatch({
+    type: SUCCESSFUL_INVESTMENT,
+    payload: amount,
   });
 };
