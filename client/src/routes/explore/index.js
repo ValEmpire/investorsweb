@@ -10,16 +10,18 @@ import {
   MenuItem,
   Grid,
 } from "@mui/material";
+
 import Loading from "../../components/Loading";
+import PageTitle from "../../components/PageTitle";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProjects } from "../../redux/actions/project.action";
 
-const IndustryFilter = (props) => {
+const IndustryFilter = props => {
   const [industry, setIndustry] = React.useState("all");
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setIndustry(event.target.value);
   };
 
@@ -41,10 +43,10 @@ const IndustryFilter = (props) => {
   );
 };
 
-const FundedFilter = (props) => {
+const FundedFilter = props => {
   const [fund, setFund] = React.useState("most");
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setFund(event.target.value);
   };
 
@@ -66,10 +68,10 @@ const FundedFilter = (props) => {
   );
 };
 
-const ProgressFilter = (props) => {
+const ProgressFilter = props => {
   const [progress, setProgress] = React.useState("in progress");
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setProgress(event.target.value);
   };
 
@@ -102,7 +104,7 @@ const Explore = () => {
     return;
   }, [dispatch]);
 
-  const { projects } = useSelector((state) => state.project);
+  const { projects } = useSelector(state => state.project);
 
   useEffect(() => {
     handleProjects();
@@ -111,12 +113,10 @@ const Explore = () => {
   return (
     <Box>
       <Container maxWidth="lg">
-        <Box textAlign={"center"} pb={3} mb={3}>
-          <Box mt={6} pt={5} pb={5}>
-            <Typography variant="h4">
-              Find a project. Become its next investor.
-            </Typography>
-          </Box>
+        <Box pb={3} mb={3}>
+          {/* Page Title */}
+          <PageTitle>Find a project. Become its next investor</PageTitle>
+
           <Box mb={3}>
             <Grid container justifyContent={"center"}>
               <Grid item md={7}>

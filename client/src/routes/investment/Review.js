@@ -1,12 +1,14 @@
 import React from "react";
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
+import { currencyFormat } from "../../helpers/amountReducer";
 
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createPaymentIntent } from "../../redux/actions/stripe.action";
 import {
-  createCustomer,
-  createPaymentIntent,
-} from "../../redux/actions/stripe.action";
+  onSuccessfulInvestment,
+  submitInvestment,
+} from "../../redux/actions/investment.action";
 
 const Summary = props => {
   const { name, value } = props;
@@ -34,8 +36,11 @@ const Summary = props => {
 export default function Review(props) {
   const dispatch = useDispatch();
 
-  const { firstName, lastName, email, customerId } = props.user;
-  const { amount, project, handleStep, i } = props;
+  const { amount, paymentMethod } = useSelector(state => state.investment);
+
+  const { firstName, lastName, email } = props.user;
+
+  const { project, handleStep, i } = props;
 
   const fields = [
     {
@@ -44,7 +49,7 @@ export default function Review(props) {
     },
     {
       name: "Amount",
-      value: amount,
+      value: currencyFormat(amount),
     },
     {
       name: "First Name",
@@ -62,11 +67,27 @@ export default function Review(props) {
 
   const handleReview = async () => {
     try {
-      await dispatch(createCustomer(customerId));
+      // if no paymentmethod means user will add new payment method
+      // and will get paymentIntent to get secretKey from stripe
+      if (!paymentMethod) {
+        await dispatch(createPaymentIntent(amount, project.owner.accountId));
 
-      await dispatch(createPaymentIntent(amount, project.owner.accountId));
+        handleStep(i + 1);
+      } else {
+        // else user selected payment method
+        // we will use this instead of user filling up the card again
+        await dispatch(
+          submitInvestment({
+            amount,
+            projectId: project.id,
+            projectOwner: project.owner.accountId,
+            paymentMethod,
+          })
+        );
 
-      handleStep(i + 1);
+        // if everything is successful
+        dispatch(onSuccessfulInvestment(amount));
+      }
     } catch (err) {
       // handle error
     }

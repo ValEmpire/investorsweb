@@ -37,6 +37,10 @@
   }
 }
 
+.no-underline {
+  text-decoration: none;
+}
+
 .capitalize {
   text-transform: capitalize;
 }

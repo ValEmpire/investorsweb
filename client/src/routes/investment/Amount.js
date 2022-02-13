@@ -1,45 +1,120 @@
-import React from "react";
-import { Box, Button, Divider, InputAdornment, TextField } from "@mui/material";
+import React, { useCallback, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Divider,
+  FormControl,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { FormHelperText } from "@mui/material";
 import { currencyFormat } from "../../helpers/amountReducer";
+import NumberFormat from "react-number-format";
+
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setInvestmentAmount,
+  setPaymentMethod,
+} from "../../redux/actions/investment.action";
+import { getAllCards } from "../../redux/actions/stripe.action";
 
 export default function Amount(props) {
-  const { amount, handleAmount, project, handleStep, i } = props;
+  const dispatch = useDispatch();
 
-  const error = Number(amount) < project.minInvestment;
+  const { amount, paymentMethod } = useSelector(state => state.investment);
+
+  const { cards } = useSelector(state => state.stripe);
+
+  const user = useSelector(state => state.user);
+
+  const { project, handleStep, i } = props;
+
+  const handleAmount = e => {
+    dispatch(setInvestmentAmount(e));
+  };
+
+  const handlePaymentMethod = e => {
+    const method = e.target.value;
+
+    dispatch(setPaymentMethod(method));
+  };
+
+  const error = () => {
+    if (!amount) return false;
+
+    if (Number(amount) >= project.minInvestment) return false;
+
+    return true;
+  };
+
+  const handleCards = useCallback(async () => {
+    await dispatch(getAllCards(user.customerId));
+
+    return;
+  }, [dispatch, user.customerId]);
+
+  useEffect(() => {
+    handleCards();
+  }, [handleCards]);
 
   return (
-    <>
-      <TextField
-        error={!amount ? false : error}
-        id="amount"
-        name="amount"
-        fullWidth
-        autoFocus
-        label="Amount"
-        onChange={e => handleAmount(e)}
-        InputProps={{
-          type: "number",
-          startAdornment: <InputAdornment position="start">$</InputAdornment>,
-          value: amount,
-        }}
-      />
+    <Box>
+      <Box pb={2} mb={2}>
+        <Box pb={1}>
+          <Typography variant="body2">Amount</Typography>
+        </Box>
+        <NumberFormat
+          customInput={TextField}
+          onValueChange={values => handleAmount(values.value)}
+          value={amount}
+          variant="outlined"
+          fullWidth
+          decimalScale={2}
+          thousandSeparator=","
+          fixedDecimalScale
+          prefix="$ "
+        />
 
-      <FormHelperText error={!amount ? false : error}>
-        The minimum investment in this offering is{" "}
-        <b>{currencyFormat(project.minInvestment)}</b>.
-      </FormHelperText>
+        <FormHelperText error={error()}>
+          The minimum investment in this offering is{" "}
+          <b>{currencyFormat(project.minInvestment)}</b>.
+        </FormHelperText>
+      </Box>
+
+      <Box pb={2}>
+        <Box pb={1}>
+          <Typography variant="body2">Payment Method</Typography>
+        </Box>
+        <FormControl fullWidth>
+          <Select value={paymentMethod} onChange={e => handlePaymentMethod(e)}>
+            {cards.map((card, i) => (
+              <MenuItem key={card.id + i} value={card.id}>
+                {
+                  <span className="capitalize">
+                    {card.brand} •••• {card.last4}
+                  </span>
+                }
+              </MenuItem>
+            ))}
+
+            <MenuItem value={false}>Setup new card</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
 
       <Box mt={1} pt={2} pb={2} mb={1} textAlign={"center"}>
         <Button
-          disabled={error}
           variant="contained"
           onClick={() => handleStep(i + 1)}
+          disabled={!amount ? true : error()}
         >
           Continue
         </Button>
       </Box>
       <Divider />
-    </>
+    </Box>
   );
 }

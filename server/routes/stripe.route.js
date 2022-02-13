@@ -14,22 +14,21 @@ const {
   deleteCard,
   updateCard,
   createPaymentIntent,
-  createCustomerAccount,
+  getLink,
+  getAccount,
 } = require("../controllers/stripe.controller");
 
 //ROUTES
+router.route("/get-account").get(userAuth, getAccount);
+
+// cards
 router.route("/all-cards").get(userAuth, getAllCards);
-
-router.route("/create-account").post(userAuth, createInvestorAccount);
-
 router.route("/add-card").post(userAuth, addCard);
-
 router.route("/delete-card").delete(userAuth, deleteCard, getAllCards);
-
 router.route("/update-card").put(userAuth, updateCard, getAllCards);
 
-router.route("/create-payment-intent").post(userAuth, createPaymentIntent);
+router.route("/generate-link").get(userAuth, getLink);
 
-router.route("/create-customer").post(userAuth, createCustomerAccount);
+router.route("/create-payment-intent").post(userAuth, createPaymentIntent);
 
 module.exports = router;

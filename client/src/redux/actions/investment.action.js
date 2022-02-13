@@ -2,6 +2,10 @@ import {
   CREATE_INVESTMENT,
   SUBMIT_INVESTMENT,
   ALL_INVESTMENTS,
+  SET_INVESTMENT_AMOUNT,
+  SET_PAYMENT_METHOD,
+  FIND_PROJECT_INVESTMENT,
+  SUCCESSFUL_INVESTMENT,
 } from "../../const";
 import axios from "axios";
 
@@ -12,9 +16,11 @@ export const createInvestment = field => dispatch => {
   });
 };
 
-export const submitInvestment = (invest, cb) => async dispatch => {
+export const submitInvestment = body => async dispatch => {
+  console.log("submitting investment");
+
   try {
-    await axios.post(`${process.env.REACT_APP_SERVER}/api/investment`, invest, {
+    await axios.post(`${process.env.REACT_APP_SERVER}/api/investment`, body, {
       withCredentials: true,
     });
 
@@ -23,7 +29,6 @@ export const submitInvestment = (invest, cb) => async dispatch => {
       payload: "from api",
     });
   } catch (err) {
-    cb(err);
     console.log(err.message);
 
     //hendle error
@@ -45,4 +50,48 @@ export const getAllInvestments = () => async dispatch => {
 
     //hendle error
   }
+};
+
+export const findProjectInvestment = projectId => async dispatch => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/investment/project/${projectId}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    const { isFound, investment } = res.data;
+
+    dispatch({
+      type: FIND_PROJECT_INVESTMENT,
+      payload: {
+        isFound,
+        investment,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const setInvestmentAmount = amount => dispatch => {
+  return dispatch({
+    type: SET_INVESTMENT_AMOUNT,
+    payload: amount,
+  });
+};
+
+export const setPaymentMethod = method => dispatch => {
+  return dispatch({
+    type: SET_PAYMENT_METHOD,
+    payload: method,
+  });
+};
+
+export const onSuccessfulInvestment = amount => dispatch => {
+  return dispatch({
+    type: SUCCESSFUL_INVESTMENT,
+    payload: amount,
+  });
 };

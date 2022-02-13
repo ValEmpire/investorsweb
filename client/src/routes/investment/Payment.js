@@ -7,10 +7,13 @@ import { stripePromise } from "../../stripe";
 
 // redux
 import { useSelector } from "react-redux";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
+import { currencyFormat } from "../../helpers/amountReducer";
 
 const Payment = props => {
-  const { user, i, handleStep } = props;
+  const { user, i, handleStep, project } = props;
+
+  const { amount } = useSelector(state => state.investment);
 
   const { clientSecret } = useSelector(state => state.stripe);
 
@@ -25,8 +28,19 @@ const Payment = props => {
 
   return (
     <Box>
+      <Box mb={2} textAlign="center">
+        <Typography variant="h6">
+          Amount to be invested: <b>{currencyFormat(amount)}</b>
+        </Typography>
+      </Box>
       <Elements stripe={stripePromise} options={options}>
-        <CheckoutForm handleStep={handleStep} i={i} user={user} />
+        <CheckoutForm
+          project={project}
+          handleStep={handleStep}
+          i={i}
+          amount={amount}
+          user={user}
+        />
       </Elements>
       <Divider />
     </Box>

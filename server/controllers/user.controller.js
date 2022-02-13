@@ -4,6 +4,7 @@ const UserDetail = model.userDetail;
 const Image = model.image;
 const bcrypt = require("bcryptjs");
 const { generateToken } = require("../helpers");
+const stripe = require("../stripe");
 
 module.exports = {
   register: async (req, res) => {
@@ -22,6 +23,38 @@ module.exports = {
       });
 
       const token = generateToken(newUser.id);
+
+      // stripe account
+      const newAccount = await stripe.accounts.create({
+        type: "express",
+        country: "CA",
+        email,
+        capabilities: {
+          acss_debit_payments: {
+            requested: true,
+          },
+          card_payments: {
+            requested: true,
+          },
+          transfers: {
+            requested: true,
+          },
+          legacy_payments: {
+            requested: true,
+          },
+        },
+      });
+
+      const newCustomer = await stripe.customers.create({
+        email,
+        name: `${firstName} ${lastName}`,
+      });
+
+      newUser.accountId = newAccount.id;
+
+      newUser.customerId = newCustomer.id;
+
+      await newUser.save();
 
       res.cookie("token", token, {
         maxAge: 86400000, // 24hrs

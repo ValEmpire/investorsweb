@@ -137,4 +137,27 @@ module.exports = {
       });
     }
   },
+
+  findProjectInvestment: async (req, res) => {
+    try {
+      let isFound = false;
+
+      const investment = req.investment;
+
+      if (investment) isFound = true;
+
+      return res.status(200).send({
+        success: true,
+        isFound,
+        investment,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
 };

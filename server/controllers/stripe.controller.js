@@ -1,104 +1,27 @@
 const stripe = require("../stripe");
 
 module.exports = {
-  createInvestorAccount: async (req, res) => {
-    try {
-      const { email } = req.user;
-
-      if (req.user.accountId)
-        throw new Error("User is already registered as investor in stripe");
-
-      const newAccount = await stripe.accounts.create({
-        type: "express",
-        country: "CA",
-        email,
-        capabilities: {
-          acss_debit_payments: {
-            requested: true,
-          },
-          card_payments: {
-            requested: true,
-          },
-          transfers: {
-            requested: true,
-          },
-          legacy_payments: {
-            requested: true,
-          },
-        },
-      });
-
-      const accountId = newAccount.id;
-
-      req.user.accountId = accountId;
-
-      await req.user.save();
-
-      return res.status(200).send({
-        success: true,
-        accountId,
-      });
-    } catch (err) {
-      console.log(err.message);
-
-      return res.status(400).send({
-        success: false,
-        error: err.message,
-      });
-    }
-  },
-
-  createCustomerAccount: async (req, res) => {
-    try {
-      if (req.user.customerId)
-        throw new Error("User is already registered as customer in stripe");
-
-      const { email, firstName, lastName } = req.user;
-
-      const newCustomer = await stripe.customers.create({
-        email,
-        name: `${firstName} ${lastName}`,
-      });
-
-      const customerId = newCustomer.id;
-
-      req.user.customerId = customerId;
-
-      await req.user.save();
-
-      return res.status(200).send({
-        success: true,
-        customerId,
-      });
-    } catch (err) {
-      return;
-    }
-  },
-
   getAllCards: async (req, res) => {
     try {
-      const { accountId } = req.user;
+      const { customerId } = req.user;
 
-      const account = await stripe.accounts.listExternalAccounts(accountId, {
-        object: "card",
+      const account = await stripe.customers.listPaymentMethods(customerId, {
+        type: "card",
       });
 
       let cards = [];
 
-      let primaryCard = {};
+      for (const data of account.data) {
+        const newCard = data.card;
 
-      for (const card of account.data) {
-        if (card.default_for_currency) {
-          primaryCard = card;
-        } else {
-          cards.push(card);
-        }
+        newCard["id"] = data.id;
+
+        cards.push(newCard);
       }
 
       return res.status(200).send({
         success: true,
         cards,
-        primaryCard,
       });
     } catch (err) {
       console.log(err.message);
@@ -112,7 +35,7 @@ module.exports = {
 
   addCard: async (req, res) => {
     try {
-      const { accountId } = req.user;
+      const { customerId } = req.user;
 
       const { number, expiry, cvc, name } = req.body;
 
@@ -131,8 +54,8 @@ module.exports = {
         },
       });
 
-      const card = await stripe.accounts.createExternalAccount(accountId, {
-        external_account: token.id,
+      const card = await stripe.customers.createSource(customerId, {
+        source: token.id,
       });
 
       return res.status(200).send({
@@ -151,11 +74,9 @@ module.exports = {
 
   deleteCard: async (req, res, next) => {
     try {
-      const { accountId } = req.user;
-
       const { cardId } = req.body;
 
-      await stripe.accounts.deleteExternalAccount(accountId, cardId);
+      await stripe.paymentMethods.detach(cardId);
 
       next();
     } catch (err) {
@@ -170,11 +91,11 @@ module.exports = {
 
   updateCard: async (req, res, next) => {
     try {
-      const { accountId } = req.user;
+      const { customerId } = req.user;
 
       const { cardId } = req.body;
 
-      await stripe.accounts.updateExternalAccount(accountId, cardId, {
+      await await stripe.customers.updateSource(customerId, cardId, {
         default_for_currency: true,
       });
 
@@ -195,12 +116,11 @@ module.exports = {
 
       const { amount, projectOwner } = req.body;
 
-      console.log(projectOwner);
+      const amountInt = amount * 100; // remove decimals
 
-      const intent = await stripe.paymentIntents.create({
+      const options = {
         customer: customerId,
-        setup_future_usage: "off_session",
-        amount,
+        amount: amountInt,
         currency: "CAD",
         automatic_payment_methods: {
           enabled: true,
@@ -209,11 +129,109 @@ module.exports = {
         transfer_data: {
           destination: projectOwner,
         },
-      });
+        setup_future_usage: "off_session",
+      };
+
+      const intent = await stripe.paymentIntents.create(options);
 
       return res.status(200).send({
         success: true,
         clientSecret: intent.client_secret,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
+
+  submitStripePayment: async (req, res, next) => {
+    try {
+      const { amount, projectOwner, paymentMethod } = req.validatedBody;
+
+      // if no payment method means user already submit the payment using
+      // element ui provided by stripe
+      if (!paymentMethod) {
+        next();
+        return;
+      }
+
+      const { customerId } = req.user;
+
+      const amountInt = amount * 100;
+
+      const options = {
+        customer: customerId,
+        amount: amountInt,
+        currency: "CAD",
+        automatic_payment_methods: {
+          enabled: true,
+        },
+        application_fee_amount: 0,
+        transfer_data: {
+          destination: projectOwner,
+        },
+        payment_method: paymentMethod,
+        off_session: true,
+        confirm: true,
+        return_url: "http://localhost:3000/investment/successful",
+      };
+
+      await stripe.paymentIntents.create(options);
+
+      next();
+
+      return;
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
+
+  getLink: async (req, res) => {
+    try {
+      const { accountId } = req.user;
+
+      if (!accountId)
+        throw new Error("Cannot create link. User has no account id.");
+
+      const accountLink = await stripe.accountLinks.create({
+        account: accountId,
+        refresh_url: "http://localhost:3000/user",
+        return_url: "http://localhost:3000/user",
+        type: "account_onboarding",
+      });
+
+      return res.status(200).send({
+        success: true,
+        link: accountLink.url,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
+
+  getAccount: async (req, res) => {
+    try {
+      const { accountId } = req.user;
+
+      const account = await stripe.accounts.retrieve(accountId);
+
+      return res.status(200).send({
+        success: true,
+        account,
       });
     } catch (err) {
       console.log(err.message);
