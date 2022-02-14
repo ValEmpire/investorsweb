@@ -19,6 +19,7 @@ import UserPage from "./pages/UserPage";
 import CreateProjectPage from "./pages/CreateProjectPage";
 import ViewProjectPage from "./pages/ViewProjectPage";
 import ProjectDashboardPage from "./pages/ProjectDashboardPage";
+import ChatMessagePage from "./pages/ChatMessagePage";
 import AboutUsPage from "./pages/AboutUsPage";
 import InvestmentPage from "./pages/InvestmentPage";
 
@@ -76,6 +77,7 @@ function App() {
           {/* public route */}
           <Route path="/" element={<HomePage />} />
           <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/chat" element={<ChatMessagePage />} />
           <Route path="/aboutus" element={<AboutUsPage />} />
 
           {/* secured route */}
