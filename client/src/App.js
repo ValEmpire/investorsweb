@@ -17,9 +17,11 @@ import LogInPage from "./pages/LogInPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserPage from "./pages/UserPage";
 import CreateProjectPage from "./pages/CreateProjectPage";
-import ProjectViewPage from "./pages/ProjectViewPage";
+import ViewProjectPage from "./pages/ViewProjectPage";
 import ProjectDashboardPage from "./pages/ProjectDashboardPage";
 import ChatMessagePage from "./pages/ChatMessagePage";
+import AboutUsPage from "./pages/AboutUsPage";
+import InvestmentPage from "./pages/InvestmentPage";
 
 // theme
 import { setTheme } from "./theme";
@@ -55,7 +57,8 @@ function App() {
   const GuardedUserPage = guardedRoute(UserPage);
   const GuardedProjectDashboardPage = guardedRoute(ProjectDashboardPage);
   const GuardedCreateProjectPage = guardedRoute(CreateProjectPage);
-  const GuardedProjectViewPage = guardedRoute(ProjectViewPage);
+  const GuardedViewProjectPage = guardedRoute(ViewProjectPage);
+  const GuardedInvestmentPage = guardedRoute(InvestmentPage);
 
   // login and register pages does not need to be access by already login user
   const AuthLoginPage = authRoute(LogInPage);
@@ -75,6 +78,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/chat" element={<ChatMessagePage />} />
+          <Route path="/aboutus" element={<AboutUsPage />} />
 
           {/* secured route */}
           <Route path="/user" element={<GuardedUserPage />} />
@@ -85,7 +89,11 @@ function App() {
           />
           <Route
             path="/projects/:projectId"
-            element={<GuardedProjectViewPage />}
+            element={<GuardedViewProjectPage />}
+          />
+          <Route
+            path="/investment/:projectId"
+            element={<GuardedInvestmentPage />}
           />
         </Routes>
       </Router>

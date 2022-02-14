@@ -49,7 +49,7 @@ function getStepContent(step) {
 const theme = createTheme();
 
 export default function CreateProjectPage() {
-  const project = useSelector((state) => state.project);
+  const { projectFields } = useSelector(state => state.project);
 
   const dispatch = useDispatch();
 
@@ -57,7 +57,7 @@ export default function CreateProjectPage() {
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      dispatch(submitProject(project, (err) => {}));
+      dispatch(submitProject(projectFields, err => {}));
       // if successfull
       setActiveStep(activeStep + 1);
     } else {
@@ -82,7 +82,7 @@ export default function CreateProjectPage() {
             Create Project
           </Typography>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-            {steps.map((label) => (
+            {steps.map(label => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>

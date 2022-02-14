@@ -11,7 +11,6 @@ const Home = () => {
       <Jumbotron />
       <Divider />
       <Count />
-      <Divider />
       <Featured />
       <Divider />
       <Slider />

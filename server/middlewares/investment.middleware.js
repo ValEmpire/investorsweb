@@ -8,7 +8,7 @@ module.exports = {
     try {
       const user = req.user;
 
-      const { projectId } = req.validatedBody;
+      const { projectId } = req.validatedBody || req.params;
 
       const investment = await Investment.findOne({
         where: {

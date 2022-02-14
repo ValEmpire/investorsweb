@@ -11,7 +11,9 @@ const initialState = {
   firstName: "",
   lastName: "",
   email: "",
+  accountId: "",
   userDetail: {},
+  customerId: "",
 };
 
 export const user = (state = initialState, action) => {
