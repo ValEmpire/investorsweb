@@ -1,7 +1,7 @@
 import React from "react";
 import { Carousel } from "react-responsive-carousel";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const Slider = () => {
@@ -27,3 +27,4 @@ const Slider = () => {
 };
 
 export default Slider;
+

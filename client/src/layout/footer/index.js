@@ -10,7 +10,7 @@ export default function Footer() {
         px={{ xs: 3, sm: 10 }}
         py={{ xs: 5, sm: 10 }}
         bgcolor="text.secondary"
-        color="white"
+        backgroundColor="#eeeeee" 
       >
         <Grid container spacing={5}>
           <Grid item xs={12} sm={4}>
