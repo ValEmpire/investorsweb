@@ -4,6 +4,7 @@ import { combineReducers } from "redux";
 import { user } from "./user.reducer";
 import { project } from "./project.reducer";
 import { investment } from "./investment.reducer";
+import { alert } from "./alert.reducer";
 import { stripe } from "./stripe.reducer";
 
 export default combineReducers({
@@ -11,4 +12,5 @@ export default combineReducers({
   project,
   investment,
   stripe,
+  alert,
 });

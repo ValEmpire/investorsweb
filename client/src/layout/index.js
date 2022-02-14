@@ -4,6 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import Navbar from "./navbar";
 import Footer from "./footer";
 import { getTheme } from "../theme";
+import Alert from "../components/Alert";
 
 const Layout = props => {
   const [theme, setTheme] = useState();
@@ -22,6 +23,9 @@ const Layout = props => {
             <Navbar setTheme={setTheme} />
             <Box height={"69px"} />
             {props.children}
+
+            {/* This is our alert. this is going to display messages if error is found in redux store */}
+            <Alert />
           </Box>
           <Footer />
         </ThemeProvider>
