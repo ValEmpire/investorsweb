@@ -1,8 +1,17 @@
-import { ADD_CARD, ALL_CARDS, DELETE_CARD } from "../../const";
+import {
+  ADD_CARD,
+  ALL_CARDS,
+  DELETE_CARD,
+  CREATE_PAYMENT_INTENT,
+  ADD_LINK,
+  GET_ACCOUNT,
+} from "../../const";
 
 const initialState = {
   cards: [],
-  primaryCard: {},
+  clientSecret: "",
+  link: "",
+  account: {},
 };
 
 export const stripe = (state = initialState, action) => {
@@ -11,7 +20,6 @@ export const stripe = (state = initialState, action) => {
       return {
         ...state,
         cards: action.payload,
-        primaryCard: action.pc,
       };
 
     case ADD_CARD:
@@ -24,6 +32,24 @@ export const stripe = (state = initialState, action) => {
       return {
         ...state,
         cards: [...state.cards, action.payload],
+      };
+
+    case CREATE_PAYMENT_INTENT:
+      return {
+        ...state,
+        clientSecret: action.payload,
+      };
+
+    case ADD_LINK:
+      return {
+        ...state,
+        link: action.payload,
+      };
+
+    case GET_ACCOUNT:
+      return {
+        ...state,
+        account: action.payload,
       };
 
     default:

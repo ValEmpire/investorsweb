@@ -20,7 +20,10 @@ const {
   deleteInvestment,
   getAllInvestments,
   getInvestment,
+  findProjectInvestment,
 } = require("../controllers/investment.controller");
+
+const { submitStripePayment } = require("../controllers/stripe.controller");
 
 //ROUTES
 router
@@ -31,6 +34,7 @@ router
     validate(investmentSchema),
     checkProjectMiddleware,
     investmentMiddleware,
+    submitStripePayment,
     createInvestment
   );
 
@@ -46,4 +50,7 @@ router
   )
   .delete(userAuth, checkInvestmentMiddleware, deleteInvestment);
 
+router
+  .route("/project/:projectId")
+  .get(userAuth, investmentMiddleware, findProjectInvestment);
 module.exports = router;

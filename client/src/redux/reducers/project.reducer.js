@@ -16,7 +16,16 @@ const initialState = {
   minInvestment: "",
   project: {},
   isFavorite: null,
-  projects: [],
+  projectFields: {
+    location: "",
+    targetFund: "",
+    story: "",
+    website: "",
+    industry: "",
+    deadline: "",
+    minInvestment: "",
+    name: "",
+  },
 };
 
 export const project = (state = initialState, action) => {
@@ -30,7 +39,10 @@ export const project = (state = initialState, action) => {
 
       return {
         ...state,
-        [fieldName]: fieldValue,
+        projectFields: {
+          ...state.projectFields,
+          [fieldName]: fieldValue,
+        },
       };
 
     case ALL_PROJECTS:

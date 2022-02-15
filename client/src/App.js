@@ -19,6 +19,7 @@ import UserPage from "./pages/UserPage";
 import CreateProjectPage from "./pages/CreateProjectPage";
 import ViewProjectPage from "./pages/ViewProjectPage";
 import ProjectDashboardPage from "./pages/ProjectDashboardPage";
+import ChatMessagePage from "./pages/ChatMessagePage";
 import AboutUsPage from "./pages/AboutUsPage";
 import InvestmentPage from "./pages/InvestmentPage";
 import InvestmentsDashboardPage from "./pages/InvestmentsDashboardPage";
@@ -61,7 +62,7 @@ function App() {
   const GuardedViewProjectPage = guardedRoute(ViewProjectPage);
   const GuardedInvestmentPage = guardedRoute(InvestmentPage);
   const GuardInvestmentsDashboardPage = guardedRoute(InvestmentsDashboardPage);
-  const GuardSingleInvestmentPage = guardedRoute(SingleInvestmentPage);
+  const GuardedSingleInvestmentPage = guardedRoute(SingleInvestmentPage);
 
   // login and register pages does not need to be access by already login user
   const AuthLoginPage = authRoute(LogInPage);
@@ -80,6 +81,7 @@ function App() {
           {/* public route */}
           <Route path="/" element={<HomePage />} />
           <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/chat" element={<ChatMessagePage />} />
           <Route path="/aboutus" element={<AboutUsPage />} />
 
           {/* secured route */}
@@ -95,7 +97,7 @@ function App() {
           />
           <Route
             path="/user/dashboard/:investmentId"
-            element={<SingleInvestmentPage />}
+            element={<GuardedSingleInvestmentPage />}
           />
           <Route
             path="/projects/:projectId"

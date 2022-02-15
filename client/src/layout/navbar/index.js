@@ -23,7 +23,7 @@ const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null); // for menu on MenuIcon
   const [anchorElAvatar, setAnchorElAvatar] = React.useState(null); // for menu in AvatarIcon
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -64,7 +64,7 @@ const ResponsiveAppBar = () => {
   ];
 
   // this handles opening and closing of MenuIcon
-  const handleOpenNavMenu = (event) => {
+  const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
   };
 
@@ -73,7 +73,7 @@ const ResponsiveAppBar = () => {
   };
 
   // this handles opening and closing of AvatarIcon
-  const handleOpenAvatarMenu = (event) => {
+  const handleOpenAvatarMenu = event => {
     setAnchorElAvatar(event.currentTarget);
   };
 
@@ -85,7 +85,7 @@ const ResponsiveAppBar = () => {
     dispatch(logoutUser());
   };
 
-  const handleRedirect = (path) => {
+  const handleRedirect = path => {
     navigate(path);
   };
 
@@ -212,7 +212,7 @@ const ResponsiveAppBar = () => {
               </Button>
 
               <Button
-                onClick={(path) => handleRedirect("/register")}
+                onClick={path => handleRedirect("/register")}
                 color="inherit"
                 sx={{ my: 2, color: "white", display: "block" }}
               >

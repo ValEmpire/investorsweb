@@ -37,8 +37,16 @@
   }
 }
 
+.no-underline {
+  text-decoration: none;
+}
+
 .capitalize {
   text-transform: capitalize;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }
 
 .bold {
@@ -51,6 +59,10 @@
 
 .link {
   text-decoration: none;
+}
+
+.color-primary {
+  color: #1876d2;
 }
 
 .projectsCount {

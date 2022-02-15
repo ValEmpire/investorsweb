@@ -3,33 +3,36 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import { Link } from "react-router-dom";
+import Link from "../../components/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import AuthBackground from "../../components/AuthBackground";
-
-//Ridux
-import { useDispatch } from "react-redux";
-import { loginUser } from "../../redux/actions/user.action";
 import { Container } from "@mui/material";
 
+//Ridux
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../redux/actions/user.action";
+import { setLoadingLogin } from "../../redux/actions/loading.action";
+
 export default function LogIn() {
-  //Handels submit
   const dispatch = useDispatch();
 
-  const handleSubmit = (event) => {
+  const { loadingLogin } = useSelector(state => state.loading);
+
+  const handleSubmit = async event => {
     event.preventDefault();
+
+    dispatch(setLoadingLogin(true));
+
     const data = new FormData(event.currentTarget);
 
     const email = data.get("email"),
       password = data.get("password");
 
     // dispach to redux action
-    dispatch(
+    await dispatch(
       loginUser({
         email,
         password,
@@ -84,13 +87,10 @@ export default function LogIn() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <Button
                 type="submit"
                 fullWidth
+                disabled={loadingLogin}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >

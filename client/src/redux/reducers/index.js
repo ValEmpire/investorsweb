@@ -4,11 +4,15 @@ import { combineReducers } from "redux";
 import { user } from "./user.reducer";
 import { project } from "./project.reducer";
 import { investment } from "./investment.reducer";
+import { alert } from "./alert.reducer";
 import { stripe } from "./stripe.reducer";
+import { loading } from "./loading.reducer";
 
 export default combineReducers({
   user,
   project,
   investment,
   stripe,
+  alert,
+  loading,
 });

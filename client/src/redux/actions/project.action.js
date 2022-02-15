@@ -14,9 +14,9 @@ export const createProject = field => dispatch => {
   });
 };
 
-export const submitProject = (proj, cb) => async dispatch => {
+export const submitProject = project => async dispatch => {
   try {
-    await axios.post(`${process.env.REACT_APP_SERVER}/api/project`, proj, {
+    await axios.post(`${process.env.REACT_APP_SERVER}/api/project`, project, {
       withCredentials: true,
     });
 
@@ -25,7 +25,6 @@ export const submitProject = (proj, cb) => async dispatch => {
       payload: "from api",
     });
   } catch (err) {
-    cb(err);
     console.log(err);
 
     // handle error
@@ -72,7 +71,6 @@ export const getProject = projectId => async dispatch => {
         withCredentials: true,
       }
     );
-    console.log(res.data);
 
     return dispatch({
       type: GET_PROJECT,
