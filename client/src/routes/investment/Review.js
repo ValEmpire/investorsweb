@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
-import { currencyFormat } from "../../helpers/amountReducer";
+import { currencyFormat } from "../../helpers/allHelpers";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";

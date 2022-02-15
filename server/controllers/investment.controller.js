@@ -2,6 +2,7 @@ const model = require("../models");
 const Investment = model.investment;
 const Project = model.project;
 const Image = model.image;
+const User = model.user;
 
 module.exports = {
   createInvestment: async (req, res) => {
@@ -96,10 +97,18 @@ module.exports = {
         include: [
           {
             model: Project,
+
             include: [
               {
                 model: Image,
                 as: "logo",
+              },
+              {
+                model: User,
+                as: "owner",
+                attributes: {
+                  exclude: ["password"],
+                },
               },
             ],
           },
@@ -124,9 +133,40 @@ module.exports = {
       if (!req.investment) {
         throw new Error("Investment not exist");
       }
+
+      const { investmentId } = req.params;
+
+      const investment = await Investment.findOne({
+        where: {
+          id: investmentId,
+        },
+        include: [
+          {
+            model: Project,
+            include: [
+              {
+                model: Image,
+                as: "logo",
+              },
+              {
+                model: User,
+                as: "owner",
+                attributes: {
+                  exclude: ["password"],
+                },
+                include: [
+                  {
+                    model: Image,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
       return res.status(200).send({
         success: true,
-        investment: req.investment,
+        investment,
       });
     } catch (err) {
       console.log(err.message);

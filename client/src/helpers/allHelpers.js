@@ -1,3 +1,4 @@
+//FORMATING NUM TO M; B; K
 export const amountReducer = function (num) {
   let d = ["B", "M", "k"];
   for (let i = 0; i < 3; i++) {
@@ -12,6 +13,7 @@ function round(num) {
   return +(Math.round(num + "e+3") + "e-3");
 }
 
+//FORMATINF PHONE NUMBER
 export const formatPhoneNumber = str => {
   //Filter only numbers from the input
   let cleaned = ("" + str).replace(/\D/g, "");
@@ -35,3 +37,9 @@ export const currencyFormat = num => {
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
   );
 };
+
+//CAPITALIZE FIRST LETTER
+export const capitalizeFirstLetter = (
+  [first, ...rest],
+  locale = navigator.language
+) => first.toLocaleUpperCase(locale) + rest.join("");

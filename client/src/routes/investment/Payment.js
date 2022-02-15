@@ -8,7 +8,7 @@ import { stripePromise } from "../../stripe";
 // redux
 import { useSelector } from "react-redux";
 import { Box, Divider, Typography } from "@mui/material";
-import { currencyFormat } from "../../helpers/amountReducer";
+import { currencyFormat } from "../../helpers/allHelpers";
 
 const Payment = props => {
   const { user, i, handleStep, project } = props;

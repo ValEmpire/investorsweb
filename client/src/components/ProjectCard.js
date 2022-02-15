@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import Moment from "moment";
-import { amountReducer } from "../helpers/amountReducer";
+import { amountReducer } from "../helpers/allHelpers";
 
-const ProjectCard = (props) => {
+const ProjectCard = props => {
   const project = props.project;
 
   return (

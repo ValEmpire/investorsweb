@@ -1,16 +1,17 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
+import { FormControl, FormHelperText } from "@mui/material";
+import { currencyFormat } from "../../helpers/allHelpers";
+
 import {
   Box,
   Button,
   Divider,
-  FormControl,
   MenuItem,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
-import { FormHelperText } from "@mui/material";
-import { currencyFormat } from "../../helpers/amountReducer";
+
 import NumberFormat from "react-number-format";
 
 // Redux
@@ -19,6 +20,7 @@ import {
   setInvestmentAmount,
   setPaymentMethod,
 } from "../../redux/actions/investment.action";
+
 import { getAllCards } from "../../redux/actions/stripe.action";
 
 export default function Amount(props) {

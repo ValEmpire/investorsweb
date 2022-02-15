@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { Box, Grid } from "@mui/material";
 
 const Story = () => {
   const [project, setProject] = useState([]);
@@ -25,9 +26,13 @@ const Story = () => {
 
   return (
     <>
-      <Typography variant="body1" color="text.secondary">
-        {project.story}
-      </Typography>
+      <Grid>
+        <Box sx={{ width: "100%" }}>
+          <Typography variant="body1" color="text.secondary">
+            {project.story}
+          </Typography>
+        </Box>
+      </Grid>
     </>
   );
 };

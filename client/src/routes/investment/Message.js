@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import { currencyFormat } from "../../helpers/amountReducer";
+import { currencyFormat } from "../../helpers/allHelpers";
 
 const Message = props => {
   const { amount } = props.investment;

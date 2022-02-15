@@ -4,6 +4,8 @@ const Favorite = model.favorite;
 module.exports = {
   toggleFavorite: async (req, res) => {
     try {
+      const { id } = req.project;
+
       if (req.favorite) {
         await req.favorite.destroy();
       } else {
@@ -14,6 +16,7 @@ module.exports = {
       }
       return res.status(200).send({
         success: true,
+        projectId: id,
       });
     } catch (err) {
       console.log(err.message);

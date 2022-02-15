@@ -3,6 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Story from "./Story";
+import { Link } from "@mui/material";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -20,9 +21,9 @@ function TabPanel(props) {
   );
 }
 
-export default function ProjectTabs() {
+export default function ProjectTabs(props) {
   const [value, setValue] = React.useState(0);
-
+  const project = props.project;
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -38,8 +39,7 @@ export default function ProjectTabs() {
         <Story />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {/* <Website /> */}
-        Put the website link here.
+        <Link href={"/" + project.website}>{project.website}</Link>
       </TabPanel>
       <TabPanel value={value} index={2}>
         {/* <Comments /> */}

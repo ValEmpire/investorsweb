@@ -2,6 +2,7 @@ import {
   CREATE_PROJECT,
   SUBMIT_PROJECT,
   ALL_PROJECTS,
+  TOGGLE_FAVORITE_PROJECT,
   GET_PROJECT,
 } from "../../const";
 import axios from "axios";
@@ -13,7 +14,7 @@ export const createProject = field => dispatch => {
   });
 };
 
-export const submitProject = (project, cb) => async dispatch => {
+export const submitProject = project => async dispatch => {
   try {
     await axios.post(`${process.env.REACT_APP_SERVER}/api/project`, project, {
       withCredentials: true,
@@ -24,7 +25,6 @@ export const submitProject = (project, cb) => async dispatch => {
       payload: "from api",
     });
   } catch (err) {
-    cb(err);
     console.log(err);
 
     // handle error
@@ -46,17 +46,38 @@ export const getAllProjects = () => async dispatch => {
   }
 };
 
+export const toggleProjectFavorite = projectId => async dispatch => {
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_SERVER}/api/favorite/${projectId}`,
+      {},
+      { withCredentials: true }
+    );
+
+    return dispatch({
+      type: TOGGLE_FAVORITE_PROJECT,
+    });
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
 export const getProject = projectId => async dispatch => {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVER}/api/project/${projectId}`
+      `${process.env.REACT_APP_SERVER}/api/project/${projectId}`,
+      {
+        withCredentials: true,
+      }
     );
 
     return dispatch({
       type: GET_PROJECT,
-      payload: res.data.project,
+      payload: { project: res.data.project, isFavorite: res.data.isFavorite },
     });
   } catch (err) {
-    // handle error
+    console.log(err);
+    return;
   }
 };

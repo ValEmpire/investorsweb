@@ -11,10 +11,13 @@ import { Divider } from "@mui/material";
 import Container from "@mui/material/Container";
 import ProjectTabs from "./ProjectTabs";
 import Moment from "moment";
-import { amountReducer } from "../../helpers/amountReducer";
-import { currencyFormat } from "../../helpers/amountReducer";
+import { amountReducer } from "../../helpers/allHelpers";
+import { currencyFormat } from "../../helpers/allHelpers";
+import { useSelector } from "react-redux";
+import Favorite from "../viewProject/Favorite";
 
 export default function MediaCard(props) {
+  const user = useSelector(state => state.user);
   const project = props.project;
 
   const daysLeft = function () {
@@ -28,7 +31,7 @@ export default function MediaCard(props) {
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" key={project.id}>
       <Grid container spacing={4} mt={10}>
         <Grid item md={8} xs={12}>
           <Card
@@ -50,13 +53,18 @@ export default function MediaCard(props) {
               />
             </Box>
             <Box>
-              <Box>
-                <CardContent>
+              <CardContent
+                sx={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <Grid>
                   <Typography gutterBottom variant="h5" component="div">
                     <b>{project.name}</b>
                   </Typography>
-                </CardContent>
-              </Box>
+                </Grid>
+                {/* {FAVORITE BUTTON} */}
+                <Favorite projectId={project.id} project={project} />
+              </CardContent>
+
               <Typography gutterBottom component="div">
                 <CardActions
                   sx={{
@@ -66,7 +74,7 @@ export default function MediaCard(props) {
                     color: "#212121",
                   }}
                 >
-                  <ProjectTabs />
+                  <ProjectTabs project={project} />
                 </CardActions>
               </Typography>
             </Box>
@@ -78,6 +86,7 @@ export default function MediaCard(props) {
         <Grid item md={4} xs={12}>
           <Card
             sx={{
+              pb: 4,
               border: "none",
               boxShadow: "none",
             }}
@@ -261,7 +270,12 @@ export default function MediaCard(props) {
                 </Typography>
               </Box>
             </Box>
-            <Box mt={12}>
+            <Box
+              mt={12}
+              pb={3}
+              key={project.id}
+              display={project.owner.id === user.id ? "none" : ""}
+            >
               <Button
                 href={"/investment/" + project.id}
                 variant="contained"
