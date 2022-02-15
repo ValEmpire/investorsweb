@@ -1,6 +1,4 @@
 import {
-  REGISTER_USER,
-  LOGIN_USER,
   GET_USER,
   LOGOUT_USER,
   UPDATE_USER_DETAIL,
@@ -18,16 +16,6 @@ const initialState = {
 
 export const user = (state = initialState, action) => {
   switch (action.type) {
-    case REGISTER_USER:
-      return {
-        ...state,
-      };
-
-    case LOGIN_USER:
-      return {
-        ...state,
-      };
-
     case UPDATE_USER_SECURITY:
       return {
         ...state,
