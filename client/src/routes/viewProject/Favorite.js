@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleProjectFavorite } from "../../redux/actions/project.action";
 
 export default function Favorite(props) {
-  // const project = props.project;
+  const project = props.project;
   const { isFavorite } = useSelector(state => state.project);
 
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export default function Favorite(props) {
   const handleSubmit = async () => {
     dispatch(toggleProjectFavorite(props.projectId));
   };
-  // console.log(isFavorite);
+
   return (
     <Grid>
       <IconButton onClick={handleSubmit} aria-label="favorite" color="primary">

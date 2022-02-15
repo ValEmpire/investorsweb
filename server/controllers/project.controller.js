@@ -149,7 +149,7 @@ module.exports = {
 
       let isFavorite = false;
 
-      if (project.favorites > 0) {
+      if (project.favorites.length > 0) {
         isFavorite = true;
       }
 

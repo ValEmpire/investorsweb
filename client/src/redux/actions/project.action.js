@@ -72,6 +72,7 @@ export const getProject = projectId => async dispatch => {
         withCredentials: true,
       }
     );
+    console.log(res.data);
 
     return dispatch({
       type: GET_PROJECT,
