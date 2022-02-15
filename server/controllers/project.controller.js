@@ -3,6 +3,7 @@ const Project = model.project;
 const User = model.user;
 const Image = model.image;
 const Favorite = model.favorite;
+const { Op } = require("sequelize");
 
 module.exports = {
   createProject: async (req, res) => {
@@ -193,6 +194,26 @@ module.exports = {
       return res.status(400).send({
         success: false,
         error: err.mssage,
+      });
+    }
+  },
+
+  getAllProjectInProgress: async (req, res) => {
+    try {
+      const inProgress = await Project.findAll({
+        where: {
+          deadline: { [Op.gt]: new Date() },
+        },
+      });
+      return res.status(200).send({
+        success: true,
+        inProgress,
+      });
+    } catch (err) {
+      console.log(err.message);
+      return res.status(400).send({
+        success: false,
+        error: err.message,
       });
     }
   },
