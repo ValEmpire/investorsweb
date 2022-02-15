@@ -198,11 +198,31 @@ module.exports = {
     }
   },
 
-  getAllProjectInProgress: async (req, res) => {
+  getAllProjectsCompleted: async (req, res) => {
+    try {
+      const completed = await Project.findAll({
+        where: {
+          deadline: { [Op.lte]: new Date() },
+        },
+      });
+      return res.status(200).send({
+        success: true,
+        completed,
+      });
+    } catch (err) {
+      console.log(err.message);
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
+
+  getAllProjectsInProgress: async (req, res) => {
     try {
       const inProgress = await Project.findAll({
         where: {
-          deadline: { [Op.gt]: new Date() },
+          deadline: { [Op.gte]: new Date() },
         },
       });
       return res.status(200).send({
