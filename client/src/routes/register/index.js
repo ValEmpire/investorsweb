@@ -21,7 +21,7 @@ export default function Register() {
   // This must be inside the component
   const dispatch = useDispatch();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);

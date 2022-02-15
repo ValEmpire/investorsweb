@@ -14,11 +14,11 @@ import Moment from "moment";
 import { amountReducer } from "../../helpers/allHelpers";
 import { currencyFormat } from "../../helpers/allHelpers";
 import { useSelector } from "react-redux";
+import Favorite from "../viewProject/Favorite";
 
 export default function MediaCard(props) {
   const user = useSelector(state => state.user);
   const project = props.project;
-  console.log(project);
 
   const daysLeft = function () {
     const eventDate = Moment(project.deadline);
@@ -53,13 +53,18 @@ export default function MediaCard(props) {
               />
             </Box>
             <Box>
-              <Box>
-                <CardContent>
+              <CardContent
+                sx={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <Grid>
                   <Typography gutterBottom variant="h5" component="div">
                     <b>{project.name}</b>
                   </Typography>
-                </CardContent>
-              </Box>
+                </Grid>
+                {/* {FAVORITE BUTTON} */}
+                <Favorite projectId={project.id} project={project} />
+              </CardContent>
+
               <Typography gutterBottom component="div">
                 <CardActions
                   sx={{
@@ -69,7 +74,7 @@ export default function MediaCard(props) {
                     color: "#212121",
                   }}
                 >
-                  <ProjectTabs />
+                  <ProjectTabs project={project} />
                 </CardActions>
               </Typography>
             </Box>

@@ -3,27 +3,23 @@ import axios from "axios";
 import ProjectView from "./ProjectView";
 import { useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
+import { useSelector, useDispatch } from "react-redux";
+import { getProject } from "../../redux/actions/project.action";
 
 const ProjectViewPage = props => {
-  const [project, setProject] = useState({});
   const { projectId } = useParams();
+  const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
-  const getProject = async () => {
-    const res = await axios.get(
-      `${process.env.REACT_APP_SERVER}/api/project/${projectId}`,
-      {
-        withCredentials: true,
-      }
-    );
+  const { project } = useSelector(state => state.project);
 
-    setProject(res.data.project);
+  const handleProject = async () => {
+    await dispatch(getProject(projectId));
     setLoading(false);
-    return;
   };
 
   useEffect(() => {
-    getProject();
+    handleProject();
   }, []);
 
   return (

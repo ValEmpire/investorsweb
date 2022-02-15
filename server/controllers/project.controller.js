@@ -147,9 +147,16 @@ module.exports = {
         ],
       });
 
+      let isFavorite = false;
+
+      if (project.favorites > 0) {
+        isFavorite = true;
+      }
+
       return res.status(200).send({
         success: true,
         project,
+        isFavorite,
       });
     } catch (err) {
       console.log(err.message);

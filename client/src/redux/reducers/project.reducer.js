@@ -1,4 +1,9 @@
-import { ALL_PROJECTS, CREATE_PROJECT } from "../../const";
+import {
+  ALL_PROJECTS,
+  CREATE_PROJECT,
+  GET_PROJECT,
+  TOGGLE_FAVORITE_PROJECT,
+} from "../../const";
 
 const initialState = {
   name: "",
@@ -9,6 +14,8 @@ const initialState = {
   industry: "",
   deadline: "",
   minInvestment: "",
+  project: {},
+  isFavorite: null,
   projects: [],
 };
 
@@ -29,6 +36,19 @@ export const project = (state = initialState, action) => {
     case ALL_PROJECTS:
       return {
         projects: action.payload,
+      };
+
+    case TOGGLE_FAVORITE_PROJECT:
+      return {
+        ...state,
+        isFavorite: state.isFavorite ? false : true,
+      };
+
+    case GET_PROJECT:
+      return {
+        ...state,
+        project: action.payload.project,
+        isFavorite: action.payload.isFavorite,
       };
 
     default:
