@@ -1,50 +1,40 @@
-import React, { forwardRef } from "react";
-import { Snackbar, Box, Slide } from "@mui/material";
+import * as React from "react";
+import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { setAlert } from "../redux/actions/alert.action";
 
-const Alert = forwardRef(function Alert(props, ref) {
+const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const CustomAlert = () => {
+export default function CustomizedSnackbars() {
   const dispatch = useDispatch();
 
   const { open, message, type } = useSelector(state => state.alert);
-
-  const position = {
-    vertical: "bottom",
-    horizontal: "center",
-  };
 
   const handleClose = () => {
     dispatch(
       setAlert({
         open: false,
-        message: null,
-        type: null,
+        message: message,
+        type: type,
       })
     );
   };
 
   return (
-    <Box>
-      <Snackbar
-        autoHideDuration={3000}
-        anchorOrigin={{ ...position }}
-        open={open}
-        TransitionComponent={props => <Slide {...props} direction="up" />}
-        message={"I love snacks"}
-      >
-        <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>
-          {message}
-        </Alert>
-      </Snackbar>
-    </Box>
+    <Snackbar
+      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      open={open}
+      autoHideDuration={3000}
+      onClose={handleClose}
+    >
+      <Alert onClose={handleClose} severity={type}>
+        {message}
+      </Alert>
+    </Snackbar>
   );
-};
-
-export default CustomAlert;
+}

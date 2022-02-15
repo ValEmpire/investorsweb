@@ -2,8 +2,8 @@ import { SET_ALERT } from "../../const";
 
 const initialState = {
   open: false,
-  message: null,
-  type: null, //success || error
+  message: "",
+  type: "info",
 };
 
 export const alert = (state = initialState, action) => {

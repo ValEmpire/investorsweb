@@ -7,6 +7,7 @@ import {
 } from "../../const";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { handleError } from "../../helpers/error.handler";
 
 export const registerUser =
   ({ firstName, lastName, email, password }) =>
@@ -33,7 +34,7 @@ export const registerUser =
         type: REGISTER_USER,
       });
     } catch (err) {
-      return err;
+      return handleError(err, dispatch);
     }
   };
 
@@ -60,7 +61,7 @@ export const loginUser =
         type: LOGIN_USER,
       });
     } catch (err) {
-      return err;
+      return handleError(err, dispatch);
     }
   };
 
