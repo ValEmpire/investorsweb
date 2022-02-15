@@ -9,11 +9,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import AuthBackground from "../../components/AuthBackground";
 import Link from "../../components/Link";
+import { Container } from "@mui/material";
 
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../redux/actions/user.action";
-import { Container } from "@mui/material";
+import { setLoadingRegister } from "../../redux/actions/loading.action";
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -27,6 +28,8 @@ export default function Register() {
   });
 
   const [fieldError, setFieldError] = useState({});
+
+  const { loadingRegister } = useSelector(state => state.loading);
 
   const onFieldChange = e => {
     const { value, name } = e.target;
@@ -102,8 +105,10 @@ export default function Register() {
     });
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
+
+    dispatch(setLoadingRegister(true));
 
     const data = new FormData(event.currentTarget);
 
@@ -127,7 +132,7 @@ export default function Register() {
     }
 
     // dispatch to redux actions
-    dispatch(
+    await dispatch(
       registerUser({
         firstName,
         lastName,
@@ -224,6 +229,7 @@ export default function Register() {
                 type="submit"
                 fullWidth
                 variant="contained"
+                disabled={loadingRegister}
                 sx={{ mt: 3, mb: 2 }}
               >
                 Register

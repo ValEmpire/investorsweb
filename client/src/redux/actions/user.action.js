@@ -1,13 +1,13 @@
 import {
-  REGISTER_USER,
-  LOGIN_USER,
   LOGOUT_USER,
   UPDATE_USER_DETAIL,
   UPDATE_USER_SECURITY,
+  SET_LOADING_REGISTER,
+  SET_LOADING_LOGIN,
 } from "../../const";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { handleError } from "../../helpers/error.handler";
+import { handleError } from "../../helpers/alert.handler";
 
 export const registerUser =
   ({ firstName, lastName, email, password }) =>
@@ -30,11 +30,14 @@ export const registerUser =
 
       window.location.replace("/");
 
-      return dispatch({
-        type: REGISTER_USER,
-      });
+      return;
     } catch (err) {
-      return handleError(err, dispatch);
+      dispatch({
+        type: SET_LOADING_REGISTER,
+        payload: false,
+      });
+
+      return handleError(err, dispatch, SET_LOADING_REGISTER);
     }
   };
 
@@ -57,10 +60,13 @@ export const loginUser =
 
       window.location.replace("/");
 
-      return dispatch({
-        type: LOGIN_USER,
-      });
+      return;
     } catch (err) {
+      dispatch({
+        type: SET_LOADING_LOGIN,
+        payload: false,
+      });
+
       return handleError(err, dispatch);
     }
   };

@@ -21,3 +21,14 @@ export const handleError = (err, dispatch) => {
     });
   }
 };
+
+export const handleSuccess = (message, dispatch) => {
+  return dispatch({
+    type: SET_ALERT,
+    payload: {
+      open: true,
+      message,
+      type: "success",
+    },
+  });
+};
