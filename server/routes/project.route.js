@@ -16,8 +16,6 @@ const {
   getAllProjects,
   getProject,
   getAllUserProjects,
-  getAllProjectsInProgress,
-  getAllProjectsCompleted,
 } = require("../controllers/project.controller");
 
 router
@@ -26,8 +24,6 @@ router
   .post(userAuth, validate(createProjectSchema), createProject);
 
 router.route("/user").get(userAuth, getAllUserProjects);
-router.route("/inProgress").get(getAllProjectsInProgress);
-router.route("/completed").get(getAllProjectsCompleted);
 
 router
   .route("/:projectId")
