@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Project.associate = (model) => {
+  Project.associate = model => {
     Project.belongsTo(model.image, {
       foreignKey: "imageId",
       as: "logo",

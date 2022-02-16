@@ -8,7 +8,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "react-avatar";
 import MessageIcon from "@mui/icons-material/Message";
 import { IconButton } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -18,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/actions/user.action";
+import UserAvatar from "../../components/UserAvatar";
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null); // for menu on MenuIcon
@@ -240,13 +240,10 @@ const ResponsiveAppBar = () => {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-              <Avatar
+              <UserAvatar
                 className="avatar"
                 size="50"
-                round
-                name={`${user.firstName} ${user.lastName}`}
                 onClick={handleOpenAvatarMenu}
-                // src="https://www.clipartmax.com/png/small/248-2487966_matthew-man-avatar-icon-png.png"
               />
             </>
           )}

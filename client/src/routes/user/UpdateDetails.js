@@ -17,14 +17,14 @@ import {
 import { useDispatch } from "react-redux";
 import { updateUserDetail } from "../../redux/actions/user.action";
 
-const UpdateDetails = (props) => {
+const UpdateDetails = props => {
   const dispatch = useDispatch();
 
   const { open, handleClose, user } = props;
 
   const [userDetail, setUserDetail] = useState(user.userDetail);
 
-  const handleField = (e) => {
+  const handleField = e => {
     setUserDetail({
       ...userDetail,
       [e.target.name]: e.target.value,
@@ -49,11 +49,11 @@ const UpdateDetails = (props) => {
 
   const [province, setProvince] = React.useState(user.userDetail.province);
 
-  const handleProvince = (event) => {
+  const handleProvince = event => {
     setProvince(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     try {
       event.preventDefault();
 
@@ -98,7 +98,7 @@ const UpdateDetails = (props) => {
                     fullWidth
                     rows={4}
                     value={userDetail.headline || ""}
-                    onChange={(e) => handleField(e)}
+                    onChange={e => handleField(e)}
                     multiline
                   />
 
@@ -110,7 +110,7 @@ const UpdateDetails = (props) => {
                     label="City"
                     fullWidth
                     value={userDetail.city || ""}
-                    onChange={(e) => handleField(e)}
+                    onChange={e => handleField(e)}
                   />
                   <FormControl fullWidth margin="normal">
                     <InputLabel id="provinceField">Province</InputLabel>
@@ -135,7 +135,7 @@ const UpdateDetails = (props) => {
                     name="phoneNumber"
                     label="Phone Number"
                     value={userDetail.phoneNumber || ""}
-                    onChange={(e) => handleField(e)}
+                    onChange={e => handleField(e)}
                     id="phoneNumber"
                   />
                   <Button
