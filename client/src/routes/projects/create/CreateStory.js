@@ -6,11 +6,12 @@ import TextField from "@mui/material/TextField";
 // Redux
 import { useDispatch } from "react-redux";
 import { createProject } from "../../../redux/actions/project.action";
+import { Box } from "@mui/material";
 
 export default function CreateStory() {
   const dispatch = useDispatch();
 
-  const handleField = (e) => {
+  const handleField = e => {
     const field = {};
 
     field[e.target.name] = e.target.value;
@@ -19,10 +20,17 @@ export default function CreateStory() {
   };
 
   return (
-    <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-        Story Pitch
-      </Typography>
+    <>
+      <Box pb={1}>
+        <Typography variant="h6" fontWeight={700} gutterBottom>
+          Story Pitch
+        </Typography>
+      </Box>
+      <Box pb={1}>
+        <Typography variant="h6" fontWeight={700} gutterBottom>
+          Story Pitch
+        </Typography>
+      </Box>
       <Grid container spacing={3}>
         <Grid item xs={12} md={12}>
           <TextField
@@ -38,6 +46,6 @@ export default function CreateStory() {
           />
         </Grid>
       </Grid>
-    </React.Fragment>
+    </>
   );
 }

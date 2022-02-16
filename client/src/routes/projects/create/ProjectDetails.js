@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 // Redux
 import { useDispatch } from "react-redux";
 import { createProject } from "../../../redux/actions/project.action";
+import { Box } from "@mui/material";
 
 export default function ProjectDetails() {
   const dispatch = useDispatch();
@@ -19,42 +20,44 @@ export default function ProjectDetails() {
   };
 
   return (
-    <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-        Project details
-      </Typography>
+    <>
+      <Box pb={1}>
+        <Typography variant="h6" fontWeight={700} gutterBottom>
+          Details
+        </Typography>
+      </Box>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField
+            margin="dense"
             required
             id="name"
             name="name"
             label="Project Name"
             fullWidth
             autoFocus
-            variant="standard"
             onChange={handleField}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             required
+            margin="dense"
             id="location"
             name="location"
             label="Location"
             fullWidth
-            variant="standard"
             onChange={handleField}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             required
+            margin="dense"
             id="website"
             name="website"
             label="Website"
             fullWidth
-            variant="standard"
             onChange={handleField}
           />
         </Grid>
@@ -63,9 +66,9 @@ export default function ProjectDetails() {
             required
             id="targetFund"
             name="targetFund"
+            margin="dense"
             label="Target Fund"
             fullWidth
-            variant="standard"
             onChange={handleField}
           />
         </Grid>
@@ -74,9 +77,9 @@ export default function ProjectDetails() {
             required
             id="industry"
             name="industry"
+            margin="dense"
             label="Industry"
             fullWidth
-            variant="standard"
             onChange={handleField}
           />
         </Grid>
@@ -87,8 +90,8 @@ export default function ProjectDetails() {
             name="deadline"
             label="Deadline"
             fullWidth
+            margin="dense"
             placeholder="mm-dd-yyyy"
-            variant="standard"
             onChange={handleField}
           />
         </Grid>
@@ -96,14 +99,14 @@ export default function ProjectDetails() {
           <TextField
             required
             id="minInvestment"
+            margin="dense"
             name="minInvestment"
             label="Minimum Investment"
             fullWidth
-            variant="standard"
             onChange={handleField}
           />
         </Grid>
       </Grid>
-    </React.Fragment>
+    </>
   );
 }

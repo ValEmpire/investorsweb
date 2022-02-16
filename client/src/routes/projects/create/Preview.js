@@ -6,15 +6,18 @@ import ListItemText from "@mui/material/ListItemText";
 
 // Redux
 import { useSelector } from "react-redux";
+import { Box } from "@mui/material";
 
 export default function Preview() {
   const { projectFields } = useSelector(state => state.project);
 
   return (
-    <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-        Project Preview
-      </Typography>
+    <>
+      <Box pb={1}>
+        <Typography variant="h6" fontWeight={700} gutterBottom>
+          Preview
+        </Typography>
+      </Box>
       <List disablePadding>
         {Object.keys(projectFields).map(key => (
           <ListItem key={key} sx={{ py: 1, px: 0 }}>
@@ -23,6 +26,6 @@ export default function Preview() {
           </ListItem>
         ))}
       </List>
-    </React.Fragment>
+    </>
   );
 }

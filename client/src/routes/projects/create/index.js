@@ -7,7 +7,7 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
+import Link from "../../../components/Link";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ProjectDetails from "./ProjectDetails";
@@ -18,16 +18,15 @@ import Preview from "./Preview";
 import { useDispatch, useSelector } from "react-redux";
 import { submitProject } from "../../../redux/actions/project.action";
 
-function Copyright() {
+function Back() {
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {/* {"Back to your Dashboard "} */}
-      <Link color="inherit" href="/projects">
-        Back to your Dashboard
-      </Link>{" "}
-      {/* {new Date().getFullYear()} */}
-      {"."}
-    </Typography>
+    <Box mt={1} pt={2}>
+      <Typography variant="body2" color="text.secondary" align="center">
+        <Link color="inherit" to="/projects">
+          Back To Dashboard
+        </Link>{" "}
+      </Typography>
+    </Box>
   );
 }
 
@@ -73,53 +72,63 @@ export default function CreateProjectPage() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
-      <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
+      <Container component="main" maxWidth="lg" sx={{ mb: 4 }}>
         <Paper
           variant="outlined"
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+          component={Box}
+          mt={5}
+          pt={6}
+          pl={2}
+          pr={2}
+          pb={5}
         >
-          <Typography component="h1" variant="h4" align="center">
+          <Typography variant="h4" align="center">
             Create Project
           </Typography>
-          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-            {steps.map(label => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <React.Fragment>
-            {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Your project was successfuly submitted.
-                </Typography>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                {getStepContent(activeStep)}
-                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                      Back
-                    </Button>
-                  )}
-
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    sx={{ mt: 3, ml: 1 }}
+          <Box sx={{ width: "100%" }} p={2}>
+            <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+              {steps.map(label => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <React.Fragment>
+              {activeStep === steps.length ? (
+                <React.Fragment>
+                  <Typography variant="h5" gutterBottom>
+                    Your project was successfuly submitted.
+                  </Typography>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  {getStepContent(activeStep)}
+                  <Box
+                    pt={2}
+                    sx={{ display: "flex", justifyContent: "flex-end" }}
                   >
-                    {activeStep === steps.length - 1
-                      ? "Submit Project"
-                      : "Next"}
-                  </Button>
-                </Box>
-              </React.Fragment>
-            )}
-          </React.Fragment>
+                    {activeStep !== 0 && (
+                      <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                        Back
+                      </Button>
+                    )}
+
+                    <Button
+                      variant="contained"
+                      onClick={handleNext}
+                      sx={{ mt: 3, ml: 1 }}
+                    >
+                      {activeStep === steps.length - 1
+                        ? "Submit Project"
+                        : "Next"}
+                    </Button>
+                  </Box>
+                </React.Fragment>
+              )}
+            </React.Fragment>
+          </Box>
         </Paper>
-        <Copyright />
+        <Back />
       </Container>
     </ThemeProvider>
   );
