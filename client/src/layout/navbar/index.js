@@ -34,12 +34,8 @@ const ResponsiveAppBar = () => {
       path: "/explore",
     },
     {
-      name: "Start Investing",
-      path: "/invest",
-    },
-    {
       name: "Get Funding",
-      path: "/funding",
+      path: "/projects",
     },
     {
       name: "About Us",

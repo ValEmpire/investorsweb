@@ -20,9 +20,10 @@ const ProjectCard = props => {
       <Link className="link" to={`/projects/${project.id}`}>
         <Card>
           <CardMedia
+            height={300}
             component="img"
-            image={project.logo ? project.logo.url : null}
-            alt={project.name}
+            image={project.logo ? project.logo.url : "/images/project.png"}
+            alt={project.id}
           />
           <Box>
             <Box textAlign="center" pt={2} mt={1} pb={2}>

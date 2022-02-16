@@ -50,8 +50,6 @@ const ProjectDashboardPage = () => {
         </Box>
       </Box>
 
-      <Divider />
-
       {loading && <Loading height={400} />}
 
       {projects.length > 0 && <DashboardView projects={projects} />}
