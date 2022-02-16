@@ -1,32 +1,3 @@
-// import React from "react";
-// import { Carousel } from "react-responsive-carousel";
-// import Grid from "@mui/material/Grid";
-// import Box from "@mui/material/Box";
-// import "react-responsive-carousel/lib/styles/carousel.min.css";
-
-// const Slider = () => {
-//   return (
-//     <Box pt={6} pb={6}>
-//       <Grid container alignItems="center" justifyContent="center">
-//         <Grid item md={6} sm={8} xs={12}>
-//           <Carousel showThumbs={false}>
-//             <div>
-//               <img src="/images/market1.jpeg" alt="image1" />
-//             </div>
-//             <div>
-//               <img src="/images/market2.jpeg" alt="image2" />
-//             </div>
-//             <div>
-//               <img src="/images/market3.jpeg" alt="image3" />
-//             </div>
-//           </Carousel>
-//         </Grid>
-//       </Grid>
-//     </Box>
-//   );
-// };
-
-// export default Slider;
 import * as React from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -36,7 +7,6 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
-import Grid from "@mui/material/Grid";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -51,8 +21,7 @@ const images = [
     imgPath: "images/market3.jpg",
   },
   {
-    imgPath:
-      "images/market1.jpg",
+    imgPath: "images/market1.jpg",
   },
 ];
 
@@ -74,7 +43,7 @@ function SwipeableTextMobileStepper() {
   };
 
   return (
-    <Box pt={6} pb={12}  sx={{ width: 1, flexGrow: 1 }}>
+    <Box pt={6} pb={12} sx={{ width: 1, flexGrow: 1 }}>
       <Paper
         square
         elevation={0}
@@ -123,14 +92,14 @@ function SwipeableTextMobileStepper() {
             size="small"
             onClick={handleNext}
             disabled={activeStep === maxSteps - 1}
-          >
-          
-          </Button>
+          ></Button>
         }
         backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-         
-          </Button>
+          <Button
+            size="small"
+            onClick={handleBack}
+            disabled={activeStep === 0}
+          ></Button>
         }
       />
     </Box>
