@@ -93,40 +93,29 @@ module.exports = {
     try {
       let where = {};
 
-      if (req.query.progress === "inProgress") {
-        where = {
-          deadline: {
-            [Op.gte]: new Date(),
-          },
+      if (req.query.progress === "InProgress") {
+        where.deadline = {
+          [Op.gte]: new Date(),
         };
       } else {
-        where = {
-          deadline: {
-            [Op.lt]: new Date(),
-          },
+        where.deadline = {
+          [Op.lt]: new Date(),
         };
       }
 
       if (req.query.industry === "Art") {
-        where = {
-          industry: {
-            [Op.substring]: "Art",
-          },
+        where.industry = {
+          [Op.like]: "Art",
         };
       } else if (req.query.industry === "Design") {
-        where = {
-          industry: {
-            [Op.like]: "Design",
-          },
+        where.industry = {
+          [Op.like]: "Design",
         };
       } else if (req.query.industry === "Technology") {
-        where = {
-          industry: {
-            [Op.like]: "Technology",
-          },
+        where.industry = {
+          [Op.like]: "Technology",
         };
       } else {
-        where = {};
       }
 
       const order = [];
@@ -141,6 +130,7 @@ module.exports = {
       }
 
       const projects = await Project.findAll({
+        where,
         where,
         order,
         include: [
