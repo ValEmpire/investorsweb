@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useCallback, useEffect, useState } from "react";
 import ProjectView from "./ProjectView";
 import { useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
@@ -13,18 +12,19 @@ const ProjectViewPage = props => {
   const [loading, setLoading] = useState(true);
   const { project } = useSelector(state => state.project);
 
-  const handleProject = async () => {
+  const handleProject = useCallback(async () => {
     await dispatch(getProject(projectId));
+
     setLoading(false);
-  };
+  }, [dispatch, projectId]);
 
   useEffect(() => {
     handleProject();
-  }, []);
+  }, [handleProject]);
 
   return (
     <>
-      {loading && <Loading />}
+      {loading && <Loading height="80vh" />}
       {!loading && project.id && <ProjectView project={project} />}
     </>
   );

@@ -16,7 +16,7 @@ import HomePage from "./pages/HomePage";
 import LogInPage from "./pages/LogInPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserPage from "./pages/UserPage";
-import CreateProjectPage from "./pages/CreateProjectPage";
+import UpdateProjectPage from "./pages/UpdateProjectPage";
 import ViewProjectPage from "./pages/ViewProjectPage";
 import ProjectDashboardPage from "./pages/ProjectDashboardPage";
 import ChatMessagePage from "./pages/ChatMessagePage";
@@ -24,10 +24,11 @@ import AboutUsPage from "./pages/AboutUsPage";
 import InvestmentPage from "./pages/InvestmentPage";
 import InvestmentsDashboardPage from "./pages/InvestmentsDashboardPage";
 import SingleInvestmentPage from "./pages/SingleInvestmentPage";
+import ExplorePage from "./pages/ExplorePage";
+import Page404 from "./pages/404Page";
 
 // theme
 import { setTheme } from "./theme";
-import ExplorePage from "./pages/ExplorePage";
 
 function App() {
   const [user, setUser] = useState({});
@@ -58,10 +59,12 @@ function App() {
   // guard the pages thats need authentication
   const GuardedUserPage = guardedRoute(UserPage);
   const GuardedProjectDashboardPage = guardedRoute(ProjectDashboardPage);
-  const GuardedCreateProjectPage = guardedRoute(CreateProjectPage);
-  const GuardedViewProjectPage = guardedRoute(ViewProjectPage);
+  const GuardedUpdateProjectPage = guardedRoute(UpdateProjectPage);
   const GuardedInvestmentPage = guardedRoute(InvestmentPage);
-  const GuardInvestmentsDashboardPage = guardedRoute(InvestmentsDashboardPage);
+  const GuardedInvestmentsDashboardPage = guardedRoute(
+    InvestmentsDashboardPage
+  );
+  const GuardedProjectIdDashboardPage = guardedRoute(ViewProjectPage);
   const GuardedSingleInvestmentPage = guardedRoute(SingleInvestmentPage);
 
   // login and register pages does not need to be access by already login user
@@ -75,38 +78,54 @@ function App() {
       <Router>
         <Routes>
           {/* auth route */}
-          <Route path="/login" element={<AuthLoginPage />} />
-          <Route path="/register" element={<AuthRegisterPage />} />
+          <Route exact path="/login" element={<AuthLoginPage />} />
+          <Route exact path="/register" element={<AuthRegisterPage />} />
 
           {/* public route */}
-          <Route path="/" element={<HomePage />} />
-          <Route path="/explore" element={<ExplorePage />} />
-          <Route path="/chat" element={<ChatMessagePage />} />
-          <Route path="/aboutus" element={<AboutUsPage />} />
+          <Route exact path="/" element={<HomePage />} />
+          <Route exact path="/explore" element={<ExplorePage />} />
+          <Route exact path="/chat" element={<ChatMessagePage />} />
+          <Route exact path="/aboutus" element={<AboutUsPage />} />
+          <Route
+            exact
+            path="/projects/:projectId"
+            element={<ViewProjectPage />}
+          />
 
           {/* secured route */}
-          <Route path="/user" element={<GuardedUserPage />} />
-          <Route path="/projects" element={<GuardedProjectDashboardPage />} />
+          <Route exact path="/user" element={<GuardedUserPage />} />
           <Route
-            path="/projects/create"
-            element={<GuardedCreateProjectPage />}
+            exact
+            path="/projects/dashboard"
+            element={<GuardedProjectDashboardPage />}
           />
           <Route
+            exact
+            path="/projects/dashboard/:projectId"
+            element={<GuardedProjectIdDashboardPage />}
+          />
+          <Route
+            exact
+            path="/projects/dashboard/:projectId/update"
+            element={<GuardedUpdateProjectPage />}
+          />
+          <Route
+            exact
             path="/user/dashboard"
-            element={<GuardInvestmentsDashboardPage />}
+            element={<GuardedInvestmentsDashboardPage />}
           />
           <Route
+            exact
             path="/user/dashboard/:investmentId"
             element={<GuardedSingleInvestmentPage />}
           />
           <Route
-            path="/projects/:projectId"
-            element={<GuardedViewProjectPage />}
-          />
-          <Route
+            exact
             path="/investment/:projectId"
             element={<GuardedInvestmentPage />}
           />
+
+          <Route path="*" element={<Page404 />} />
         </Routes>
       </Router>
     </Provider>

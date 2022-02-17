@@ -1,12 +1,17 @@
 const { userRegisterSchema } = require("../validators/user.validator");
 
 const Image = require("../models").image;
-const User = require("../models").user;
+
+const generateUrl = (userId, fileName) => {
+  return `${process.env.STORAGE}user${userId}%2F${fileName}?alt=media`;
+};
 
 module.exports = {
   uploadUserImage: async (req, res) => {
     try {
-      const { url } = req.validatedBody;
+      const { fileName } = req.validatedBody;
+
+      const url = generateUrl(req.user.id, fileName);
 
       const newImage = await Image.create({
         url,
@@ -18,6 +23,7 @@ module.exports = {
 
       return res.status(200).send({
         success: true,
+        url,
       });
     } catch (err) {
       console.log(err.message);
@@ -62,7 +68,9 @@ module.exports = {
         throw new Error("Project does not Exist");
       }
 
-      const { url } = req.validatedBody;
+      const { fileName } = req.validatedBody;
+
+      const url = generateUrl(req.user.id, fileName);
 
       const newProjectImage = await Image.create({
         url,
@@ -74,7 +82,7 @@ module.exports = {
 
       return res.status(200).send({
         success: true,
-        newProjectImage,
+        url,
       });
     } catch (err) {
       console.log(err.message);

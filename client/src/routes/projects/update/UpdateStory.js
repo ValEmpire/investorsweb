@@ -2,15 +2,20 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
+import { Box } from "@mui/material";
 
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createProject } from "../../../redux/actions/project.action";
 
 export default function CreateStory() {
   const dispatch = useDispatch();
 
-  const handleField = (e) => {
+  const { projectFields } = useSelector(state => state.project);
+
+  const { story } = projectFields;
+
+  const handleField = e => {
     const field = {};
 
     field[e.target.name] = e.target.value;
@@ -19,10 +24,12 @@ export default function CreateStory() {
   };
 
   return (
-    <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-        Story Pitch
-      </Typography>
+    <>
+      <Box pb={1} pt={3}>
+        <Typography variant="h6" fontWeight={700} gutterBottom>
+          Story Pitch
+        </Typography>
+      </Box>
       <Grid container spacing={3}>
         <Grid item xs={12} md={12}>
           <TextField
@@ -33,11 +40,12 @@ export default function CreateStory() {
             fullWidth
             variant="outlined"
             rows={12}
+            value={story ?? ""}
             multiline
             onChange={handleField}
           />
         </Grid>
       </Grid>
-    </React.Fragment>
+    </>
   );
 }

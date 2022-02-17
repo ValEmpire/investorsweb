@@ -4,10 +4,16 @@ import {
   UPDATE_USER_SECURITY,
   SET_LOADING_REGISTER,
   SET_LOADING_LOGIN,
+  UPDATE_USER_IMAGE,
 } from "../../const";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { handleError } from "../../helpers/alert.handler";
+import { handleError, handleSuccess } from "../../helpers/alert.handler";
+
+// firebase
+import { storage } from "../../firebase";
+import { ref, uploadBytesResumable } from "@firebase/storage";
+import { generateFileName } from "../../helpers/allHelpers";
 
 export const registerUser =
   ({ firstName, lastName, email, password }) =>
@@ -86,6 +92,7 @@ export const getUser = async () => {
     return {
       ...res.data.user,
       userDetail: res.data.user.userDetail || {},
+      image: res.data.user.image || {},
     };
   } catch (err) {
     // if error happens remove cookie
@@ -168,5 +175,51 @@ export const updateUserSecurity = security => async dispatch => {
     // handle error here
 
     console.log(err);
+  }
+};
+
+export const uploadUserImage = (image, userId) => async dispatch => {
+  try {
+    const imageName = generateFileName();
+
+    const userRef = ref(storage, `/user${userId}/${imageName}.jpeg`);
+
+    const uploadTask = uploadBytesResumable(userRef, image);
+
+    uploadTask.on(
+      "state_changed",
+      snapshot => {},
+      err => handleError(err, dispatch),
+      async () => {
+        try {
+          const res = await axios.post(
+            `${process.env.REACT_APP_SERVER}/api/image/user`,
+            {
+              fileName: `${imageName}.jpeg`,
+            },
+            {
+              withCredentials: true,
+            }
+          );
+
+          const { url } = res.data;
+
+          handleSuccess("Image uploaded successfully.", dispatch);
+
+          dispatch({
+            type: UPDATE_USER_IMAGE,
+            payload: {
+              url,
+            },
+          });
+          return;
+        } catch (err) {
+          handleError(err, dispatch);
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    // handle error here
   }
 };

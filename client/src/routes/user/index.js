@@ -91,7 +91,7 @@ export default function UserPage() {
         pr={2}
         pb={5}
       >
-        <Typography component="h1" variant="h4" align="center">
+        <Typography variant="h4" align="center">
           Your Account
         </Typography>
         <Box sx={{ width: "100%" }} pt={2} pb={2}>

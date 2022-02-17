@@ -91,7 +91,9 @@ module.exports = {
 
   getAllProjects: async (req, res) => {
     try {
-      let where = {};
+      let where = {
+        isLive: true,
+      };
 
       if (req.query.progress === "InProgress") {
         where.deadline = {
@@ -130,7 +132,6 @@ module.exports = {
       }
 
       const projects = await Project.findAll({
-        where,
         where,
         order,
         include: [
@@ -239,44 +240,4 @@ module.exports = {
       });
     }
   },
-
-  // getAllProjectsCompleted: async (req, res) => {
-  //   try {
-  //     const completed = await Project.findAll({
-  //       where: {
-  //         deadline: { [Op.lt]: new Date() },
-  //       },
-  //     });
-  //     return res.status(200).send({
-  //       success: true,
-  //       completed,
-  //     });
-  //   } catch (err) {
-  //     console.log(err.message);
-  //     return res.status(400).send({
-  //       success: false,
-  //       error: err.message,
-  //     });
-  //   }
-  // },
-
-  // getAllProjectsInProgress: async (req, res) => {
-  //   try {
-  //     const inProgress = await Project.findAll({
-  //       where: {
-  //         deadline: { [Op.gte]: new Date() },
-  //       },
-  //     });
-  //     return res.status(200).send({
-  //       success: true,
-  //       inProgress,
-  //     });
-  //   } catch (err) {
-  //     console.log(err.message);
-  //     return res.status(400).send({
-  //       success: false,
-  //       error: err.message,
-  //     });
-  //   }
-  // },
 };

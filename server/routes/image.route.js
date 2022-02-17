@@ -27,8 +27,8 @@ router
   .post(userAuth, validate(imageUploadSchema), uploadUserImage)
   .put(
     userAuth,
-    userImageMiddleware,
     validate(imageUploadSchema),
+    userImageMiddleware,
     updateUserImage
   );
 

@@ -1,11 +1,45 @@
 import {
   CREATE_PROJECT,
-  SUBMIT_PROJECT,
+  CREATE_PROJECT_DRAFT,
   ALL_PROJECTS,
   TOGGLE_FAVORITE_PROJECT,
   GET_PROJECT,
+  UPDATE_PROJECT_IMAGE,
+  ALL_USER_PROJECTS,
 } from "../../const";
 import axios from "axios";
+
+// firebase
+import { storage } from "../../firebase";
+import { ref, uploadBytesResumable } from "@firebase/storage";
+
+import { handleError, handleSuccess } from "../../helpers/alert.handler";
+import { generateFileName } from "../../helpers/allHelpers";
+
+export const createProjectDraft = () => async dispatch => {
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_SERVER}/api/project`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+
+    const { project } = res.data;
+
+    handleSuccess("New project draft was successfuly created.", dispatch);
+
+    return dispatch({
+      type: CREATE_PROJECT_DRAFT,
+      payload: project,
+    });
+  } catch (err) {
+    handleError(err, dispatch);
+
+    return;
+  }
+};
 
 export const createProject = field => dispatch => {
   return dispatch({
@@ -14,16 +48,37 @@ export const createProject = field => dispatch => {
   });
 };
 
-export const submitProject = project => async dispatch => {
+export const updateProject = (project, projectId) => async dispatch => {
   try {
-    await axios.post(`${process.env.REACT_APP_SERVER}/api/project`, project, {
-      withCredentials: true,
-    });
+    const {
+      location,
+      targetFund,
+      story,
+      website,
+      industry,
+      deadline,
+      minInvestment,
+      name,
+    } = project;
 
-    return dispatch({
-      type: SUBMIT_PROJECT,
-      payload: "from api",
-    });
+    await axios.put(
+      `${process.env.REACT_APP_SERVER}/api/project/${projectId}`,
+      {
+        location,
+        targetFund,
+        story,
+        website,
+        industry,
+        deadline,
+        minInvestment,
+        name,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    return handleSuccess("Project was successfully updated.", dispatch);
   } catch (err) {
     console.log(err);
 
@@ -80,6 +135,93 @@ export const getProject = projectId => async dispatch => {
     });
   } catch (err) {
     console.log(err);
+    return;
+  }
+};
+
+export const uploadProjectImage =
+  (image, userId, projectId) => async dispatch => {
+    try {
+      const imageName = generateFileName();
+
+      const userRef = ref(storage, `/user${userId}/${imageName}.jpeg`);
+
+      const uploadTask = uploadBytesResumable(userRef, image);
+
+      uploadTask.on(
+        "state_changed",
+        snapshot => {},
+        err => handleError(err, dispatch),
+        async () => {
+          try {
+            const res = await axios.post(
+              `${process.env.REACT_APP_SERVER}/api/image/project`,
+              {
+                fileName: `${imageName}.jpeg`,
+                projectId,
+              },
+              {
+                withCredentials: true,
+              }
+            );
+
+            const { url } = res.data;
+
+            handleSuccess("Image uploaded successfully.", dispatch);
+
+            dispatch({
+              type: UPDATE_PROJECT_IMAGE,
+              payload: url,
+            });
+            return;
+          } catch (err) {
+            handleError(err, dispatch);
+          }
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      // handle error here
+    }
+  };
+
+export const deleteProject = projectId => async dispatch => {
+  try {
+    await axios.delete(
+      `${process.env.REACT_APP_SERVER}/api/project/${projectId}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    handleSuccess("Project draft was deleted successfully.", dispatch);
+
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
+
+    return err;
+  }
+};
+
+export const getAllUserProjects = () => async dispatch => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/project/user`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    const userProjects = res.data.userProjects;
+
+    return dispatch({
+      type: ALL_USER_PROJECTS,
+      payload: userProjects,
+    });
+  } catch (err) {
+    handleError(err, dispatch);
+
     return;
   }
 };

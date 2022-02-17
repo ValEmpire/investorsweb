@@ -43,3 +43,14 @@ export const capitalizeFirstLetter = (
   [first, ...rest],
   locale = navigator.language
 ) => first.toLocaleUpperCase(locale) + rest.join("");
+
+//Can change 7 to 2 for longer results.
+export const generateFileName = () => {
+  let name = (Math.random() + 1).toString(36).substring(2);
+
+  return name;
+};
+
+export const getInitials = (firstName, lastName) => {
+  return `${firstName[0]}${lastName[0]}`.toUpperCase();
+};

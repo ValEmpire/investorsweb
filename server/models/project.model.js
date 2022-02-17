@@ -15,17 +15,14 @@ module.exports = (sequelize, DataTypes) => {
 
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
 
       location: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
 
       targetFund: {
         type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
       },
 
       investorCount: {
@@ -40,12 +37,10 @@ module.exports = (sequelize, DataTypes) => {
 
       story: {
         type: DataTypes.STRING(65535),
-        allowNull: false,
       },
 
       website: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
 
       imageId: {
@@ -54,22 +49,19 @@ module.exports = (sequelize, DataTypes) => {
 
       industry: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
 
       deadline: {
         type: DataTypes.DATE,
-        allowNull: false,
       },
 
       minInvestment: {
         type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
       },
 
       isLive: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
     },
 
@@ -78,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Project.associate = (model) => {
+  Project.associate = model => {
     Project.belongsTo(model.image, {
       foreignKey: "imageId",
       as: "logo",

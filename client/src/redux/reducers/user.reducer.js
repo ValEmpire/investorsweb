@@ -1,6 +1,6 @@
 import {
-  GET_USER,
   LOGOUT_USER,
+  UPDATE_USER_IMAGE,
   UPDATE_USER_DETAIL,
   UPDATE_USER_SECURITY,
 } from "../../const";
@@ -9,8 +9,9 @@ const initialState = {
   firstName: "",
   lastName: "",
   email: "",
-  accountId: "",
   userDetail: {},
+  image: {},
+  accountId: "",
   customerId: "",
 };
 
@@ -23,20 +24,16 @@ export const user = (state = initialState, action) => {
         lastName: action.payload.lastName,
       };
 
-    case GET_USER:
-      const { firstName, lastName, email, userDetail } = action.payload;
-      return {
-        ...state,
-        firstName,
-        lastName,
-        email,
-        userDetail,
-      };
-
     case UPDATE_USER_DETAIL:
       return {
         ...state,
         userDetail: action.payload,
+      };
+
+    case UPDATE_USER_IMAGE:
+      return {
+        ...state,
+        image: action.payload,
       };
 
     case LOGOUT_USER:

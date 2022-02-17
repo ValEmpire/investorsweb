@@ -13,16 +13,61 @@ import ProjectTabs from "./ProjectTabs";
 import Moment from "moment";
 import { amountReducer } from "../../helpers/allHelpers";
 import { currencyFormat } from "../../helpers/allHelpers";
-import { useSelector } from "react-redux";
 import Favorite from "../viewProject/Favorite";
+import Link from "../../components/Link";
+
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProject } from "../../redux/actions/project.action";
+import { useNavigate } from "react-router-dom";
+
+const Info = props => {
+  const { isLive, name, value } = props;
+
+  return (
+    <Grid item xs={6}>
+      <Box p={2}>
+        <Typography fontWeight={700} variant="h6">
+          {name === "Status" && (
+            <>
+              {isLive ? (
+                <span className="uppercase" style={{ color: "green" }}>
+                  {value}
+                </span>
+              ) : (
+                <span className="uppercase" style={{ color: "red" }}>
+                  {value}
+                </span>
+              )}
+            </>
+          )}
+
+          {name !== "Status" && value}
+        </Typography>
+        <Typography color="text.secondary" variant="body2">
+          {name}
+        </Typography>
+      </Box>
+    </Grid>
+  );
+};
 
 export default function MediaCard(props) {
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
   const user = useSelector(state => state.user);
+
   const project = props.project;
 
-  const daysLeft = function () {
-    const eventDate = Moment(project.deadline);
+  const daysLeft = function (deadline) {
+    if (!deadline) return 0;
+
+    const eventDate = Moment(deadline);
+
     const todayDate = Moment();
+
     return eventDate.diff(todayDate, "days");
   };
 
@@ -30,13 +75,53 @@ export default function MediaCard(props) {
     return project.targetFund - project.raisedAmount;
   };
 
+  const handleDeleteProject = async () => {
+    try {
+      await dispatch(deleteProject(project.id));
+
+      navigate("/projects/dashboard");
+    } catch (err) {}
+  };
+
+  const infos = [
+    {
+      isLive: project.isLive,
+      name: "Status",
+      value: project.isLive ? "Active" : "Draft",
+    },
+    {
+      name: "Location",
+      value: project.location ?? "Pending",
+    },
+    {
+      name: "Investors Count",
+      value: project.investorCount,
+    },
+    {
+      name: "Target Fund",
+      value: amountReducer(project.targetFund ?? "Pending"),
+    },
+    {
+      name: "Minimum Investment",
+      value: amountReducer(project.minInvestment),
+    },
+    {
+      name: "Deadline",
+      value: project.deadline
+        ? Moment(project.deadline).format("ll")
+        : "0000-00-00",
+    },
+    {
+      name: "Days left until closing",
+      value: daysLeft(project.deadline),
+    },
+  ];
+
   return (
     <Container maxWidth="lg" key={project.id}>
       <Grid container spacing={4} mt={10}>
         <Grid item md={8} xs={12}>
           <Card
-            md={8}
-            xs={12}
             sx={{
               border: "none",
               boxShadow: "none",
@@ -44,11 +129,8 @@ export default function MediaCard(props) {
           >
             <Box>
               <CardMedia
-                sx={{
-                  height: "100%",
-                }}
                 component="img"
-                image={project.logo ? project.logo.url : null}
+                image={project.logo ? project.logo.url : "/images/project.png"}
                 alt={project.name}
               />
             </Box>
@@ -56,24 +138,16 @@ export default function MediaCard(props) {
               <CardContent
                 sx={{ display: "flex", justifyContent: "space-between" }}
               >
-                <Grid>
-                  <Typography gutterBottom variant="h5" component="div">
-                    <b>{project.name}</b>
-                  </Typography>
-                </Grid>
+                <Typography gutterBottom variant="h5" component="div">
+                  <b>{project.name ?? "Pending"}</b>
+                </Typography>
+
                 {/* {FAVORITE BUTTON} */}
                 <Favorite projectId={project.id} project={project} />
               </CardContent>
 
               <Typography gutterBottom component="div">
-                <CardActions
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "flex-start",
-                    color: "#212121",
-                  }}
-                >
+                <CardActions>
                   <ProjectTabs project={project} />
                 </CardActions>
               </Typography>
@@ -86,7 +160,6 @@ export default function MediaCard(props) {
         <Grid item md={4} xs={12}>
           <Card
             sx={{
-              pb: 4,
               border: "none",
               boxShadow: "none",
             }}
@@ -97,194 +170,65 @@ export default function MediaCard(props) {
               </Typography>
               Raised
             </Box>
-            <Divider variant="full" color="#0277bd" sx={{ height: 3 }} />
 
-            <Box
-              sx={{
-                mt: 4,
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 20,
-                  }}
-                >
-                  {project.isLive ? "Active" : "Pending"}
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  Status
-                  {/*{insesrors_count} */}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 20,
-                  }}
-                >
-                  {project.location}
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  Location
-                  {/*{insesrors_count} */}
-                </Typography>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                mt: 6,
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 20,
-                  }}
-                >
-                  {project.investorCount}
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  Investors
-                  {/*{insesrors_count} */}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 20,
-                  }}
-                >
-                  ${amountReducer(project.targetFund)}
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  Target Funf
-                  {/*{insesrors_count} */}
-                </Typography>
-              </Box>
-            </Box>
+            <Divider
+              variant="full"
+              color="#0277bd"
+              sx={{ height: 3, marginBottom: 2 }}
+            />
 
-            <Box
-              sx={{
-                mt: 5,
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 20,
-                  }}
-                >
-                  {amountReducer(project.minInvestment)}
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  Min.Investment
-                  {/*{insesrors_count} */}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    ml: 0,
-                    fontSize: 20,
-                  }}
-                >
-                  {Moment(project.deadline).format("ll")}
-                </Typography>
-                <Typography sx={{ color: "#424242", fontSize: 15 }}>
-                  Deadline
-                  {/*{insesrors_count} */}
-                </Typography>
-              </Box>
-            </Box>
+            <Grid container>
+              {infos.map((info, i) => (
+                <Info key={info.name + i} {...info} />
+              ))}
 
-            <Box
-              sx={{
-                mt: 4,
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 20,
-                  }}
-                >
-                  {daysLeft()}
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  Days left until closing
-                  {/*{insesrors_count} */}
-                </Typography>
+              <Grid item xs={12}>
+                <Box p={2}>
+                  <Typography fontWeight={700} variant="h6">
+                    {currencyFormat(Number(remainingAmount()))}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Left to raise expected investment
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {project.owner.id !== user.id && (
+              <Box pt={8} pb={3}>
+                <Link to={`/investment/${project.id}`}>
+                  <Button variant="contained" size="large" fullWidth>
+                    Invest Now
+                  </Button>
+                </Link>
               </Box>
-            </Box>
-            <Box
-              sx={{
-                mt: 4,
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 20,
-                  }}
-                >
-                  {currencyFormat(Number(remainingAmount()))}
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  Left to raise expected investment
-                  {/*{insesrors_count} */}
-                </Typography>
-              </Box>
-            </Box>
-            <Box
-              mt={12}
-              pb={3}
-              key={project.id}
-              display={project.owner.id === user.id ? "none" : ""}
-            >
-              <Button
-                href={"/investment/" + project.id}
-                variant="contained"
-                size="large"
-                fullWidth
-              >
-                Invest Now
-              </Button>
-            </Box>
+            )}
+
+            {project.owner.id === user.id && (
+              <>
+                <Box pt={8} pb={2}>
+                  <Link to={`/projects/dashboard/${project.id}/update`}>
+                    <Button variant="contained" size="large" fullWidth>
+                      Update Project
+                    </Button>
+                  </Link>
+                </Box>
+
+                {!project.isLive && (
+                  <Box>
+                    <Button
+                      variant="outlined"
+                      size="large"
+                      color="warning"
+                      fullWidth
+                      onClick={handleDeleteProject}
+                    >
+                      Delete Draft
+                    </Button>
+                  </Box>
+                )}
+              </>
+            )}
           </Card>
         </Grid>
       </Grid>
