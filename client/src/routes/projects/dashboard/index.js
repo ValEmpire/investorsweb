@@ -3,12 +3,15 @@ import axios from "axios";
 import DashboardView from "./DashboardView";
 import { Box, Button, Container, Divider, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { capitalizeFirstLetter } from "../../../helpers/allHelpers";
+import { useSelector } from "react-redux";
 
 import Loading from "../../../components/Loading";
 
 const ProjectDashboardPage = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const user = useSelector(state => state.user);
 
   const getAllProject = async () => {
     const res = await axios.get(
@@ -41,7 +44,10 @@ const ProjectDashboardPage = () => {
           Project Dashboard
         </Typography>
         <Typography variant="h6" color="text.secondary" paragraph>
-          Powerful Visual Data About Your Projects
+          {capitalizeFirstLetter(user.firstName)}, You Created{" "}
+          {projects.length === 1
+            ? projects.length + " Project"
+            : projects.length + " Projects"}
         </Typography>
         <Box pt={2} mt={2}>
           <Link className="link" to="/projects/create">

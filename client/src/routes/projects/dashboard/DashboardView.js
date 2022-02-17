@@ -32,7 +32,7 @@ const theme = createTheme();
 
 export default function DashboardView(props) {
   const projects = props.projects;
-  console.log(projects);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

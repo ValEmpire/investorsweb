@@ -3,6 +3,8 @@ const Project = model.project;
 const User = model.user;
 const Image = model.image;
 const Favorite = model.favorite;
+const { Op } = require("sequelize");
+const { sequelize } = require("../models");
 
 module.exports = {
   createProject: async (req, res) => {
@@ -89,7 +91,48 @@ module.exports = {
 
   getAllProjects: async (req, res) => {
     try {
+      let where = {};
+
+      if (req.query.progress === "InProgress") {
+        where.deadline = {
+          [Op.gte]: new Date(),
+        };
+      } else {
+        where.deadline = {
+          [Op.lt]: new Date(),
+        };
+      }
+
+      if (req.query.industry === "Art") {
+        where.industry = {
+          [Op.like]: "Art",
+        };
+      } else if (req.query.industry === "Design") {
+        where.industry = {
+          [Op.like]: "Design",
+        };
+      } else if (req.query.industry === "Technology") {
+        where.industry = {
+          [Op.like]: "Technology",
+        };
+      } else {
+      }
+
+      const order = [];
+      if (req.query.sort === "LeastFunded") {
+        order.push([model.sequelize.col("raisedAmount"), "ASC"]);
+      } else if (req.query.sort === "MostFunded") {
+        order.push([model.sequelize.col("raisedAmount"), "DESC"]);
+      } else if (req.query.sort === "RecentlyLaunched") {
+        order.push([model.sequelize.col("createdAt"), "ASC"]);
+      } else if (req.query.sort === "ClosingSoon") {
+        order.push([model.sequelize.col("deadline"), "ASC"]);
+      }
+
       const projects = await Project.findAll({
+        where,
+        where,
+        order,
         include: [
           {
             model: Image,
@@ -196,4 +239,44 @@ module.exports = {
       });
     }
   },
+
+  // getAllProjectsCompleted: async (req, res) => {
+  //   try {
+  //     const completed = await Project.findAll({
+  //       where: {
+  //         deadline: { [Op.lt]: new Date() },
+  //       },
+  //     });
+  //     return res.status(200).send({
+  //       success: true,
+  //       completed,
+  //     });
+  //   } catch (err) {
+  //     console.log(err.message);
+  //     return res.status(400).send({
+  //       success: false,
+  //       error: err.message,
+  //     });
+  //   }
+  // },
+
+  // getAllProjectsInProgress: async (req, res) => {
+  //   try {
+  //     const inProgress = await Project.findAll({
+  //       where: {
+  //         deadline: { [Op.gte]: new Date() },
+  //       },
+  //     });
+  //     return res.status(200).send({
+  //       success: true,
+  //       inProgress,
+  //     });
+  //   } catch (err) {
+  //     console.log(err.message);
+  //     return res.status(400).send({
+  //       success: false,
+  //       error: err.message,
+  //     });
+  //   }
+  // },
 };
