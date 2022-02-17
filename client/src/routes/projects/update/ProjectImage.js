@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, CardMedia, Typography } from "@mui/material";
+import { Box, CardMedia, Grid, Typography } from "@mui/material";
 import { FileUploader } from "react-drag-drop-files";
 
 // Redux
@@ -35,9 +35,9 @@ const UserAvatar = props => {
         </Typography>
       </Box>
 
-      <Box display="flex" justifyContent={"center"}>
-        <Box>
-          <Box width={600} pb={3}>
+      <Grid container justifyContent={"center"}>
+        <Grid item md={6} sm={9} xs={12}>
+          <Box pb={3}>
             <CardMedia component="img" src={projectFields.imageUrl} />
           </Box>
 
@@ -50,8 +50,8 @@ const UserAvatar = props => {
               label="Upload new image here"
             />
           </Box>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

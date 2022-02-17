@@ -2,14 +2,18 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
+import { Box } from "@mui/material";
 
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createProject } from "../../../redux/actions/project.action";
-import { Box } from "@mui/material";
 
 export default function CreateStory() {
   const dispatch = useDispatch();
+
+  const { projectFields } = useSelector(state => state.project);
+
+  const { story } = projectFields;
 
   const handleField = e => {
     const field = {};
@@ -36,6 +40,7 @@ export default function CreateStory() {
             fullWidth
             variant="outlined"
             rows={12}
+            value={story}
             multiline
             onChange={handleField}
           />

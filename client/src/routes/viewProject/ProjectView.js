@@ -195,7 +195,7 @@ export default function MediaCard(props) {
                 </Box>
                 <Box>
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     size="large"
                     color="warning"
                     fullWidth

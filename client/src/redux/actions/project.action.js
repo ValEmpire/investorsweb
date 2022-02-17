@@ -45,16 +45,37 @@ export const createProject = field => dispatch => {
   });
 };
 
-export const submitProject = project => async dispatch => {
+export const updateProject = (project, projectId) => async dispatch => {
   try {
-    await axios.post(`${process.env.REACT_APP_SERVER}/api/project`, project, {
-      withCredentials: true,
-    });
+    const {
+      location,
+      targetFund,
+      story,
+      website,
+      industry,
+      deadline,
+      minInvestment,
+      name,
+    } = project;
 
-    return dispatch({
-      type: SUBMIT_PROJECT,
-      payload: "from api",
-    });
+    await axios.put(
+      `${process.env.REACT_APP_SERVER}/api/project/${projectId}`,
+      {
+        location,
+        targetFund,
+        story,
+        website,
+        industry,
+        deadline,
+        minInvestment,
+        name,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    return handleSuccess("Project was successfully updated.", dispatch);
   } catch (err) {
     console.log(err);
 

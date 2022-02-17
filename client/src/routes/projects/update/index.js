@@ -3,40 +3,33 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
-import Link from "../../../components/Link";
 import Typography from "@mui/material/Typography";
 import ProjectDetails from "./ProjectDetails";
 import UpdateStory from "./UpdateStory";
 import ProjectImage from "./ProjectImage";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import Loading from "../../../components/Loading";
+import { Button } from "@mui/material";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { getProject } from "../../../redux/actions/project.action";
-import Loading from "../../../components/Loading";
-
-function Back() {
-  const backTo = window.location.pathname.replace("update", "");
-
-  return (
-    <Box mt={1} pt={2}>
-      <Typography variant="body2" color="text.secondary" align="center">
-        <Link color="inherit" to={backTo}>
-          Back To Project
-        </Link>
-      </Typography>
-    </Box>
-  );
-}
+import {
+  getProject,
+  updateProject,
+} from "../../../redux/actions/project.action";
 
 export default function CreateProjectPage() {
   const { projectId } = useParams();
 
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(true);
 
   const { project } = useSelector(state => state.project);
+
+  const { projectFields } = useSelector(state => state.project);
 
   const handleProject = useCallback(async () => {
     await dispatch(getProject(projectId));
@@ -47,6 +40,16 @@ export default function CreateProjectPage() {
   useEffect(() => {
     handleProject();
   }, [handleProject]);
+
+  const goBack = () => {
+    const backTo = window.location.pathname.replace("update", "");
+
+    navigate(backTo);
+  };
+
+  const handleProjectSubmit = () => {
+    dispatch(updateProject(projectFields, projectId));
+  };
 
   return (
     <>
@@ -73,8 +76,23 @@ export default function CreateProjectPage() {
               <ProjectImage project={project} />
               <UpdateStory project={project} />
             </Box>
+            <Box mt={2} pt={1} display="flex" justifyContent={"center"}>
+              <Box width={150} m={1}>
+                <Button fullWidth variant="outlined" onClick={goBack}>
+                  Cancel
+                </Button>
+              </Box>
+              <Box width={150} m={1}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={handleProjectSubmit}
+                >
+                  Save
+                </Button>
+              </Box>
+            </Box>
           </Paper>
-          <Back />
         </Container>
       )}
     </>
