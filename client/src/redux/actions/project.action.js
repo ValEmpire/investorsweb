@@ -7,6 +7,31 @@ import {
 } from "../../const";
 import axios from "axios";
 
+import { handleError, handleSuccess } from "../../helpers/alert.handler";
+
+export const createProjectDraft = () => async dispatch => {
+  try {
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/api/project`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+
+    handleSuccess("New project draft was successfuly created.", dispatch);
+
+    return dispatch({
+      type: SUBMIT_PROJECT,
+      payload: "from api",
+    });
+  } catch (err) {
+    handleError(err, dispatch);
+
+    return;
+  }
+};
+
 export const createProject = field => dispatch => {
   return dispatch({
     type: CREATE_PROJECT,

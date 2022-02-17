@@ -14,10 +14,13 @@ import { amountReducer } from "../helpers/allHelpers";
 
 const ProjectCard = props => {
   const project = props.project;
+  const to = props.to;
+
+  const where = to === "dashboard" ? `/projects/${to}` : `/${to}`;
 
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Link className="link" to={`/projects/${project.id}`}>
+      <Link className="link" to={`${where}/${project.id}`}>
         <Card>
           <CardMedia
             height={300}
@@ -27,30 +30,44 @@ const ProjectCard = props => {
           />
           <Box>
             <Box textAlign="center" pt={2} mt={1} pb={2}>
-              <Typography
-                className="capitalize"
-                gutterBottom
-                variant="h5"
-                color="primary"
-              >
-                <strong>{project.name}</strong>
-              </Typography>
+              {project.isLive && (
+                <Typography
+                  className="capitalize"
+                  gutterBottom
+                  noWrap
+                  variant="h5"
+                  color="primary"
+                >
+                  <strong>{project.name || "new project"}</strong>
+                </Typography>
+              )}
+              {!project.isLive && (
+                <Typography
+                  className="capitalize"
+                  gutterBottom
+                  noWrap
+                  variant="h5"
+                  color="red"
+                >
+                  <strong>{"new project"}</strong>
+                </Typography>
+              )}
             </Box>
 
             <Box pb={3} pl={2} pr={2}>
-              <Typography noWrap>{project.story}</Typography>
+              <Typography noWrap>
+                {project.story || "Please click to update this project."}
+              </Typography>
               <br />
               <Typography>
-                Dedline:{" "}
+                Deadline:
                 <strong>{Moment(project.deadline).format("d MMM YYYY")}</strong>
               </Typography>
             </Box>
           </Box>
-
           <Box mr={2} ml={2}>
             <Divider sx={{ background: "#1876D2" }} />
           </Box>
-
           <Stack
             sx={{ pb: 3, pt: 3, pl: 1, pr: 1 }}
             direction="row"

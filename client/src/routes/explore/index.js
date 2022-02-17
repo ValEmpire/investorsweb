@@ -152,7 +152,11 @@ const Explore = () => {
             {/* Discover */}
             <Grid container spacing={4}>
               {projects.map((project, i) => (
-                <ProjectCard key={project.name + i} project={project} />
+                <ProjectCard
+                  key={project.name + i}
+                  project={project}
+                  to="projects"
+                />
               ))}
             </Grid>
           </Container>

@@ -55,7 +55,7 @@ const ResponsiveAppBar = () => {
     },
     {
       name: "My Projects",
-      path: "/projects",
+      path: "/projects/dashboard",
     },
   ];
 
@@ -223,7 +223,7 @@ const ResponsiveAppBar = () => {
                 onClick={handleCloseNavMenu}
                 color="inherit"
               >
-                <Badge badgeContent={100} color="secondary">
+                <Badge badgeContent={100} color="warning">
                   <MessageIcon />
                 </Badge>
               </IconButton>
@@ -232,7 +232,7 @@ const ResponsiveAppBar = () => {
                 color="inherit"
                 sx={{ marginRight: 2 }}
               >
-                <Badge badgeContent={2} color="secondary">
+                <Badge badgeContent={2} color="warning">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>

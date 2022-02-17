@@ -90,6 +90,9 @@ module.exports = {
   getAllProjects: async (req, res) => {
     try {
       const projects = await Project.findAll({
+        where: {
+          isLive: true,
+        },
         include: [
           {
             model: Image,

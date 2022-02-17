@@ -3,6 +3,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Story from "./Story";
+import Website from "./Website";
+import Comment from "./Comment";
 import { Link } from "@mui/material";
 
 function TabPanel(props) {
@@ -29,21 +31,20 @@ export default function ProjectTabs(props) {
   };
 
   return (
-    <Box sx={{ maxWidth: 480, bgcolor: "background.paper" }}>
+    <Box>
       <Tabs value={value} onChange={handleChange}>
         <Tab label="Story" />
         <Tab label="Website" />
         <Tab label="Comments" />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <Story />
+        <Story project={project} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Link href={"/" + project.website}>{project.website}</Link>
+        <Website website={project.website} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        {/* <Comments /> */}
-        Fetch all the project comments here.
+        <Comment />
       </TabPanel>
     </Box>
   );

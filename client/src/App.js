@@ -60,9 +60,11 @@ function App() {
   const GuardedUserPage = guardedRoute(UserPage);
   const GuardedProjectDashboardPage = guardedRoute(ProjectDashboardPage);
   const GuardedCreateProjectPage = guardedRoute(CreateProjectPage);
-  const GuardedViewProjectPage = guardedRoute(ViewProjectPage);
   const GuardedInvestmentPage = guardedRoute(InvestmentPage);
-  const GuardInvestmentsDashboardPage = guardedRoute(InvestmentsDashboardPage);
+  const GuardedInvestmentsDashboardPage = guardedRoute(
+    InvestmentsDashboardPage
+  );
+  const GuardedProjectIdDashboardPage = guardedRoute(ViewProjectPage);
   const GuardedSingleInvestmentPage = guardedRoute(SingleInvestmentPage);
 
   // login and register pages does not need to be access by already login user
@@ -84,13 +86,23 @@ function App() {
           <Route exact path="/explore" element={<ExplorePage />} />
           <Route exact path="/chat" element={<ChatMessagePage />} />
           <Route exact path="/aboutus" element={<AboutUsPage />} />
+          <Route
+            exact
+            path="/projects/:projectId"
+            element={<ViewProjectPage />}
+          />
 
           {/* secured route */}
           <Route exact path="/user" element={<GuardedUserPage />} />
           <Route
             exact
-            path="/projects"
+            path="/projects/dashboard"
             element={<GuardedProjectDashboardPage />}
+          />
+          <Route
+            exact
+            path="/projects/dashboard/:projectId"
+            element={<GuardedProjectIdDashboardPage />}
           />
           <Route
             exact
@@ -100,7 +112,7 @@ function App() {
           <Route
             exact
             path="/user/dashboard"
-            element={<GuardInvestmentsDashboardPage />}
+            element={<GuardedInvestmentsDashboardPage />}
           />
           <Route
             exact
@@ -109,14 +121,10 @@ function App() {
           />
           <Route
             exact
-            path="/projects/:projectId"
-            element={<GuardedViewProjectPage />}
-          />
-          <Route
-            exact
             path="/investment/:projectId"
             element={<GuardedInvestmentPage />}
           />
+
           <Route path="*" element={<Page404 />} />
         </Routes>
       </Router>
