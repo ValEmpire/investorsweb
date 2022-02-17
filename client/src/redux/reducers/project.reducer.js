@@ -1,6 +1,8 @@
 import {
   ALL_PROJECTS,
+  ALL_USER_PROJECTS,
   CREATE_PROJECT,
+  CREATE_PROJECT_DRAFT,
   GET_PROJECT,
   TOGGLE_FAVORITE_PROJECT,
   UPDATE_PROJECT_IMAGE,
@@ -28,6 +30,7 @@ const initialState = {
     imageUrl: "",
     name: "",
   },
+  userProjects: [],
 };
 
 export const project = (state = initialState, action) => {
@@ -49,7 +52,14 @@ export const project = (state = initialState, action) => {
 
     case ALL_PROJECTS:
       return {
+        ...state,
         projects: action.payload,
+      };
+
+    case CREATE_PROJECT_DRAFT:
+      return {
+        ...state,
+        userProjects: [...state.userProjects, action.payload],
       };
 
     case TOGGLE_FAVORITE_PROJECT:
@@ -70,14 +80,18 @@ export const project = (state = initialState, action) => {
       };
 
     case UPDATE_PROJECT_IMAGE:
-      console.log(action.payload);
-
       return {
         ...state,
         projectFields: {
           ...state.projectFields,
           imageUrl: action.payload,
         },
+      };
+
+    case ALL_USER_PROJECTS:
+      return {
+        ...state,
+        userProjects: action.payload,
       };
 
     default:

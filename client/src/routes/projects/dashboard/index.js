@@ -14,32 +14,26 @@ import {
 import PageTitle from "../../../components/PageTitle";
 
 import Loading from "../../../components/Loading";
+import ProjectCard from "../../../components/ProjectCard";
 
 // Redux
-import { useDispatch } from "react-redux";
-import { createProjectDraft } from "../../../redux/actions/project.action";
-import ProjectCard from "../../../components/ProjectCard";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createProjectDraft,
+  getAllUserProjects,
+} from "../../../redux/actions/project.action";
 
 const ProjectDashboardPage = () => {
   const dispatch = useDispatch();
 
-  const [projects, setProjects] = useState([]);
+  const { userProjects } = useSelector(state => state.project);
 
   const [loading, setLoading] = useState(true);
 
   const [filter, setFilter] = useState("all");
 
-  const getAllProject = async () => {
-    const res = await axios.get(
-      `${process.env.REACT_APP_SERVER}/api/project/user`,
-      {
-        withCredentials: true,
-      }
-    );
-
-    const userProjects = res.data.userProjects;
-
-    setProjects(userProjects);
+  const handleUserProjects = async () => {
+    await dispatch(getAllUserProjects());
 
     setLoading(false);
 
@@ -57,7 +51,7 @@ const ProjectDashboardPage = () => {
   };
 
   useEffect(() => {
-    getAllProject();
+    handleUserProjects();
   }, []);
 
   return (
@@ -78,7 +72,7 @@ const ProjectDashboardPage = () => {
 
         <Grid container justifyContent={"right"}>
           <Grid item md={2} sm={4} xs={6}>
-            <FormControl disabled={projects.length === 0} fullWidth>
+            <FormControl disabled={userProjects.length === 0} fullWidth>
               <InputLabel id="demo-simple-select-label">Filter</InputLabel>
               <Select
                 value={filter}
@@ -96,9 +90,9 @@ const ProjectDashboardPage = () => {
 
       {loading && <Loading height={400} />}
 
-      {!loading && projects.length > 0 && (
+      {!loading && userProjects.length > 0 && (
         <Grid container spacing={4}>
-          {projects
+          {userProjects
             .filter(project => {
               if (filter === "live") {
                 return project.isLive;
@@ -120,7 +114,7 @@ const ProjectDashboardPage = () => {
         </Grid>
       )}
 
-      {!loading && projects.length === 0 && (
+      {!loading && userProjects.length === 0 && (
         <Grid container>
           <Grid item xs={12}>
             <Box>

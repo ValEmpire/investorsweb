@@ -1,10 +1,11 @@
 import {
   CREATE_PROJECT,
-  SUBMIT_PROJECT,
+  CREATE_PROJECT_DRAFT,
   ALL_PROJECTS,
   TOGGLE_FAVORITE_PROJECT,
   GET_PROJECT,
   UPDATE_PROJECT_IMAGE,
+  ALL_USER_PROJECTS,
 } from "../../const";
 import axios from "axios";
 
@@ -17,7 +18,7 @@ import { generateFileName } from "../../helpers/allHelpers";
 
 export const createProjectDraft = () => async dispatch => {
   try {
-    await axios.post(
+    const res = await axios.post(
       `${process.env.REACT_APP_SERVER}/api/project`,
       {},
       {
@@ -25,11 +26,13 @@ export const createProjectDraft = () => async dispatch => {
       }
     );
 
+    const { project } = res.data;
+
     handleSuccess("New project draft was successfuly created.", dispatch);
 
     return dispatch({
-      type: SUBMIT_PROJECT,
-      payload: "from api",
+      type: CREATE_PROJECT_DRAFT,
+      payload: project,
     });
   } catch (err) {
     handleError(err, dispatch);
@@ -196,5 +199,27 @@ export const deleteProject = projectId => async dispatch => {
     handleError(err, dispatch);
 
     return err;
+  }
+};
+
+export const getAllUserProjects = () => async dispatch => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/project/user`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    const userProjects = res.data.userProjects;
+
+    return dispatch({
+      type: ALL_USER_PROJECTS,
+      payload: userProjects,
+    });
+  } catch (err) {
+    handleError(err, dispatch);
+
+    return;
   }
 };
