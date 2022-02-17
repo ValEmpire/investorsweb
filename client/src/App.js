@@ -16,7 +16,7 @@ import HomePage from "./pages/HomePage";
 import LogInPage from "./pages/LogInPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserPage from "./pages/UserPage";
-import CreateProjectPage from "./pages/CreateProjectPage";
+import UpdateProjectPage from "./pages/UpdateProjectPage";
 import ViewProjectPage from "./pages/ViewProjectPage";
 import ProjectDashboardPage from "./pages/ProjectDashboardPage";
 import ChatMessagePage from "./pages/ChatMessagePage";
@@ -59,7 +59,7 @@ function App() {
   // guard the pages thats need authentication
   const GuardedUserPage = guardedRoute(UserPage);
   const GuardedProjectDashboardPage = guardedRoute(ProjectDashboardPage);
-  const GuardedCreateProjectPage = guardedRoute(CreateProjectPage);
+  const GuardedUpdateProjectPage = guardedRoute(UpdateProjectPage);
   const GuardedInvestmentPage = guardedRoute(InvestmentPage);
   const GuardedInvestmentsDashboardPage = guardedRoute(
     InvestmentsDashboardPage
@@ -106,8 +106,8 @@ function App() {
           />
           <Route
             exact
-            path="/projects/create"
-            element={<GuardedCreateProjectPage />}
+            path="/projects/dashboard/:projectId/update"
+            element={<GuardedUpdateProjectPage />}
           />
           <Route
             exact
