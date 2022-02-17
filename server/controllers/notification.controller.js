@@ -20,6 +20,7 @@ module.exports = {
           },
         ],
       });
+
       return res.status(200).send({
         success: true,
         notifications,
@@ -35,8 +36,6 @@ module.exports = {
 
   updateNotification: async (req, res) => {
     try {
-      const { id } = req.user;
-
       if (!req.notification) {
         throw new Error("Can not fined notification");
       }
