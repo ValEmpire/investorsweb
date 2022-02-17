@@ -5,8 +5,6 @@ import Link from "./Link";
 const NotFound = props => {
   const { message } = props;
 
-  console.log("NOT FOOUND");
-
   return (
     <Grid
       container
