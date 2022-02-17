@@ -13,9 +13,13 @@ import ProjectTabs from "./ProjectTabs";
 import Moment from "moment";
 import { amountReducer } from "../../helpers/allHelpers";
 import { currencyFormat } from "../../helpers/allHelpers";
-import { useSelector } from "react-redux";
 import Favorite from "../viewProject/Favorite";
 import Link from "../../components/Link";
+
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProject } from "../../redux/actions/project.action";
+import { useNavigate } from "react-router-dom";
 
 const Info = props => {
   const { isLive, name, value } = props;
@@ -27,9 +31,13 @@ const Info = props => {
           {name === "Status" && (
             <>
               {isLive ? (
-                <span>{value}</span>
+                <span className="uppercase" style={{ color: "green" }}>
+                  {value}
+                </span>
               ) : (
-                <span style={{ color: "red" }}>{value}</span>
+                <span className="uppercase" style={{ color: "red" }}>
+                  {value}
+                </span>
               )}
             </>
           )}
@@ -45,6 +53,10 @@ const Info = props => {
 };
 
 export default function MediaCard(props) {
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
   const user = useSelector(state => state.user);
 
   const project = props.project;
@@ -61,6 +73,14 @@ export default function MediaCard(props) {
 
   const remainingAmount = function () {
     return project.targetFund - project.raisedAmount;
+  };
+
+  const handleDeleteProject = async () => {
+    try {
+      await dispatch(deleteProject(project.id));
+
+      navigate("/projects/dashboard");
+    } catch (err) {}
   };
 
   const infos = [
@@ -193,16 +213,20 @@ export default function MediaCard(props) {
                     </Button>
                   </Link>
                 </Box>
-                <Box>
-                  <Button
-                    variant="outlined"
-                    size="large"
-                    color="warning"
-                    fullWidth
-                  >
-                    Delete Project
-                  </Button>
-                </Box>
+
+                {!project.isLive && (
+                  <Box>
+                    <Button
+                      variant="outlined"
+                      size="large"
+                      color="warning"
+                      fullWidth
+                      onClick={handleDeleteProject}
+                    >
+                      Delete Draft
+                    </Button>
+                  </Box>
+                )}
               </>
             )}
           </Card>

@@ -2,6 +2,7 @@ import React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import NumberFormat from "react-number-format";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +30,8 @@ export default function ProjectDetails() {
     field[e.target.name] = e.target.value;
 
     dispatch(createProject(field));
+
+    return;
   };
 
   return (
@@ -77,15 +80,26 @@ export default function ProjectDetails() {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="targetFund"
-            name="targetFund"
+          <NumberFormat
+            customInput={TextField}
+            onValueChange={e => {
+              const event = {
+                target: {
+                  name: "targetFund",
+                  value: e.value,
+                },
+              };
+
+              return handleField(event);
+            }}
             value={targetFund ?? ""}
-            margin="dense"
-            label="Target Fund"
+            variant="outlined"
             fullWidth
-            onChange={handleField}
+            decimalScale={2}
+            thousandSeparator=","
+            label="Target Fund"
+            fixedDecimalScale
+            prefix="$ "
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -114,15 +128,26 @@ export default function ProjectDetails() {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="minInvestment"
-            margin="dense"
-            name="minInvestment"
+          <NumberFormat
+            customInput={TextField}
+            onValueChange={e => {
+              const event = {
+                target: {
+                  name: "minInvestment",
+                  value: e.value,
+                },
+              };
+
+              return handleField(event);
+            }}
             value={minInvestment ?? ""}
-            label="Minimum Investment"
+            variant="outlined"
             fullWidth
-            onChange={handleField}
+            decimalScale={2}
+            thousandSeparator=","
+            label="Minimum Investment"
+            fixedDecimalScale
+            prefix="$ "
           />
         </Grid>
       </Grid>

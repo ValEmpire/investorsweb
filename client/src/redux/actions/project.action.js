@@ -179,3 +179,22 @@ export const uploadProjectImage =
       // handle error here
     }
   };
+
+export const deleteProject = projectId => async dispatch => {
+  try {
+    await axios.delete(
+      `${process.env.REACT_APP_SERVER}/api/project/${projectId}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    handleSuccess("Project draft was deleted successfully.", dispatch);
+
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
+
+    return err;
+  }
+};

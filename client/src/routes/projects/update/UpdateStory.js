@@ -40,7 +40,7 @@ export default function CreateStory() {
             fullWidth
             variant="outlined"
             rows={12}
-            value={story}
+            value={story ?? ""}
             multiline
             onChange={handleField}
           />
