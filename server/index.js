@@ -36,6 +36,7 @@ app.use("/api/favorite", require("./routes/favorite.route"));
 app.use("/api/investment", require("./routes/investment.route"));
 app.use("/api/commentLike", require("./routes/commentLike.route"));
 app.use("/api/stripe", require("./routes/stripe.route"));
+// app.use("/api/notification", require("./routes/notification.route"));
 
 const PORT = process.env.PORT || 3001;
 

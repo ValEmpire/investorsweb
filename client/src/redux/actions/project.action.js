@@ -86,9 +86,11 @@ export const updateProject = (project, projectId) => async dispatch => {
   }
 };
 
-export const getAllProjects = () => async dispatch => {
+export const getAllProjects = (progress, industry, sort) => async dispatch => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_SERVER}/api/project`);
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/project/?progress=${progress}&industry=${industry}&sort=${sort}`
+    );
 
     return dispatch({
       type: ALL_PROJECTS,

@@ -19,60 +19,66 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllProjects } from "../../redux/actions/project.action";
 
 const IndustryFilter = props => {
-  const [industry, setIndustry] = React.useState("all");
-
   const handleChange = event => {
-    setIndustry(event.target.value);
+    const industry = event.target.value;
+
+    props.setIndustry(industry);
+
+    props.handleProjectFilter({ industry });
   };
 
   return (
     <FormControl fullWidth>
-      <InputLabel id="techIndustry">All Industries</InputLabel>
+      <InputLabel id="industry">All Industries</InputLabel>
       <Select
-        labelId="techIndustry"
-        value={industry}
+        labelId="industry"
+        value={props.industry}
         label="All Industries"
         onChange={handleChange}
       >
-        <MenuItem value={"all"}>All Industries</MenuItem>
-        <MenuItem value={"art"}>Art</MenuItem>
-        <MenuItem value={"design"}>Design</MenuItem>
-        <MenuItem value={"technology"}>Technology</MenuItem>
+        <MenuItem value={"All"}>All Industries</MenuItem>
+        <MenuItem value={"Art"}>Art</MenuItem>
+        <MenuItem value={"Design"}>Design</MenuItem>
+        <MenuItem value={"Technology"}>Technology</MenuItem>
       </Select>
     </FormControl>
   );
 };
 
 const FundedFilter = props => {
-  const [fund, setFund] = React.useState("most");
-
   const handleChange = event => {
-    setFund(event.target.value);
+    const sort = event.target.value;
+
+    props.setSort(sort);
+    props.handleProjectFilter({ sort });
   };
 
   return (
     <FormControl fullWidth>
-      <InputLabel id="funded">Funded</InputLabel>
+      <InputLabel id="sort">Funded</InputLabel>
       <Select
-        labelId="funded"
-        value={fund}
+        labelId="sort"
+        value={props.sort}
         label="Funded"
         onChange={handleChange}
       >
-        <MenuItem value={"most"}>Most Funded</MenuItem>
-        <MenuItem value={"least"}>Least Funded</MenuItem>
-        <MenuItem value={"recently"}>Recently Launched</MenuItem>
-        <MenuItem value={"closing"}>Closing Soon</MenuItem>
+        <MenuItem value={"MostFunded"}>Most Funded</MenuItem>
+        <MenuItem value={"LeastFunded"}>Least Funded</MenuItem>
+        <MenuItem value={"RecentlyLaunched"}>Recently Launched</MenuItem>
+        <MenuItem value={"ClosingSoon"}>Closing Soon</MenuItem>
       </Select>
     </FormControl>
   );
 };
 
 const ProgressFilter = props => {
-  const [progress, setProgress] = React.useState("in progress");
-
+  // this triggers the event change
   const handleChange = event => {
-    setProgress(event.target.value);
+    const progress = event.target.value;
+
+    props.setProgress(progress);
+
+    props.handleProjectFilter({ progress });
   };
 
   return (
@@ -80,12 +86,12 @@ const ProgressFilter = props => {
       <InputLabel id="progress">Progress</InputLabel>
       <Select
         labelId="progress"
-        value={progress}
+        value={props.progress}
         label="Progress"
         onChange={handleChange}
       >
-        <MenuItem value={"in progress"}>In Progress</MenuItem>
-        <MenuItem value={"completed"}>Completed</MenuItem>
+        <MenuItem value={"InProgress"}>In Progress</MenuItem>
+        <MenuItem value={"Completed"}>Completed</MenuItem>
       </Select>
     </FormControl>
   );
@@ -93,11 +99,13 @@ const ProgressFilter = props => {
 
 const Explore = () => {
   const dispatch = useDispatch();
-
+  const [progress, setProgress] = React.useState("InProgress");
+  const [industry, setIndustry] = React.useState("All");
+  const [sort, setSort] = React.useState("MostFunded");
   const [loading, setLoading] = useState(true);
 
   const handleProjects = useCallback(async () => {
-    await dispatch(getAllProjects());
+    await dispatch(getAllProjects(progress, industry, sort));
 
     setLoading(false);
 
@@ -109,6 +117,22 @@ const Explore = () => {
   useEffect(() => {
     handleProjects();
   }, [handleProjects]);
+
+  const handleProjectFilter = async function (filter) {
+    setLoading(true);
+
+    await dispatch(
+      getAllProjects(
+        filter.progress ?? progress,
+        filter.industry ?? industry,
+        filter.sort ?? sort
+      )
+    );
+
+    setLoading(false);
+
+    return;
+  };
 
   return (
     <Box>
@@ -122,13 +146,25 @@ const Explore = () => {
               <Grid item md={7}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={4}>
-                    <ProgressFilter />
+                    <ProgressFilter
+                      handleProjectFilter={handleProjectFilter}
+                      progress={progress}
+                      setProgress={setProgress}
+                    />
                   </Grid>
                   <Grid item xs={12} sm={4}>
-                    <IndustryFilter />
+                    <IndustryFilter
+                      handleProjectFilter={handleProjectFilter}
+                      industry={industry}
+                      setIndustry={setIndustry}
+                    />
                   </Grid>
                   <Grid item xs={12} sm={4}>
-                    <FundedFilter />
+                    <FundedFilter
+                      handleProjectFilter={handleProjectFilter}
+                      sort={sort}
+                      setSort={setSort}
+                    />
                   </Grid>
                 </Grid>
               </Grid>
