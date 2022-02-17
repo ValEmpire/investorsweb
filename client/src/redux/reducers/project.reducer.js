@@ -3,6 +3,7 @@ import {
   CREATE_PROJECT,
   GET_PROJECT,
   TOGGLE_FAVORITE_PROJECT,
+  UPDATE_PROJECT_IMAGE,
 } from "../../const";
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
     industry: "",
     deadline: "",
     minInvestment: "",
+    imageUrl: "",
     name: "",
   },
 };
@@ -61,6 +63,21 @@ export const project = (state = initialState, action) => {
         ...state,
         project: action.payload.project,
         isFavorite: action.payload.isFavorite,
+        projectFields: {
+          ...action.payload.project,
+          imageUrl: action.payload.project.logo?.url,
+        },
+      };
+
+    case UPDATE_PROJECT_IMAGE:
+      console.log(action.payload);
+
+      return {
+        ...state,
+        projectFields: {
+          ...state.projectFields,
+          imageUrl: action.payload,
+        },
       };
 
     default:

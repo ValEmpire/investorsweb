@@ -25,6 +25,7 @@
     "react-avatar": "^4.0.0",
     "react-credit-cards": "^0.8.3",
     "react-dom": "^16.9.0",
+    "react-drag-drop-files": "^2.3.4",
     "react-number-format": "^4.9.1",
     "react-redux": "^7.2.6",
     "react-responsive-carousel": "^3.2.22",

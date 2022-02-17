@@ -1,15 +1,27 @@
-import * as React from "react";
+import React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createProject } from "../../../redux/actions/project.action";
 import { Box } from "@mui/material";
 
 export default function ProjectDetails() {
   const dispatch = useDispatch();
+
+  const { projectFields } = useSelector(state => state.project);
+
+  const {
+    name,
+    location,
+    website,
+    targetFund,
+    industry,
+    deadline,
+    minInvestment,
+  } = projectFields;
 
   const handleField = e => {
     const field = {};
@@ -20,7 +32,7 @@ export default function ProjectDetails() {
   };
 
   return (
-    <>
+    <Box pb={3} pt={2} mb={1}>
       <Box pb={1}>
         <Typography variant="h6" fontWeight={700} gutterBottom>
           Details
@@ -36,6 +48,7 @@ export default function ProjectDetails() {
             label="Project Name"
             fullWidth
             autoFocus
+            value={name ?? ""}
             onChange={handleField}
           />
         </Grid>
@@ -47,6 +60,7 @@ export default function ProjectDetails() {
             name="location"
             label="Location"
             fullWidth
+            value={location ?? ""}
             onChange={handleField}
           />
         </Grid>
@@ -57,6 +71,7 @@ export default function ProjectDetails() {
             id="website"
             name="website"
             label="Website"
+            value={website ?? ""}
             fullWidth
             onChange={handleField}
           />
@@ -66,6 +81,7 @@ export default function ProjectDetails() {
             required
             id="targetFund"
             name="targetFund"
+            value={targetFund ?? ""}
             margin="dense"
             label="Target Fund"
             fullWidth
@@ -79,6 +95,7 @@ export default function ProjectDetails() {
             name="industry"
             margin="dense"
             label="Industry"
+            value={industry ?? ""}
             fullWidth
             onChange={handleField}
           />
@@ -90,6 +107,7 @@ export default function ProjectDetails() {
             name="deadline"
             label="Deadline"
             fullWidth
+            value={deadline ? deadline.substring(0, 10) : ""}
             margin="dense"
             placeholder="mm-dd-yyyy"
             onChange={handleField}
@@ -101,12 +119,13 @@ export default function ProjectDetails() {
             id="minInvestment"
             margin="dense"
             name="minInvestment"
+            value={minInvestment ?? ""}
             label="Minimum Investment"
             fullWidth
             onChange={handleField}
           />
         </Grid>
       </Grid>
-    </>
+    </Box>
   );
 }

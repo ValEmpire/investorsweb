@@ -21,15 +21,6 @@ const UserAvatar = props => {
   const handleUserImageUpload = e => {
     const image = e.target.files[0];
 
-    // let img = new Image();
-
-    // img.src = window.URL.createObjectURL(image);
-
-    // get the image size
-    // img.onload = () => {
-    //   alert(img.width + " " + img.height);
-    // };
-
     dispatch(uploadUserImage(image, id));
   };
 

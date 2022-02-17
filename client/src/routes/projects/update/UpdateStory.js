@@ -21,12 +21,7 @@ export default function CreateStory() {
 
   return (
     <>
-      <Box pb={1}>
-        <Typography variant="h6" fontWeight={700} gutterBottom>
-          Story Pitch
-        </Typography>
-      </Box>
-      <Box pb={1}>
+      <Box pb={1} pt={3}>
         <Typography variant="h6" fontWeight={700} gutterBottom>
           Story Pitch
         </Typography>

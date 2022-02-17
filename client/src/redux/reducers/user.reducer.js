@@ -1,6 +1,6 @@
 import {
   LOGOUT_USER,
-  UPDATE_IMAGE,
+  UPDATE_USER_IMAGE,
   UPDATE_USER_DETAIL,
   UPDATE_USER_SECURITY,
 } from "../../const";
@@ -30,7 +30,7 @@ export const user = (state = initialState, action) => {
         userDetail: action.payload,
       };
 
-    case UPDATE_IMAGE:
+    case UPDATE_USER_IMAGE:
       return {
         ...state,
         image: action.payload,

@@ -4,7 +4,7 @@ import {
   UPDATE_USER_SECURITY,
   SET_LOADING_REGISTER,
   SET_LOADING_LOGIN,
-  UPDATE_IMAGE,
+  UPDATE_USER_IMAGE,
 } from "../../const";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -207,7 +207,7 @@ export const uploadUserImage = (image, userId) => async dispatch => {
           handleSuccess("Image uploaded successfully.", dispatch);
 
           dispatch({
-            type: UPDATE_IMAGE,
+            type: UPDATE_USER_IMAGE,
             payload: {
               url,
             },

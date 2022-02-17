@@ -4,10 +4,16 @@ import {
   ALL_PROJECTS,
   TOGGLE_FAVORITE_PROJECT,
   GET_PROJECT,
+  UPDATE_PROJECT_IMAGE,
 } from "../../const";
 import axios from "axios";
 
+// firebase
+import { storage } from "../../firebase";
+import { ref, uploadBytesResumable } from "@firebase/storage";
+
 import { handleError, handleSuccess } from "../../helpers/alert.handler";
+import { generateFileName } from "../../helpers/allHelpers";
 
 export const createProjectDraft = () => async dispatch => {
   try {
@@ -106,3 +112,49 @@ export const getProject = projectId => async dispatch => {
     return;
   }
 };
+
+export const uploadProjectImage =
+  (image, userId, projectId) => async dispatch => {
+    try {
+      const imageName = generateFileName();
+
+      const userRef = ref(storage, `/user${userId}/${imageName}.jpeg`);
+
+      const uploadTask = uploadBytesResumable(userRef, image);
+
+      uploadTask.on(
+        "state_changed",
+        snapshot => {},
+        err => handleError(err, dispatch),
+        async () => {
+          try {
+            const res = await axios.post(
+              `${process.env.REACT_APP_SERVER}/api/image/project`,
+              {
+                fileName: `${imageName}.jpeg`,
+                projectId,
+              },
+              {
+                withCredentials: true,
+              }
+            );
+
+            const { url } = res.data;
+
+            handleSuccess("Image uploaded successfully.", dispatch);
+
+            dispatch({
+              type: UPDATE_PROJECT_IMAGE,
+              payload: url,
+            });
+            return;
+          } catch (err) {
+            handleError(err, dispatch);
+          }
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      // handle error here
+    }
+  };
