@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-//MIDDLEWARES
+// //MIDDLEWARES
 const { userAuth } = require("../middlewares/user.middleware");
 
-//CONTROLLERS
+// //CONTROLLERS
 const {
   getAllUserNotifications,
   updateNotification,
@@ -12,3 +12,5 @@ const {
 
 router.route("/").get(userAuth, getAllUserNotifications);
 router.route("/:notificationId").put(userAuth, updateNotification);
+
+module.exports = router;
