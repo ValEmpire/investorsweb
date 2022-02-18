@@ -50,7 +50,7 @@ const Layout = props => {
             {/* This is our alert. this is going to display messages if error is found in redux store */}
             <Alert />
           </Box>
-          {/* <Footer /> */}
+          <Footer />
         </ThemeProvider>
       )}
     </>
