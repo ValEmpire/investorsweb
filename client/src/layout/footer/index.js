@@ -10,19 +10,19 @@ export default function Footer() {
         px={{ xs: 3, sm: 10 }}
         py={{ xs: 5, sm: 10 }}
         bgcolor="text.secondary"
-        color="white"
+        backgroundColor="#eeeeee"
       >
-        <Grid container spacing={5}>
+        <Grid container spacing={5} pl={12} ml={2}>
           <Grid item xs={12} sm={4}>
-            <Box>
+            <Box pb={2}>
               <b>About</b>
             </Box>
-            <Box>
+            <Box pb={1}>
               <Link href="/" color="inherit">
                 Our Team
               </Link>
             </Box>
-            <Box>
+            <Box pb={1}>
               <Link href="/" color="inherit">
                 Equity Crowdfunding 101
               </Link>
@@ -34,15 +34,15 @@ export default function Footer() {
             </Box>
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Box>
+            <Box pb={2}>
               <b>Companies</b>
             </Box>
-            <Box>
+            <Box pb={1}>
               <Link href="/" color="inherit">
                 Raise Capital
               </Link>
             </Box>
-            <Box>
+            <Box pb={1}>
               <Link href="/" color="inherit">
                 Why InvestorsWeb
               </Link>
@@ -54,15 +54,15 @@ export default function Footer() {
             </Box>
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Box>
+            <Box pb={2}>
               <b>Investors</b>
             </Box>
-            <Box>
+            <Box pb={1}>
               <Link href="/" color="inherit">
                 Start Investing
               </Link>
             </Box>
-            <Box>
+            <Box pb={1}>
               <Link href="/" color="inherit">
                 How Investing Works
               </Link>

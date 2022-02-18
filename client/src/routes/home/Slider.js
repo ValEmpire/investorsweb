@@ -46,7 +46,7 @@ function SwipeableTextMobileStepper() {
   return (
     <Box pt={8} pb={8}>
       <Grid container justifyContent="center">
-        <Grid item md={6} sm={9} xs={12}>
+        <Grid item md={8} sm={10} xs={12}>
           <Paper square elevation={0}>
             <Typography>{images[activeStep].label}</Typography>
           </Paper>
@@ -57,7 +57,7 @@ function SwipeableTextMobileStepper() {
             enableMouseEvents
           >
             {images.map((step, index) => (
-              <div key={step.label}>
+              <div key={step.imgPath}>
                 {Math.abs(activeStep - index) <= 2 ? (
                   <Box
                     component="img"
@@ -67,7 +67,7 @@ function SwipeableTextMobileStepper() {
                       overflow: "hidden",
                     }}
                     src={step.imgPath}
-                    alt={step.label}
+                    alt={step.imgPath}
                   />
                 ) : null}
               </div>
