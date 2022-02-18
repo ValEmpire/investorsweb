@@ -11,7 +11,6 @@ import {
 import Moment from "moment";
 import { Link } from "@mui/material";
 import { Container } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { useSelector } from "react-redux";
 
 const Img = styled("img")({
@@ -19,18 +18,6 @@ const Img = styled("img")({
   maxWidth: "100%",
   maxHeight: "100%",
 });
-
-// const useStyles = makeStyles({
-//   image: {
-//     backgroundImage: `url(${"/images/modern-futuristic-background-with-abstract-waves-vector-22579704 (2).jpg"})`,
-//     backgroundRepeat: "no-repeat",
-//     backgroundPosition: "center",
-//     backgroundSize: "cover",
-//     // minHeight: "70vh",
-//     // webkitTransform: "scaleX(-1)",
-//     // transform: "scaleX(-1)",
-//   },
-// });
 
 export default function InvestmentsDashboard(props) {
   // const classes = useStyles();

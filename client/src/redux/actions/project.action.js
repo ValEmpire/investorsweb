@@ -105,7 +105,7 @@ export const getAllProjects = (progress, industry, sort) => async dispatch => {
 
 export const toggleProjectFavorite = projectId => async dispatch => {
   try {
-    const res = await axios.post(
+    await axios.post(
       `${process.env.REACT_APP_SERVER}/api/favorite/${projectId}`,
       {},
       { withCredentials: true }

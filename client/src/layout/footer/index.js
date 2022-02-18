@@ -15,7 +15,7 @@ export default function Footer() {
         <Grid container spacing={5}>
           <Grid item xs={12} sm={4}>
             <Grid container justifyContent={"center"}>
-              <Grid item md={7} xs={12}>
+              <Grid item md={4} xs={12}>
                 <Box pb={2}>
                   <b>About</b>
                 </Box>
@@ -39,7 +39,7 @@ export default function Footer() {
           </Grid>
           <Grid item xs={12} sm={4}>
             <Grid container justifyContent={"center"}>
-              <Grid item md={7} xs={12}>
+              <Grid item md={4} xs={12}>
                 <Box pb={2}>
                   <b>Companies</b>
                 </Box>
@@ -63,7 +63,7 @@ export default function Footer() {
           </Grid>
           <Grid item xs={12} sm={4}>
             <Grid container justifyContent={"center"}>
-              <Grid item md={7} xs={12}>
+              <Grid item md={4} xs={12}>
                 <Box pb={2}>
                   <b>Investors</b>
                 </Box>

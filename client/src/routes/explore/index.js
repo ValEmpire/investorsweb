@@ -110,7 +110,7 @@ const Explore = () => {
     setLoading(false);
 
     return;
-  }, [dispatch]);
+  }, [dispatch, industry, progress, sort]);
 
   const { projects } = useSelector(state => state.project);
 
