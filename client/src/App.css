@@ -69,3 +69,11 @@
   color: #1876d2;
   font-weight: 800;
 }
+
+.popper {
+  cursor: pointer;
+}
+
+.popper :hover {
+  background-color: #eaeaea;
+}
