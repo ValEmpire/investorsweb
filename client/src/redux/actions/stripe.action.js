@@ -6,7 +6,7 @@ import {
   GET_ACCOUNT,
 } from "../../const";
 import axios from "axios";
-import { handleError } from "../../helpers/alert.handler";
+import { handleError, handleSuccess } from "../../helpers/alert.handler";
 
 export const getAllCards = (customerId, cb) => async dispatch => {
   // if customerId is not present means the user has no card
@@ -45,14 +45,14 @@ export const addCard = card => async dispatch => {
       }
     );
 
-    return dispatch({
+    dispatch({
       type: ADD_CARD,
       payload: res.data.card,
     });
-  } catch (err) {
-    console.log(err);
 
-    // handle error here
+    handleSuccess("New card created.", dispatch);
+  } catch (err) {
+    handleError(err, dispatch);
   }
 };
 
