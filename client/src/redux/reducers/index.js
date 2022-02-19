@@ -7,6 +7,7 @@ import { investment } from "./investment.reducer";
 import { alert } from "./alert.reducer";
 import { stripe } from "./stripe.reducer";
 import { loading } from "./loading.reducer";
+import { comment } from "./comment.reducer";
 
 export default combineReducers({
   user,
@@ -15,4 +16,5 @@ export default combineReducers({
   stripe,
   alert,
   loading,
+  comment,
 });

@@ -4,7 +4,6 @@ const User = model.user;
 const Image = model.image;
 const Favorite = model.favorite;
 const { Op } = require("sequelize");
-const { sequelize } = require("../models");
 
 module.exports = {
   createProject: async (req, res) => {

@@ -35,8 +35,6 @@ module.exports = {
 
   updateNotification: async (req, res) => {
     try {
-      const { id } = req.user;
-
       if (!req.notification) {
         throw new Error("Can not fined notification");
       }

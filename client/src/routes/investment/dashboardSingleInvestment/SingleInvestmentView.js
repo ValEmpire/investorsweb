@@ -17,6 +17,9 @@ import Moment from "moment";
 
 export default function SingleInvestmentView(props) {
   const investment = props.investment;
+  const remainingAmount = function () {
+    return investment.project.targetFund - investment.project.raisedAmount;
+  };
 
   return (
     <Container maxWidth="lg">
@@ -253,11 +256,10 @@ export default function SingleInvestmentView(props) {
                     fontSize: 20,
                   }}
                 >
-                  {/* {currencyFormat(Number(remainingAmount()))} */}
+                  {currencyFormat(Number(remainingAmount()))}
                 </Typography>
                 <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
                   Left to raise expected investment
-                  {/*{insesrors_count} */}
                 </Typography>
               </Box>
             </Box>

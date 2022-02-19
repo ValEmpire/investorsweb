@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import InvestmenstsDashboardView from "./InvectmentsDashboardView";
-// import { useParams } from "react-router-dom";
 import Loading from "../../../components/Loading";
 
 const InvestmentsDashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [investments, setInvestments] = useState({});
-  // const { userId } = useParams;
-  // console.log(userId);
 
   const getAllInvectments = async () => {
     const res = await axios.get(
@@ -19,7 +16,7 @@ const InvestmentsDashboardPage = () => {
     );
 
     setInvestments(res.data.investments);
-    // console.log(res.data);
+
     setLoading(false);
 
     return;

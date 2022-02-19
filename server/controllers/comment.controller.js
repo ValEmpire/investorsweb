@@ -87,7 +87,6 @@ module.exports = {
   updateComment: async (req, res) => {
     try {
       const comment = req.comment;
-      console.log("###########", req.comment);
 
       if (!comment) throw new Error("Comment not found");
 
