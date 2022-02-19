@@ -133,18 +133,11 @@ export const generateLink = (bankAccount, cb) => async dispatch => {
       { withCredentials: true }
     );
 
-    dispatch({
-      type: ADD_LINK,
-      payload: res.data.link,
-    });
-
-    cb(null, true);
+    cb(null, res.data.link);
 
     return;
   } catch (err) {
-    console.log(err);
-
-    // handle err
+    handleError(err, dispatch);
   }
 };
 

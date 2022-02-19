@@ -158,8 +158,7 @@ const ProjectDashboardPage = () => {
         <Grid container>
           <Grid item xs={12}>
             <Typography variant="h6">
-              {userDetail.id ? null : "User details and"} Company account is
-              required. Please setup your account{" "}
+              Please setup your account{" "}
               <CustomLink to="/user">
                 <Typography
                   fontWeight={700}
@@ -169,22 +168,27 @@ const ProjectDashboardPage = () => {
                 >
                   here
                 </Typography>
-                .
-              </CustomLink>
+              </CustomLink>{" "}
+              before creating project.{" "}
+              <span className="bold">User details</span> and{" "}
+              <span className="bold">Company account</span> is required.
             </Typography>
           </Grid>
         </Grid>
       )}
 
-      {!loading && account.payouts_enabled && userProjects.length === 0 && (
-        <Grid container>
-          <Grid item xs={12}>
-            <Typography variant="h6">
-              You have no project. Please create project to start funding.
-            </Typography>
+      {!loading &&
+        account.payouts_enabled &&
+        userDetail.id &&
+        userProjects.length === 0 && (
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography variant="h6">
+                You have no project. Please create project to start funding.
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
-      )}
+        )}
     </Container>
   );
 };

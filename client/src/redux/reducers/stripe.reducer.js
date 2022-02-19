@@ -11,7 +11,9 @@ const initialState = {
   cards: [],
   clientSecret: "",
   link: "",
-  account: {},
+  account: {
+    payouts_enabled: null,
+  },
 };
 
 export const stripe = (state = initialState, action) => {

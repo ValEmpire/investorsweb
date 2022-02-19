@@ -5,7 +5,7 @@ import Loading from "../../components/Loading";
 
 // Redux
 import { useDispatch } from "react-redux";
-import { generateLink, getAccount } from "../../redux/actions/stripe.action";
+import { getAccount } from "../../redux/actions/stripe.action";
 
 const Field = props => {
   const { name, value } = props;
@@ -33,7 +33,7 @@ const Field = props => {
 const ConnectedAccount = props => {
   const dispatch = useDispatch();
 
-  const { account } = props;
+  const { account, setCompanyLoading } = props;
 
   const {
     payouts_enabled,
@@ -50,15 +50,9 @@ const ConnectedAccount = props => {
     dispatch(
       getAccount((err, success) => {
         if (success) {
-          dispatch(
-            generateLink(payouts_enabled, (err, success) => {
-              if (success) {
-                setLoading(false);
-              }
+          setLoading(false);
 
-              return;
-            })
-          );
+          setCompanyLoading(false);
 
           return;
         }
@@ -68,7 +62,7 @@ const ConnectedAccount = props => {
     );
 
     return;
-  }, [dispatch, payouts_enabled]);
+  }, [dispatch]);
 
   useEffect(() => {
     setupAccount();
