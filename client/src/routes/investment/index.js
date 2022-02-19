@@ -39,12 +39,26 @@ const InvestmentPage = () => {
 
   const { projectId } = useParams();
 
-  const handleProject = useCallback(async () => {
-    await dispatch(getProject(projectId));
+  const handleProject = useCallback(() => {
+    dispatch(
+      getProject(projectId, (err, success) => {
+        if (success) {
+          dispatch(
+            findProjectInvestment(projectId, (err, success) => {
+              if (success) {
+                setLoading(false);
+              }
 
-    await dispatch(findProjectInvestment(projectId));
+              return;
+            })
+          );
 
-    setLoading(false);
+          return;
+        }
+      })
+    );
+
+    return;
   }, [dispatch, projectId]);
 
   useEffect(() => {
@@ -64,7 +78,7 @@ const InvestmentPage = () => {
 
   return (
     <>
-      {loading && <Loading />}
+      {loading && <Loading height="80vh" />}
 
       {!loading && project && (
         <Box mb={10}>

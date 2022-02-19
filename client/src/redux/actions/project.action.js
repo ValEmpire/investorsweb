@@ -90,22 +90,25 @@ export const updateProject = (project, projectId) => async dispatch => {
   }
 };
 
-export const getAllProjects = (progress, industry, sort) => async dispatch => {
-  try {
-    const res = await axios.get(
-      `${process.env.REACT_APP_SERVER}/api/project/?progress=${progress}&industry=${industry}&sort=${sort}`
-    );
+export const getAllProjects =
+  (progress, industry, sort, cb) => async dispatch => {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_SERVER}/api/project/?progress=${progress}&industry=${industry}&sort=${sort}`
+      );
 
-    return dispatch({
-      type: ALL_PROJECTS,
-      payload: res.data.projects,
-    });
-  } catch (err) {
-    console.log(err);
+      dispatch({
+        type: ALL_PROJECTS,
+        payload: res.data.projects,
+      });
 
-    // handle error
-  }
-};
+      cb(null, true);
+
+      return;
+    } catch (err) {
+      handleError(err, dispatch);
+    }
+  };
 
 export const toggleProjectFavorite = projectId => async dispatch => {
   try {
@@ -124,7 +127,7 @@ export const toggleProjectFavorite = projectId => async dispatch => {
   }
 };
 
-export const getProject = projectId => async dispatch => {
+export const getProject = (projectId, cb) => async dispatch => {
   try {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVER}/api/project/${projectId}`,
@@ -133,10 +136,14 @@ export const getProject = projectId => async dispatch => {
       }
     );
 
-    return dispatch({
+    dispatch({
       type: GET_PROJECT,
       payload: { project: res.data.project, isFavorite: res.data.isFavorite },
     });
+
+    cb(null, true);
+
+    return;
   } catch (err) {
     console.log(err);
     return;
@@ -208,7 +215,7 @@ export const deleteProject = projectId => async dispatch => {
   }
 };
 
-export const getAllUserProjects = () => async dispatch => {
+export const getAllUserProjects = cb => async dispatch => {
   try {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVER}/api/project/user`,
@@ -219,10 +226,14 @@ export const getAllUserProjects = () => async dispatch => {
 
     const userProjects = res.data.userProjects;
 
-    return dispatch({
+    dispatch({
       type: ALL_USER_PROJECTS,
       payload: userProjects,
     });
+
+    cb(null, true);
+
+    return;
   } catch (err) {
     handleError(err, dispatch);
 

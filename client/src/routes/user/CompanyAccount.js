@@ -46,12 +46,22 @@ const ConnectedAccount = props => {
 
   const [loading, setLoading] = useState(true);
 
-  const setupAccount = useCallback(async () => {
-    await dispatch(getAccount());
+  const setupAccount = useCallback(() => {
+    dispatch(
+      getAccount((err, success) => {
+        if (success) {
+          dispatch(generateLink(payouts_enabled), (err, success) => {
+            if (success) {
+              setLoading(false);
+            }
+          });
 
-    await dispatch(generateLink(payouts_enabled));
+          return;
+        }
 
-    setLoading(false);
+        return;
+      })
+    );
 
     return;
   }, [dispatch, payouts_enabled]);

@@ -5,6 +5,7 @@ import {
   FIND_PROJECT_INVESTMENT,
   SUCCESSFUL_INVESTMENT,
   ALL_USER_INVESTMENTS,
+  GET_INVESTMENT,
 } from "../../const";
 
 const initialState = {
@@ -62,6 +63,12 @@ export const investment = (state = initialState, action) => {
           ...state.investment,
           amount: action.payload,
         },
+      };
+
+    case GET_INVESTMENT:
+      return {
+        ...state,
+        investment: action.payload,
       };
 
     default:

@@ -36,9 +36,15 @@ const ProjectDashboardPage = () => {
   const [filter, setFilter] = useState("all");
 
   const handleUserProjects = useCallback(async () => {
-    await dispatch(getAllUserProjects());
+    await dispatch(
+      getAllUserProjects((err, success) => {
+        if (success) {
+          setLoading(false);
+        }
 
-    setLoading(false);
+        return;
+      })
+    );
 
     return;
   }, [dispatch]);
@@ -46,9 +52,15 @@ const ProjectDashboardPage = () => {
   const handleNewProject = () => {
     dispatch(
       createProjectDraft((err, projectId) => {
-        navigate(`/projects/dashboard/${projectId}`);
+        if (projectId) {
+          navigate(`/projects/dashboard/${projectId}`);
+        }
+
+        return;
       })
     );
+
+    return;
   };
 
   const handleFilterChange = e => {

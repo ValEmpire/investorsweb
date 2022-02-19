@@ -6,8 +6,9 @@ import {
   GET_ACCOUNT,
 } from "../../const";
 import axios from "axios";
+import { handleError } from "../../helpers/alert.handler";
 
-export const getAllCards = customerId => async dispatch => {
+export const getAllCards = (customerId, cb) => async dispatch => {
   // if customerId is not present means the user has no card
   if (!customerId) return;
 
@@ -19,10 +20,14 @@ export const getAllCards = customerId => async dispatch => {
       }
     );
 
-    return dispatch({
+    dispatch({
       type: ALL_CARDS,
       payload: res.data.cards,
     });
+
+    cb(null, true);
+
+    return;
   } catch (err) {
     console.log(err);
 
@@ -119,7 +124,7 @@ export const createPaymentIntent = (amount, ownerId) => async dispatch => {
   }
 };
 
-export const generateLink = bankAccount => async dispatch => {
+export const generateLink = (bankAccount, cb) => async dispatch => {
   try {
     if (bankAccount) return;
 
@@ -128,10 +133,14 @@ export const generateLink = bankAccount => async dispatch => {
       { withCredentials: true }
     );
 
-    return dispatch({
+    dispatch({
       type: ADD_LINK,
       payload: res.data.link,
     });
+
+    cb(null, true);
+
+    return;
   } catch (err) {
     console.log(err);
 
@@ -139,7 +148,7 @@ export const generateLink = bankAccount => async dispatch => {
   }
 };
 
-export const getAccount = () => async dispatch => {
+export const getAccount = cb => async dispatch => {
   try {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVER}/api/stripe/get-account`,
@@ -148,13 +157,15 @@ export const getAccount = () => async dispatch => {
       }
     );
 
-    return dispatch({
+    dispatch({
       type: GET_ACCOUNT,
       payload: res.data.account,
     });
-  } catch (err) {
-    console.log(err);
 
-    // handle error
+    cb(null, true);
+
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
   }
 };

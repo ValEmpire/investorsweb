@@ -6,8 +6,10 @@ import {
   SET_PAYMENT_METHOD,
   FIND_PROJECT_INVESTMENT,
   SUCCESSFUL_INVESTMENT,
+  GET_INVESTMENT,
 } from "../../const";
 import axios from "axios";
+import { handleError } from "../../helpers/alert.handler";
 
 export const createInvestment = field => dispatch => {
   return dispatch({
@@ -16,7 +18,7 @@ export const createInvestment = field => dispatch => {
   });
 };
 
-export const getAllUserInvestments = () => async dispatch => {
+export const getAllUserInvestments = cb => async dispatch => {
   try {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVER}/api/investment`,
@@ -27,12 +29,16 @@ export const getAllUserInvestments = () => async dispatch => {
 
     const { investments } = res.data;
 
-    return dispatch({
+    dispatch({
       type: ALL_USER_INVESTMENTS,
       payload: investments,
     });
+
+    cb(null, true);
+
+    return;
   } catch (err) {
-    // handle error
+    handleError(err, dispatch);
   }
 };
 
@@ -53,7 +59,7 @@ export const submitInvestment = body => async dispatch => {
   }
 };
 
-export const findProjectInvestment = projectId => async dispatch => {
+export const findProjectInvestment = (projectId, cb) => async dispatch => {
   try {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVER}/api/investment/project/${projectId}`,
@@ -71,6 +77,10 @@ export const findProjectInvestment = projectId => async dispatch => {
         investment,
       },
     });
+
+    cb(null, true);
+
+    return;
   } catch (err) {
     console.log(err);
   }
@@ -95,4 +105,26 @@ export const onSuccessfulInvestment = amount => dispatch => {
     type: SUCCESSFUL_INVESTMENT,
     payload: amount,
   });
+};
+
+export const getInvestment = (investmentId, cb) => async dispatch => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/investment/${investmentId}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    dispatch({
+      type: GET_INVESTMENT,
+      payload: res.data.investment,
+    });
+
+    cb(null, true);
+
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
+  }
 };

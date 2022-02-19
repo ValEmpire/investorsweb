@@ -79,11 +79,17 @@ const Billings = props => {
 
   const [loading, setLoading] = useState(true);
 
-  const setUpStripe = useCallback(async () => {
+  const setUpStripe = useCallback(() => {
     // pass user.customerId
-    await dispatch(getAllCards(user.customerId));
+    dispatch(
+      getAllCards(user.customerId, (err, success) => {
+        if (success) {
+          setLoading(false);
+        }
 
-    setLoading(false);
+        return;
+      })
+    );
 
     return;
   }, [dispatch, user.customerId]);
