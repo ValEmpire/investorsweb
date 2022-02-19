@@ -60,8 +60,6 @@ module.exports = {
 
       await userDetail.save();
 
-      console.log(userDetail);
-
       return res.status(200).send({
         success: true,
         userDetail,

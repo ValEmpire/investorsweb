@@ -62,8 +62,6 @@ const InvestmentPage = () => {
     !paymentMethod ? "3. Payment" : false,
   ];
 
-  console.log(isProjectInvested);
-
   return (
     <>
       {loading && <Loading />}

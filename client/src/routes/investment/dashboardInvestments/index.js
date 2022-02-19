@@ -50,8 +50,6 @@ const ProjectDashboardPage = () => {
     handleUserInvestments();
   }, [handleUserInvestments]);
 
-  console.log(userInvestments);
-
   return (
     <Container maxWidth="lg" component={Box} pb={2} mb={2}>
       <Box pb={2} mb={1}>
@@ -111,7 +109,6 @@ const ProjectDashboardPage = () => {
               <InvestmentCard
                 key={investment.createdAt + i}
                 investment={investment}
-                to="dashboard"
               />
             ))}
         </Grid>

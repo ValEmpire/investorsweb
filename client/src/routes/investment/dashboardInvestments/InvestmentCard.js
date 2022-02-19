@@ -1,27 +1,16 @@
 import React from "react";
-import {
-  Card,
-  CardMedia,
-  Divider,
-  Grid,
-  Stack,
-  Box,
-  Typography,
-} from "@mui/material";
+import { Card, CardMedia, Grid, Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import Moment from "moment";
-import { amountReducer, currencyFormat } from "../../../helpers/allHelpers";
+import { currencyFormat } from "../../../helpers/allHelpers";
 
 const InvestmentCard = props => {
   const { investment } = props;
   const { project } = investment;
-  const to = props.to;
-
-  const where = to === "dashboard" ? `/projects/${to}` : `/${to}`;
 
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Link className="link" to={`${where}/${project.id}`}>
+      <Link className="link" to={`/user/dashboard/${investment.id}`}>
         <Card>
           <CardMedia
             height={300}

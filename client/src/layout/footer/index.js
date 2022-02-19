@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
+import Link from "../../components/Link";
 
 export default function Footer() {
   return (
@@ -20,17 +20,17 @@ export default function Footer() {
                   <b>About</b>
                 </Box>
                 <Box pb={1}>
-                  <Link href="/" color="inherit">
+                  <Link to="/" color="inherit">
                     Our Team
                   </Link>
                 </Box>
                 <Box pb={1}>
-                  <Link href="/" color="inherit">
+                  <Link to="/" color="inherit">
                     Equity Crowdfunding 101
                   </Link>
                 </Box>
                 <Box>
-                  <Link href="/" color="inherit">
+                  <Link to="/" color="inherit">
                     Blog
                   </Link>
                 </Box>
@@ -44,17 +44,17 @@ export default function Footer() {
                   <b>Companies</b>
                 </Box>
                 <Box pb={1}>
-                  <Link href="/" color="inherit">
+                  <Link to="/" color="inherit">
                     Raise Capital
                   </Link>
                 </Box>
                 <Box pb={1}>
-                  <Link href="/" color="inherit">
+                  <Link to="/" color="inherit">
                     Why InvestorsWeb
                   </Link>
                 </Box>
                 <Box>
-                  <Link href="/" color="inherit">
+                  <Link to="/" color="inherit">
                     Refer Founders
                   </Link>
                 </Box>
@@ -68,17 +68,17 @@ export default function Footer() {
                   <b>Investors</b>
                 </Box>
                 <Box pb={1}>
-                  <Link href="/" color="inherit">
+                  <Link to="/" color="inherit">
                     Start Investing
                   </Link>
                 </Box>
                 <Box pb={1}>
-                  <Link href="/" color="inherit">
+                  <Link to="/" color="inherit">
                     How Investing Works
                   </Link>
                 </Box>
                 <Box>
-                  <Link href="/" color="inherit">
+                  <Link to="/" color="inherit">
                     Investor FAQ
                   </Link>
                 </Box>

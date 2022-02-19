@@ -3,6 +3,7 @@ const Investment = model.investment;
 const Project = model.project;
 const Image = model.image;
 const User = model.user;
+const UserDetail = model.userDetail;
 
 module.exports = {
   createInvestment: async (req, res) => {
@@ -157,6 +158,9 @@ module.exports = {
                 include: [
                   {
                     model: Image,
+                  },
+                  {
+                    model: UserDetail,
                   },
                 ],
               },
