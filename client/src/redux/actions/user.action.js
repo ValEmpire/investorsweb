@@ -132,12 +132,14 @@ export const updateUserDetail = userDetail => async dispatch => {
       }
     );
 
-    return dispatch({
+    dispatch({
       type: UPDATE_USER_DETAIL,
       payload: res.data.userDetail,
     });
+
+    handleSuccess("User details was updated successfuly", dispatch);
   } catch (err) {
-    // handle error here
+    handleError(err, dispatch);
   }
 };
 

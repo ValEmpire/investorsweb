@@ -1,23 +1,34 @@
 import { SET_ALERT } from "../const";
 
 export const handleError = (err, dispatch) => {
-  if (err.message) {
-    return dispatch({
-      type: SET_ALERT,
-      payload: {
-        open: true,
-        message: err.message,
-        type: "error",
-      },
-    });
-  }
-
   if (!err.response) {
     return dispatch({
       type: SET_ALERT,
       payload: {
         open: true,
         message: "Service unavailable.",
+        type: "error",
+      },
+    });
+  }
+
+  if (err.response.data) {
+    return dispatch({
+      type: SET_ALERT,
+      payload: {
+        open: true,
+        message: err.response.data.error,
+        type: "error",
+      },
+    });
+  }
+
+  if (err.message) {
+    return dispatch({
+      type: SET_ALERT,
+      payload: {
+        open: true,
+        message: err.message,
         type: "error",
       },
     });
