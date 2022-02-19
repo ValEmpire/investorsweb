@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Loading from "../../../components/Loading";
 import { useParams } from "react-router-dom";
 import SingleInvestmentView from "./SingleInvestmentView";
+import NotFound from "../../../components/NotFound";
 
 // Redux
 import { getInvestment } from "../../../redux/actions/investment.action";
@@ -15,16 +16,24 @@ const SingleInvestmentPage = props => {
   const { investment } = useSelector(state => state.investment);
 
   const [loading, setLoading] = useState(true);
-  //USER INFO
+  const [error, setError] = useState(true);
 
   const handleInvestment = useCallback(() => {
     dispatch(
       getInvestment(investmentId, (err, success) => {
-        if (success) {
+        if (err) {
           setLoading(false);
+
+          setError(true);
+
+          return;
         }
 
-        return;
+        if (success) {
+          setLoading(false);
+
+          return;
+        }
       })
     );
 
@@ -38,7 +47,8 @@ const SingleInvestmentPage = props => {
   return (
     <>
       {loading && <Loading />}
-      {!loading && investment.id && (
+      {!loading && error && <NotFound code={403} message={"Access denied."} />}
+      {!loading && !error && investment.id && (
         <SingleInvestmentView investment={investment} />
       )}
     </>

@@ -193,7 +193,7 @@ module.exports = {
 
       let isFavorite = false;
 
-      if (project.favorites.length > 0) {
+      if (project && project.favorites.length > 0) {
         isFavorite = true;
       }
 

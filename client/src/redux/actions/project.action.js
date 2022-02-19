@@ -136,16 +136,27 @@ export const getProject = (projectId, cb) => async dispatch => {
       }
     );
 
+    const { project, isFavorite } = res.data;
+
+    if (!project) {
+      const error = new Error("Project not found.");
+
+      error.code = 400;
+
+      throw error;
+    }
+
     dispatch({
       type: GET_PROJECT,
-      payload: { project: res.data.project, isFavorite: res.data.isFavorite },
+      payload: { project, isFavorite },
     });
 
     cb(null, true);
 
     return;
   } catch (err) {
-    console.log(err);
+    cb(true, null);
+
     return;
   }
 };

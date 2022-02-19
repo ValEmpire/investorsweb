@@ -125,6 +125,8 @@ export const getInvestment = (investmentId, cb) => async dispatch => {
 
     return;
   } catch (err) {
+    cb(true, null);
+
     handleError(err, dispatch);
   }
 };
