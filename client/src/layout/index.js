@@ -7,13 +7,11 @@ import { getTheme } from "../theme";
 import Alert from "../components/Alert";
 
 // Redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setWindowWidth } from "../redux/actions/layout.action";
 
 const Layout = props => {
   const [theme, setTheme] = useState();
-
-  const { width } = useSelector(state => state.layout);
 
   const dispatch = useDispatch();
 

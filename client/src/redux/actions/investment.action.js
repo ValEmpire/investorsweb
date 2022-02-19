@@ -1,7 +1,7 @@
 import {
   CREATE_INVESTMENT,
   SUBMIT_INVESTMENT,
-  ALL_INVESTMENTS,
+  ALL_USER_INVESTMENTS,
   SET_INVESTMENT_AMOUNT,
   SET_PAYMENT_METHOD,
   FIND_PROJECT_INVESTMENT,
@@ -16,9 +16,27 @@ export const createInvestment = field => dispatch => {
   });
 };
 
-export const submitInvestment = body => async dispatch => {
-  console.log("submitting investment");
+export const getAllUserInvestments = () => async dispatch => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/investment`,
+      {
+        withCredentials: true,
+      }
+    );
 
+    const { investments } = res.data;
+
+    return dispatch({
+      type: ALL_USER_INVESTMENTS,
+      payload: investments,
+    });
+  } catch (err) {
+    // handle error
+  }
+};
+
+export const submitInvestment = body => async dispatch => {
   try {
     await axios.post(`${process.env.REACT_APP_SERVER}/api/investment`, body, {
       withCredentials: true,
@@ -30,23 +48,6 @@ export const submitInvestment = body => async dispatch => {
     });
   } catch (err) {
     console.log(err.message);
-
-    //hendle error
-  }
-};
-
-export const getAllInvestments = () => async dispatch => {
-  try {
-    const res = await axios.get(
-      `${process.env.REACT_APP_SERVER}/api/investment`
-    );
-
-    return dispatch({
-      type: ALL_INVESTMENTS,
-      payload: res.data.investments,
-    });
-  } catch (err) {
-    console.log(err);
 
     //hendle error
   }

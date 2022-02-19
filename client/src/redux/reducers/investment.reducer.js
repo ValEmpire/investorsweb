@@ -1,10 +1,10 @@
 import {
   CREATE_INVESTMENT,
-  ALL_INVESTMENTS,
   SET_INVESTMENT_AMOUNT,
   SET_PAYMENT_METHOD,
   FIND_PROJECT_INVESTMENT,
   SUCCESSFUL_INVESTMENT,
+  ALL_USER_INVESTMENTS,
 } from "../../const";
 
 const initialState = {
@@ -13,6 +13,7 @@ const initialState = {
   investment: {},
   paymentMethod: false,
   isProjectInvested: null,
+  userInvestments: [],
 };
 
 export const investment = (state = initialState, action) => {
@@ -26,9 +27,10 @@ export const investment = (state = initialState, action) => {
         [fieldName]: fieldValue,
       };
 
-    case ALL_INVESTMENTS:
+    case ALL_USER_INVESTMENTS:
       return {
-        investments: action.payload,
+        ...state,
+        userInvestments: action.payload,
       };
 
     case SET_INVESTMENT_AMOUNT:

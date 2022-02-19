@@ -1,333 +1,130 @@
 import * as React from "react";
-import { Container, Grid, Link } from "@mui/material";
+import { CardContent, Container, Grid, Link } from "@mui/material";
 import { Card } from "@mui/material";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
 import { Divider } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {
-  currencyFormat,
-  capitalizeFirstLetter,
-} from "../../../helpers/allHelpers";
+import { currencyFormat } from "../../../helpers/allHelpers";
 import Moment from "moment";
+import ProjectImage from "./ProjectImage";
+import CustomLink from "../../../components/Link";
 
 export default function SingleInvestmentView(props) {
   const investment = props.investment;
+
+  console.log(investment);
 
   return (
     <Container maxWidth="lg">
       <Grid container spacing={4} mt={10}>
         <Grid item md={8} xs={12}>
-          <Card
-            md={8}
-            xs={12}
-            sx={{
-              border: "none",
-              boxShadow: "none",
-            }}
-          >
-            <Box>
-              <CardMedia
-                sx={{
-                  height: "100%",
-                }}
-                component="img"
-                image={
-                  investment.project.logo ? investment.project.logo.url : null
-                }
-                alt={investment.project.name}
-              />
-            </Box>
-            <Box>
-              <Box>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    <b>{investment.project.name}</b>
-                  </Typography>
-                </CardContent>
-              </Box>
-              <Typography gutterBottom component="div">
-                <CardActions
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "flex-start",
-                    color: "#212121",
-                  }}
-                ></CardActions>
-              </Typography>
-            </Box>
-          </Card>
+          <ProjectImage investment={investment} />
+
+          <Box textAlign={"center"} pt={1} mt={1}>
+            <CardContent>
+              <CustomLink
+                to={`/projects/${investment.project.id}`}
+                color="secondary"
+              >
+                <Link
+                  fontWeight={700}
+                  variant="h5"
+                  color="primary"
+                  underline="none"
+                >
+                  {investment.project.name}
+                </Link>
+              </CustomLink>
+            </CardContent>
+          </Box>
         </Grid>
 
         <Grid item md={4} xs={12}>
-          <Card
-            sx={{
-              pb: 4,
-              border: "none",
-              boxShadow: "none",
-            }}
-          >
+          <Box>
             <Box display="flex" alignItems="center" mb={2}>
-              <b>{` Project ${investment.project.name} was created by
-              ${capitalizeFirstLetter(investment.project.owner.firstName)}
-             ${capitalizeFirstLetter(
-               investment.project.owner.lastName
-             )} on ${Moment(investment.project.createdAt).format(
-                "d MMM YYYY"
-              )}`}</b>
-              <div>
-                <Avatar
-                  alt={investment.project.name}
-                  src={
-                    investment.project.owner.image
-                      ? investment.project.owner.image.url
-                      : null
-                  }
-                  sx={{ width: 100, height: 100 }}
-                />
-              </div>
-            </Box>
-            <Divider variant="full" color="#0277bd" sx={{ height: 3 }} />
-
-            <Box
-              sx={{
-                mt: 4,
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 20,
-                  }}
-                >
-                  {investment.project.isLive ? "Active" : "Pending"}
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  Status
-                  {/*{insesrors_count} */}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 20,
-                  }}
-                >
-                  {investment.project.location}
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  Location
-                  {/*{insesrors_count} */}
-                </Typography>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                mt: 6,
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 20,
-                  }}
-                >
-                  {currencyFormat(Number(investment.amount))}
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  Your Investment
-                </Typography>
-              </Box>
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 20,
-                  }}
-                ></Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  {/* Target Funf */}
-                </Typography>
-              </Box>
-            </Box>
-
-            <Box
-              sx={{
-                mt: 5,
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 15,
-                  }}
-                >
-                  <Link href={"/" + investment.project.website}>
-                    {investment.project.website}
-                  </Link>
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  Project website
-                </Typography>
-              </Box>
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    ml: 0,
-                    fontSize: 20,
-                  }}
-                >
-                  {/* {Moment(project.deadline).format("ll")} */}
-                </Typography>
-                <Typography sx={{ color: "#424242", fontSize: 15 }}>
-                  {/* Deadline */}
-                </Typography>
-              </Box>
-            </Box>
-
-            <Box
-              sx={{
-                mt: 4,
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 15,
-                  }}
-                >
-                  {investment.project.owner.email}
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  E-mail us
-                  {/*{insesrors_count} */}
-                </Typography>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                mt: 4,
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Box>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 20,
-                  }}
-                >
-                  {/* {currencyFormat(Number(remainingAmount()))} */}
-                </Typography>
-                <Typography sx={{ color: "#424242", mx: 4, fontSize: 15 }}>
-                  Left to raise expected investment
-                  {/*{insesrors_count} */}
-                </Typography>
-              </Box>
-            </Box>
-            <Box mt={12} pb={3}>
-              <Button
-                href={"/investment/" + investment.id}
-                variant="contained"
-                size="large"
-                fullWidth
+              <Typography
+                color="primary"
+                sx={{ paddingRight: 2, pb: 1 }}
+                variant="h4"
               >
-                Add Investment
-              </Button>
+                <b>{`${currencyFormat(Number(investment.amount))}`}</b>
+              </Typography>
+              Invested
             </Box>
-          </Card>
-        </Grid>
-      </Grid>
-      {/* NEXT iNFO */}
-      <Box
-        item
-        xs={12}
-        md={12}
-        sx={{
-          mb: 4,
-          border: "none",
-          boxShadow: "none",
-          height: "100%",
-        }}
-      >
-        <Grid item md={8} xs={12} sx={{ display: "flex" }}>
-          <Card md={8} xs={12}>
-            <Box>
-              <Box display="flex" alignItems="center" mb={2}>
-                <Typography
-                  sx={{ pl: 1, pr: 1, pt: 1, pb: 1 }}
-                  variant="h4"
-                ></Typography>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#212121",
-                    mx: 4,
-                    fontSize: 16,
-                  }}
-                >
-                  Project: {investment.project.story}
-                </Typography>
-              </Box>
-            </Box>
-            <Box>
-              <Box>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {/* <b>{investment.project.name}</b> */}
-                  </Typography>
-                </CardContent>
-              </Box>
-              <Typography gutterBottom component="div">
-                <CardActions
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "flex-start",
-                    color: "#212121",
-                  }}
-                ></CardActions>
+            <Box pb={1} mb={1}>
+              <Typography>
+                <span className="bold">
+                  {Moment(investment.createdAt).format("D-MMM-YYYY")}{" "}
+                </span>
+                <span>Date of investment</span>
               </Typography>
             </Box>
-          </Card>
+
+            <Divider variant="full" color="#1876D2" sx={{ height: 3 }} />
+
+            <Box pb={1} mt={4} textAlign="center">
+              <Typography variant="h6" fontWeight={700}>
+                Contact Details
+              </Typography>
+            </Box>
+
+            <Card component={Box} p={2} mt={4}>
+              <Box display="flex" mb={2} alignItems="center">
+                <Box mr={2}>
+                  <Avatar
+                    alt={investment.project.name}
+                    src={
+                      investment.project.owner.image
+                        ? investment.project.owner.image.url
+                        : null
+                    }
+                    sx={{ width: 75, height: 75 }}
+                  />
+                </Box>
+                <Box>
+                  <Typography fontWeight={700} variant="h6">
+                    <span className="capitalize">{`${investment.project.owner.firstName} ${investment.project.owner.lastName}`}</span>
+                  </Typography>
+                  <Typography variant="body2">
+                    {investment.project.owner.userDetail.phoneNumber}
+                  </Typography>
+                  <Typography variant="body2">
+                    {investment.project.owner.email}
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box mt={1} mb={1} pt={1}>
+                <Typography variant="body1">
+                  Location :{" "}
+                  <span className="bold capitalize">
+                    {investment.project.location}
+                  </span>{" "}
+                </Typography>
+              </Box>
+
+              <Box mt={1} mb={1} pt={1}>
+                <Typography variant="body1">
+                  Created on :{" "}
+                  <span className="bold">{`${Moment(
+                    investment.project.createdAt
+                  ).format("D MMM YYYY")}`}</span>
+                </Typography>
+              </Box>
+
+              <Box mt={1} mb={1} pt={1}>
+                <Typography variant="body1">
+                  Website :{" "}
+                  <Link href={investment.project.website}>
+                    <span className="bold">{investment.project.website}</span>
+                  </Link>
+                </Typography>
+              </Box>
+            </Card>
+          </Box>
         </Grid>
-      </Box>
+      </Grid>
     </Container>
   );
 }

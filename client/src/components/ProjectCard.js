@@ -61,7 +61,7 @@ const ProjectCard = props => {
               <br />
               <Typography>
                 Deadline:
-                <strong>{Moment(project.deadline).format("d MMM YYYY")}</strong>
+                <strong>{Moment(project.deadline).format("D MMM YYYY")}</strong>
               </Typography>
             </Box>
           </Box>

@@ -5,7 +5,7 @@ const LinkComponent = props => {
   const { to } = props;
 
   return (
-    <Link className="no-underline" to={to}>
+    <Link className="link" to={to}>
       {props.children}
     </Link>
   );

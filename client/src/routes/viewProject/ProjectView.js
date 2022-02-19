@@ -15,42 +15,12 @@ import { amountReducer } from "../../helpers/allHelpers";
 import { currencyFormat } from "../../helpers/allHelpers";
 import Favorite from "../viewProject/Favorite";
 import Link from "../../components/Link";
+import Info from "../../components/Info";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProject } from "../../redux/actions/project.action";
 import { useNavigate } from "react-router-dom";
-
-const Info = props => {
-  const { isLive, name, value } = props;
-
-  return (
-    <Grid item xs={6}>
-      <Box p={2}>
-        <Typography fontWeight={700} variant="h6">
-          {name === "Status" && (
-            <>
-              {isLive ? (
-                <span className="uppercase" style={{ color: "green" }}>
-                  {value}
-                </span>
-              ) : (
-                <span className="uppercase" style={{ color: "red" }}>
-                  {value}
-                </span>
-              )}
-            </>
-          )}
-
-          {name !== "Status" && value}
-        </Typography>
-        <Typography color="text.secondary" variant="body2">
-          {name}
-        </Typography>
-      </Box>
-    </Grid>
-  );
-};
 
 export default function MediaCard(props) {
   const dispatch = useDispatch();
@@ -165,7 +135,11 @@ export default function MediaCard(props) {
             }}
           >
             <Box display="flex" alignItems="center" mb={2}>
-              <Typography sx={{ paddingRight: 2, pb: 1 }} variant="h4">
+              <Typography
+                color="primary"
+                sx={{ paddingRight: 2, pb: 1 }}
+                variant="h4"
+              >
                 <b>{`${currencyFormat(Number(project.raisedAmount))}`}</b>
               </Typography>
               Raised
@@ -173,7 +147,7 @@ export default function MediaCard(props) {
 
             <Divider
               variant="full"
-              color="#0277bd"
+              color="#1876D2"
               sx={{ height: 3, marginBottom: 2 }}
             />
 

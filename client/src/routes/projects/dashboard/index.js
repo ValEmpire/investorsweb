@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   Box,
@@ -32,13 +32,13 @@ const ProjectDashboardPage = () => {
 
   const [filter, setFilter] = useState("all");
 
-  const handleUserProjects = async () => {
+  const handleUserProjects = useCallback(async () => {
     await dispatch(getAllUserProjects());
 
     setLoading(false);
 
     return;
-  };
+  }, [dispatch]);
 
   const handleNewProject = () => {
     dispatch(createProjectDraft());
@@ -52,7 +52,7 @@ const ProjectDashboardPage = () => {
 
   useEffect(() => {
     handleUserProjects();
-  }, []);
+  }, [handleUserProjects]);
 
   return (
     <Container maxWidth="lg" component={Box} pb={2} mb={2}>
