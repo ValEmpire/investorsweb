@@ -7,6 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import { useParams } from "react-router-dom";
+import LongMenu from "./ReplaySideMenu";
 
 //HELPERS
 import { capitalizeFirstLetter } from "../../helpers/allHelpers";
@@ -19,8 +20,9 @@ import { getAllComments } from "../../redux/actions/comment.action";
 const CommentBox = props => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [commentValue, setCommentValue] = useState("");
-  const comment = props.comment;
   const ReplyArea = props.replyArea;
+
+  const comment = props.comment;
 
   const onChange = e => {
     setCommentValue(e.target.value);
@@ -59,9 +61,14 @@ const CommentBox = props => {
             {moment(comment.createdAt).fromNow()}
           </Typography>
         </Box>
-        <Typography variant="body2" color="text.secondary">
-          {comment.body}
-        </Typography>
+        <Box display="flex">
+          <Typography variant="body2" color="text.secondary">
+            {comment.body}
+          </Typography>
+          <Box>
+            <LongMenu />
+          </Box>
+        </Box>
         <Box display="flex" alignItems="center">
           <IconButton color="primary" size="small">
             <ThumbUpOutlinedIcon fontSize="20px" />
@@ -94,12 +101,12 @@ const CommentArea = props => {
   return (
     <>
       <TextField
-        fullWidth
-        multiline
         onChange={onChange}
         placeholder={`Add a ${name}...`}
         value={commentValue}
         name="comment"
+        fullWidth
+        multiline
       />
       <Box textAlign={"right"} pt={1}>
         <button type="button" className="cancel" onClick={onClose}>
@@ -119,7 +126,6 @@ const CommentSection = () => {
   const dispatch = useDispatch();
 
   const { projectId } = useParams();
-  // console.log(projectId);
 
   const { comments } = useSelector(state => state.comment);
 
@@ -151,8 +157,8 @@ const CommentSection = () => {
   };
 
   return (
-    <Grid container>
-      <Grid item xs={12}>
+    <Grid container xs={6} md={12} sm={12} sx={{ width: 600 }}>
+      <Grid item xs={12} sx={{ width: 600 }}>
         <Box pb={1} mb={1}>
           <CommentArea
             onChange={onChange}
@@ -163,9 +169,9 @@ const CommentSection = () => {
         </Box>
         {comments.map(comment => (
           <CommentBox
+            replyArea={CommentArea}
             key={comment.id}
             comment={comment}
-            replyArea={CommentArea}
           />
         ))}
       </Grid>
