@@ -50,11 +50,15 @@ const ConnectedAccount = props => {
     dispatch(
       getAccount((err, success) => {
         if (success) {
-          dispatch(generateLink(payouts_enabled), (err, success) => {
-            if (success) {
-              setLoading(false);
-            }
-          });
+          dispatch(
+            generateLink(payouts_enabled, (err, success) => {
+              if (success) {
+                setLoading(false);
+              }
+
+              return;
+            })
+          );
 
           return;
         }

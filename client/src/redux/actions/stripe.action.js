@@ -10,7 +10,7 @@ import { handleError } from "../../helpers/alert.handler";
 
 export const getAllCards = (customerId, cb) => async dispatch => {
   // if customerId is not present means the user has no card
-  if (!customerId) return;
+  if (!customerId) return cb(null, true);
 
   try {
     const res = await axios.get(
@@ -126,7 +126,7 @@ export const createPaymentIntent = (amount, ownerId) => async dispatch => {
 
 export const generateLink = (bankAccount, cb) => async dispatch => {
   try {
-    if (bankAccount) return;
+    if (bankAccount) return cb(null, true);
 
     const res = await axios.get(
       `${process.env.REACT_APP_SERVER}/api/stripe/generate-link`,
