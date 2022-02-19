@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
-
+import React, { useState, useEffect } from "react";
 import { Button, Divider, IconButton, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -11,17 +10,16 @@ import { useParams } from "react-router-dom";
 
 //HELPERS
 import { capitalizeFirstLetter } from "../../helpers/allHelpers";
+import moment from "moment";
 
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { getAllComments } from "../../redux/actions/comment.action";
-import moment from "moment";
 
 const CommentBox = props => {
-  const { comments } = useSelector(state => state.comment);
   const [isExpanded, setIsExpanded] = useState(false);
   const [commentValue, setCommentValue] = useState("");
-
+  const comment = props.comment;
   const ReplyArea = props.replyArea;
 
   const onChange = e => {
@@ -41,62 +39,51 @@ const CommentBox = props => {
   const handleReplyTextField = () => {
     setIsExpanded(true);
   };
-  console.log(comments);
-  return (
-    <Box>
-      {comments.map(comment => (
-        <Box display="flex" key={comment.id}>
-          <Box pr={2}>
-            <Avatar
-              alt={comment.user.firstName}
-              src={comment.user.image ? comment.user.image.url : null}
-            />
-          </Box>
-          <Box>
-            <Box pb={1} display="flex" alignItems="center">
-              <Box pr={2}>
-                <Typography variant="body1" fontWeight={700}>
-                  {capitalizeFirstLetter(comment.user.firstName)}
-                </Typography>
-              </Box>
-              <Typography variant="body2" color="text.secondary">
-                {moment(comment.createdAt).fromNow()}
-              </Typography>
-            </Box>
-            <Typography variant="body2" color="text.secondary">
-              {comment.body}
-            </Typography>
-            <Box display="flex" alignItems="center">
-              <IconButton color="primary" size="small">
-                <ThumbUpOutlinedIcon fontSize="20px" />
-              </IconButton>
-              <Typography variant="body2">0</Typography>
-              <Box pl={2} ml={1}>
-                <Button
-                  variant="text"
-                  size="small"
-                  onClick={handleReplyTextField}
-                >
-                  Reply
-                </Button>
-              </Box>
-              <Box pl={2} ml={1}>
-                <Button>Delete</Button>
-              </Box>
-            </Box>
 
-            {isExpanded && (
-              <ReplyArea
-                onChange={onChange}
-                onClose={onClose}
-                commentValue={commentValue}
-                name="reply"
-              />
-            )}
+  return (
+    <Box display="flex">
+      <Box pr={2}>
+        <Avatar
+          alt={comment.user.firstName}
+          src={comment.user.image ? comment.user.image.url : null}
+        />
+      </Box>
+      <Box>
+        <Box pb={1} display="flex" alignItems="center">
+          <Box pr={2}>
+            <Typography variant="body1" fontWeight={700}>
+              {capitalizeFirstLetter(comment.user.firstName)}
+            </Typography>
           </Box>
-          <Divider style={{ margin: "30px 0" }} />
+          <Typography variant="body2" color="text.secondary">
+            {moment(comment.createdAt).fromNow()}
+          </Typography>
         </Box>
-      ))}
+        <Typography variant="body2" color="text.secondary">
+          {comment.body}
+        </Typography>
+        <Box display="flex" alignItems="center">
+          <IconButton color="primary" size="small">
+            <ThumbUpOutlinedIcon fontSize="20px" />
+          </IconButton>
+          <Typography variant="body2">0</Typography>
+          <Box pl={2} ml={1}>
+            <Button variant="text" size="small" onClick={handleReplyTextField}>
+              Reply
+            </Button>
+          </Box>
+        </Box>
+
+        {isExpanded && (
+          <ReplyArea
+            onChange={onChange}
+            onClose={onClose}
+            commentValue={commentValue}
+            name="reply"
+          />
+        )}
+      </Box>
+      <Divider style={{ margin: "30px 0" }} />
     </Box>
   );
 };
@@ -107,12 +94,12 @@ const CommentArea = props => {
   return (
     <>
       <TextField
+        fullWidth
+        multiline
         onChange={onChange}
         placeholder={`Add a ${name}...`}
         value={commentValue}
         name="comment"
-        fullWidth
-        multiline
       />
       <Box textAlign={"right"} pt={1}>
         <button type="button" className="cancel" onClick={onClose}>
@@ -177,7 +164,7 @@ const CommentSection = () => {
         {comments.map(comment => (
           <CommentBox
             key={comment.id}
-            comments={comments}
+            comment={comment}
             replyArea={CommentArea}
           />
         ))}
