@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import Loading from "../../../components/Loading";
 import { useParams } from "react-router-dom";
@@ -15,7 +15,7 @@ const SingleInvestmentPage = props => {
 
   console.log(user);
 
-  const getInvestment = async () => {
+  const getInvestment = useCallback(async () => {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVER}/api/investment/${investmentId}`,
       {
@@ -25,11 +25,11 @@ const SingleInvestmentPage = props => {
     setInvestment(res.data.investment);
     setLoading(false);
     return;
-  };
+  }, [investmentId]);
 
   useEffect(() => {
     getInvestment();
-  }, []);
+  }, [getInvestment]);
 
   return (
     <>
