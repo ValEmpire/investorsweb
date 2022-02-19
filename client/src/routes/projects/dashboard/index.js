@@ -22,9 +22,12 @@ import {
   createProjectDraft,
   getAllUserProjects,
 } from "../../../redux/actions/project.action";
+import { useNavigate } from "react-router-dom";
 
 const ProjectDashboardPage = () => {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const { userProjects } = useSelector(state => state.project);
 
@@ -41,7 +44,11 @@ const ProjectDashboardPage = () => {
   }, [dispatch]);
 
   const handleNewProject = () => {
-    dispatch(createProjectDraft());
+    dispatch(
+      createProjectDraft((err, projectId) => {
+        navigate(`/projects/dashboard/${projectId}`);
+      })
+    );
   };
 
   const handleFilterChange = e => {

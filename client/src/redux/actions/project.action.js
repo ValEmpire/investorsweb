@@ -16,7 +16,7 @@ import { ref, uploadBytesResumable } from "@firebase/storage";
 import { handleError, handleSuccess } from "../../helpers/alert.handler";
 import { generateFileName } from "../../helpers/allHelpers";
 
-export const createProjectDraft = () => async dispatch => {
+export const createProjectDraft = cb => async dispatch => {
   try {
     const res = await axios.post(
       `${process.env.REACT_APP_SERVER}/api/project`,
@@ -30,12 +30,16 @@ export const createProjectDraft = () => async dispatch => {
 
     handleSuccess("New project draft was successfuly created.", dispatch);
 
+    cb(null, project.id);
+
     return dispatch({
       type: CREATE_PROJECT_DRAFT,
       payload: project,
     });
   } catch (err) {
     handleError(err, dispatch);
+
+    cb(err, null);
 
     return;
   }
