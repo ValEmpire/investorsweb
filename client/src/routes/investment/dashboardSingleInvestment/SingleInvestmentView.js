@@ -78,7 +78,7 @@ export default function SingleInvestmentView(props) {
              ${capitalizeFirstLetter(
                investment.project.owner.lastName
              )} on ${Moment(investment.project.createdAt).format(
-                "d MMM YYYY"
+                "D MMM YYYY"
               )}`}</b>
               <div>
                 <Avatar
