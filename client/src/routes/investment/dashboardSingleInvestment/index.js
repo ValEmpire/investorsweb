@@ -1,39 +1,54 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useCallback } from "react";
 import Loading from "../../../components/Loading";
 import { useParams } from "react-router-dom";
 import SingleInvestmentView from "./SingleInvestmentView";
-import { useSelector } from "react-redux";
+import NotFound from "../../../components/NotFound";
+
+// Redux
+import { getInvestment } from "../../../redux/actions/investment.action";
+import { useDispatch, useSelector } from "react-redux";
 
 const SingleInvestmentPage = props => {
-  const [investment, setInvestment] = useState({});
+  const dispatch = useDispatch();
+
   const { investmentId } = useParams();
+
+  const { investment } = useSelector(state => state.investment);
+
   const [loading, setLoading] = useState(true);
-  //USER INFO
-  const user = useSelector(state => state.user);
+  const [error, setError] = useState(false);
 
-  console.log(user);
+  const handleInvestment = useCallback(() => {
+    dispatch(
+      getInvestment(investmentId, (err, success) => {
+        if (err) {
+          setLoading(false);
 
-  const getInvestment = async () => {
-    const res = await axios.get(
-      `${process.env.REACT_APP_SERVER}/api/investment/${investmentId}`,
-      {
-        withCredentials: true,
-      }
+          setError(true);
+
+          return;
+        }
+
+        if (success) {
+          setLoading(false);
+
+          return;
+        }
+      })
     );
-    setInvestment(res.data.investment);
-    setLoading(false);
+
     return;
-  };
+  }, [dispatch, investmentId]);
 
   useEffect(() => {
-    getInvestment();
-  }, []);
+    handleInvestment();
+  }, [handleInvestment]);
 
   return (
     <>
       {loading && <Loading />}
-      {!loading && investment.id && (
+      {!loading && error && <NotFound code={403} message={"Access denied."} />}
+      {!loading && !error && investment.id && (
         <SingleInvestmentView investment={investment} />
       )}
     </>

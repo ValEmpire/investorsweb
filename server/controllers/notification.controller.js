@@ -1,4 +1,3 @@
-const e = require("express");
 const model = require("../models");
 const Notification = model.notification;
 const User = model.user;
@@ -20,6 +19,7 @@ module.exports = {
           },
         ],
       });
+
       return res.status(200).send({
         success: true,
         notifications,

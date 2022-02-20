@@ -43,52 +43,64 @@ const CommentBox = props => {
   };
 
   return (
-    <Box display="flex">
-      <Box pr={2}>
-        <Avatar
-          alt={comment.user.firstName}
-          src={comment.user.image ? comment.user.image.url : null}
-        />
-      </Box>
-      <Box>
-        <Box pb={1} display="flex" alignItems="center">
-          <Box pr={2}>
-            <Typography variant="body1" fontWeight={700}>
-              {capitalizeFirstLetter(comment.user.firstName)}
+    <Box>
+      <Box display="flex">
+        {/* Avatar */}
+        <Box pr={2}>
+          <Avatar
+            alt={comment.user.firstName}
+            src={comment.user.image ? comment.user.image.url : null}
+          />
+        </Box>
+        <Box>
+          {/* NAME AND DATE */}
+          <Box pb={1} display="flex" alignItems="center">
+            <Box pr={2}>
+              <Typography variant="body1" fontWeight={700}>
+                {capitalizeFirstLetter(comment.user.firstName)}
+              </Typography>
+            </Box>
+            <Typography variant="body2" color="text.secondary">
+              {moment(comment.createdAt).fromNow()}
             </Typography>
           </Box>
-          <Typography variant="body2" color="text.secondary">
-            {moment(comment.createdAt).fromNow()}
-          </Typography>
-        </Box>
-        <Box display="flex">
-          <Typography variant="body2" color="text.secondary">
-            {comment.body}
-          </Typography>
-          <Box>
+
+          {/* BODY */}
+          <Box display="flex">
+            <Box>
+              <Typography variant="body2" color="text.secondary">
+                {comment.body}
+              </Typography>
+            </Box>
             <LongMenu />
           </Box>
-        </Box>
-        <Box display="flex" alignItems="center">
-          <IconButton color="primary" size="small">
-            <ThumbUpOutlinedIcon fontSize="20px" />
-          </IconButton>
-          <Typography variant="body2">0</Typography>
-          <Box pl={2} ml={1}>
-            <Button variant="text" size="small" onClick={handleReplyTextField}>
-              Reply
-            </Button>
-          </Box>
-        </Box>
 
-        {isExpanded && (
-          <ReplyArea
-            onChange={onChange}
-            onClose={onClose}
-            commentValue={commentValue}
-            name="reply"
-          />
-        )}
+          {/* ACTIONS */}
+          <Box display="flex" alignItems="center">
+            <IconButton color="primary" size="small">
+              <ThumbUpOutlinedIcon fontSize="20px" />
+            </IconButton>
+            <Typography variant="body2">0</Typography>
+            <Box pl={2} ml={1}>
+              <Button
+                variant="text"
+                size="small"
+                onClick={handleReplyTextField}
+              >
+                Reply
+              </Button>
+            </Box>
+          </Box>
+
+          {isExpanded && (
+            <ReplyArea
+              onChange={onChange}
+              onClose={onClose}
+              commentValue={commentValue}
+              name="reply"
+            />
+          )}
+        </Box>
       </Box>
       <Divider style={{ margin: "30px 0" }} />
     </Box>
@@ -157,8 +169,8 @@ const CommentSection = () => {
   };
 
   return (
-    <Grid container xs={6} md={12} sm={12} sx={{ width: 600 }}>
-      <Grid item xs={12} sx={{ width: 600 }}>
+    <Grid container>
+      <Grid item xs={12}>
         <Box pb={1} mb={1}>
           <CommentArea
             onChange={onChange}

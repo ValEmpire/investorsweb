@@ -38,16 +38,12 @@ const AddCard = props => {
     });
   };
 
-  const handleSubmit = async e => {
-    try {
-      e.preventDefault();
+  const handleSubmit = e => {
+    e.preventDefault();
 
-      await dispatch(addCard(card));
+    dispatch(addCard(card));
 
-      handleClose();
-    } catch (err) {
-      // handle error
-    }
+    handleClose();
   };
 
   const handleInputChange = e => {

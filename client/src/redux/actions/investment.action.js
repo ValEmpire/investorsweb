@@ -1,13 +1,15 @@
 import {
   CREATE_INVESTMENT,
   SUBMIT_INVESTMENT,
-  ALL_INVESTMENTS,
+  ALL_USER_INVESTMENTS,
   SET_INVESTMENT_AMOUNT,
   SET_PAYMENT_METHOD,
   FIND_PROJECT_INVESTMENT,
   SUCCESSFUL_INVESTMENT,
+  GET_INVESTMENT,
 } from "../../const";
 import axios from "axios";
+import { handleError, handleSuccess } from "../../helpers/alert.handler";
 
 export const createInvestment = field => dispatch => {
   return dispatch({
@@ -16,43 +18,50 @@ export const createInvestment = field => dispatch => {
   });
 };
 
-export const submitInvestment = body => async dispatch => {
-  console.log("submitting investment");
+export const getAllUserInvestments = cb => async dispatch => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/investment`,
+      {
+        withCredentials: true,
+      }
+    );
 
+    const { investments } = res.data;
+
+    dispatch({
+      type: ALL_USER_INVESTMENTS,
+      payload: investments,
+    });
+
+    cb(null, true);
+
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
+  }
+};
+
+export const submitInvestment = body => async dispatch => {
   try {
     await axios.post(`${process.env.REACT_APP_SERVER}/api/investment`, body, {
       withCredentials: true,
     });
 
-    return dispatch({
+    dispatch({
       type: SUBMIT_INVESTMENT,
       payload: "from api",
     });
-  } catch (err) {
-    console.log(err.message);
 
-    //hendle error
+    handleSuccess("Your investment was successfuly created.", dispatch);
+
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
   }
 };
 
-export const getAllInvestments = () => async dispatch => {
-  try {
-    const res = await axios.get(
-      `${process.env.REACT_APP_SERVER}/api/investment`
-    );
-
-    return dispatch({
-      type: ALL_INVESTMENTS,
-      payload: res.data.investments,
-    });
-  } catch (err) {
-    console.log(err);
-
-    //hendle error
-  }
-};
-
-export const findProjectInvestment = projectId => async dispatch => {
+export const findProjectInvestment = (projectId, cb) => async dispatch => {
   try {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVER}/api/investment/project/${projectId}`,
@@ -70,6 +79,10 @@ export const findProjectInvestment = projectId => async dispatch => {
         investment,
       },
     });
+
+    cb(null, true);
+
+    return;
   } catch (err) {
     console.log(err);
   }
@@ -94,4 +107,28 @@ export const onSuccessfulInvestment = amount => dispatch => {
     type: SUCCESSFUL_INVESTMENT,
     payload: amount,
   });
+};
+
+export const getInvestment = (investmentId, cb) => async dispatch => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/investment/${investmentId}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    dispatch({
+      type: GET_INVESTMENT,
+      payload: res.data.investment,
+    });
+
+    cb(null, true);
+
+    return;
+  } catch (err) {
+    cb(true, null);
+
+    handleError(err, dispatch);
+  }
 };

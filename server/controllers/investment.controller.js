@@ -3,12 +3,13 @@ const Investment = model.investment;
 const Project = model.project;
 const Image = model.image;
 const User = model.user;
+const UserDetail = model.userDetail;
 
 module.exports = {
   createInvestment: async (req, res) => {
     try {
       if (req.investment) {
-        throw new Error("You Alredy Invest In This Project");
+        throw new Error("You already invest in this project");
       }
 
       const { amount } = req.validatedBody;
@@ -22,6 +23,20 @@ module.exports = {
         userId: req.user.id,
         amount,
       });
+
+      const originalAmount = req.project.raisedAmount;
+
+      const newAmount = Number(originalAmount) + Number(amount);
+
+      const originalInvestorCount = req.project.investorCount;
+
+      const newInvestorCount = originalInvestorCount + 1;
+
+      req.project.raisedAmount = newAmount;
+
+      req.project.investorCount = newInvestorCount;
+
+      await req.project.save();
 
       return res.status(200).send({
         success: true,
@@ -157,6 +172,9 @@ module.exports = {
                 include: [
                   {
                     model: Image,
+                  },
+                  {
+                    model: UserDetail,
                   },
                 ],
               },

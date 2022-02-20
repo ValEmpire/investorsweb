@@ -12,6 +12,28 @@ export const handleError = (err, dispatch) => {
     });
   }
 
+  if (err.response.data) {
+    return dispatch({
+      type: SET_ALERT,
+      payload: {
+        open: true,
+        message: err.response.data.error,
+        type: "error",
+      },
+    });
+  }
+
+  if (err.message) {
+    return dispatch({
+      type: SET_ALERT,
+      payload: {
+        open: true,
+        message: err.message,
+        type: "error",
+      },
+    });
+  }
+
   if (err.response.status === 400) {
     return dispatch({
       type: SET_ALERT,

@@ -53,16 +53,14 @@ const UpdateDetails = props => {
     setProvince(event.target.value);
   };
 
-  const handleSubmit = async event => {
-    try {
-      event.preventDefault();
+  const handleSubmit = event => {
+    event.preventDefault();
 
-      await dispatch(updateUserDetail({ ...userDetail, province: province }));
+    dispatch(updateUserDetail({ ...userDetail, province: province }));
 
-      handleClose();
-    } catch (err) {
-      // handle error
-    }
+    handleClose();
+
+    return;
   };
 
   return (
@@ -137,6 +135,9 @@ const UpdateDetails = props => {
                     value={userDetail.phoneNumber || ""}
                     onChange={e => handleField(e)}
                     id="phoneNumber"
+                    inputProps={{
+                      maxLength: 10,
+                    }}
                   />
                   <Button
                     type="submit"

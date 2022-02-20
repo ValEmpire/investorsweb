@@ -4,8 +4,8 @@ const CommentLike = model.commentLike;
 module.exports = {
   toggleCommentLike: async (req, res) => {
     try {
-      if(!req.comment) {
-        throw new Error("Comment does not exist")
+      if (!req.comment) {
+        throw new Error("Comment does not exist");
       }
       if (req.commentLike) {
         await req.commentLike.destroy();

@@ -7,7 +7,10 @@ const createUserDetailSchema = Joi.object({
     .min(5)
     .pattern(/^([^0-9]*)$/)
     .lowercase()
-    .required(),
+    .required()
+    .error(() => {
+      return Error("Invalid city");
+    }),
 
   province: Joi.string()
     .valid(
@@ -30,7 +33,10 @@ const createUserDetailSchema = Joi.object({
   phoneNumber: Joi.string()
     .length(10)
     .pattern(/^[0-9]+$/)
-    .required(),
+    .required()
+    .error(() => {
+      return Error("Invalid phone number");
+    }),
 });
 
 module.exports = { createUserDetailSchema };

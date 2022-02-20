@@ -1,12 +1,10 @@
-import * as React from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import MessageIcon from "@mui/icons-material/Message";
 import { IconButton } from "@mui/material";
@@ -18,10 +16,14 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/actions/user.action";
 import UserAvatar from "../../components/UserAvatar";
+import NotificationPopper from "./NotificationPopper";
+import AvatarPopper from "./AvatarPopper";
+import MenuPopper from "./MenuPopper";
 
 const ResponsiveAppBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null); // for menu on MenuIcon
-  const [anchorElAvatar, setAnchorElAvatar] = React.useState(null); // for menu in AvatarIcon
+  const [anchorElMenu, setAnchorElMenu] = useState(null); // for menu on MenuIcon
+  const [anchorElAvatar, setAnchorElAvatar] = useState(null); // for menu in AvatarIcon
+  const [anchorElNotification, setAnchorElNotification] = useState(null);
 
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -35,7 +37,7 @@ const ResponsiveAppBar = () => {
     },
     {
       name: "Get Funding",
-      path: "/projects",
+      path: "/projects/dashboard",
     },
     {
       name: "About Us",
@@ -43,41 +45,10 @@ const ResponsiveAppBar = () => {
     },
   ];
 
-  // menu of AvatarIcon
-  const userPages = [
-    {
-      name: "Account",
-      path: "/user",
-    },
-    {
-      name: "My Investments",
-      path: "/user/dashboard",
-    },
-    {
-      name: "My Projects",
-      path: "/projects/dashboard",
-    },
-  ];
-
-  // this handles opening and closing of MenuIcon
-  const handleOpenNavMenu = event => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  // this handles opening and closing of AvatarIcon
-  const handleOpenAvatarMenu = event => {
-    setAnchorElAvatar(event.currentTarget);
-  };
-
-  const handleCloseAvatarMenu = () => {
-    setAnchorElAvatar(null);
-  };
-
   const handleLogout = () => {
+    // close anchor first before dispatching
+    setAnchorElAvatar(null);
+
     dispatch(logoutUser());
   };
 
@@ -85,55 +56,41 @@ const ResponsiveAppBar = () => {
     navigate(path);
   };
 
+  const clickAwayNotificationHandler = () => {
+    setAnchorElNotification(null);
+  };
+
+  const clickAwayAvatarHandler = () => {
+    setAnchorElAvatar(null);
+  };
+
+  const clickAwayMenuHandler = () => {
+    setAnchorElMenu(null);
+  };
+
+  const handleNotificationPopper = event => {
+    setAnchorElNotification(event.currentTarget);
+  };
+
+  const handleAvatarPopper = event => {
+    setAnchorElAvatar(event.currentTarget);
+  };
+
+  const handleMenuPopper = event => {
+    setAnchorElMenu(event.currentTarget);
+  };
+
   return (
     <AppBar position="fixed" elevation={0}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-          ></Typography>
-
           {/* Mobile */}
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <MenuIcon
               sx={{ marginRight: 2 }}
               size="large"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </MenuIcon>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {/* Map Pages */}
-              {pages.map((page, i) => (
-                <MenuItem
-                  key={page.name + i}
-                  onClick={() => handleRedirect(page.path)}
-                >
-                  <Typography textAlign="center">{page.name}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+              onClick={handleMenuPopper}
+            />
           </Box>
 
           {/* Logo */}
@@ -141,8 +98,7 @@ const ResponsiveAppBar = () => {
             sx={{ marginRight: 2, cursor: "pointer" }}
             variant="h4"
             onClick={() => handleRedirect("/")}
-            fontWeight={900}
-            noWrap
+            fontWeight={700}
             component="div"
           >
             <i>iWeb</i>
@@ -161,42 +117,9 @@ const ResponsiveAppBar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex" } }}>
-            <Menu
-              id="avatar-menu-appbar"
-              anchorEl={anchorElAvatar}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElAvatar)}
-              onClose={handleCloseAvatarMenu}
-              sx={{
-                display: { xs: "block" },
-              }}
-            >
-              {/* Avatar Menus */}
-              {userPages.map((page, i) => (
-                <MenuItem
-                  key={page.name + i}
-                  onClick={() => handleRedirect(page.path)}
-                >
-                  <Typography textAlign="center">{page.name}</Typography>
-                </MenuItem>
-              ))}
-              <MenuItem onClick={handleLogout}>
-                <Typography textAlign="center">Logout</Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex" } }}></Box>
 
           {/* Auth buttons */}
-
           {!user.firstName && (
             <>
               <Button
@@ -218,17 +141,13 @@ const ResponsiveAppBar = () => {
           )}
           {user.firstName && (
             <>
-              <IconButton
-                sx={{ marginRight: 2 }}
-                onClick={handleCloseNavMenu}
-                color="inherit"
-              >
+              <IconButton sx={{ marginRight: 2 }} color="inherit">
                 <Badge badgeContent={100} color="warning">
                   <MessageIcon />
                 </Badge>
               </IconButton>
               <IconButton
-                onClick={handleCloseNavMenu}
+                onClick={handleNotificationPopper}
                 color="inherit"
                 sx={{ marginRight: 2 }}
               >
@@ -236,10 +155,31 @@ const ResponsiveAppBar = () => {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+
+              {/* UserAvatar */}
               <UserAvatar
                 className="avatar"
                 size="50"
-                onClick={handleOpenAvatarMenu}
+                onClick={handleAvatarPopper}
+              />
+
+              {/* Poppers */}
+              <NotificationPopper
+                clickAwayHandler={clickAwayNotificationHandler}
+                anchorElNotification={anchorElNotification}
+              />
+              <AvatarPopper
+                anchorElAvatar={anchorElAvatar}
+                clickAwayHandler={clickAwayAvatarHandler}
+                user={user}
+                handleRedirect={handleRedirect}
+                handleLogout={handleLogout}
+              />
+              <MenuPopper
+                anchorElMenu={anchorElMenu}
+                handleRedirect={handleRedirect}
+                clickAwayHandler={clickAwayMenuHandler}
+                pages={pages}
               />
             </>
           )}

@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Story from "./Story";
 import Website from "./Website";
 import Comment from "./Comment";
-import { Link } from "@mui/material";
+import { Grid } from "@mui/material";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -31,7 +31,7 @@ export default function ProjectTabs(props) {
   };
 
   return (
-    <Box>
+    <Box width="100%">
       <Tabs value={value} onChange={handleChange}>
         <Tab label="Story" />
         <Tab label="Website" />

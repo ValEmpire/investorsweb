@@ -8,6 +8,7 @@ import { alert } from "./alert.reducer";
 import { stripe } from "./stripe.reducer";
 import { loading } from "./loading.reducer";
 import { comment } from "./comment.reducer";
+import { layout } from "./layout.reducer";
 
 export default combineReducers({
   user,
@@ -17,4 +18,5 @@ export default combineReducers({
   alert,
   loading,
   comment,
+  layout,
 });

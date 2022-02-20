@@ -8,7 +8,6 @@ const { projectMiddleware } = require("../middlewares/project.middleware");
 const { validate } = require("../validators");
 
 const { createProjectSchema } = require("../validators/project.validator");
-
 const {
   createProject,
   updateProject,

@@ -6,10 +6,11 @@ import {
   GET_ACCOUNT,
 } from "../../const";
 import axios from "axios";
+import { handleError, handleSuccess } from "../../helpers/alert.handler";
 
-export const getAllCards = customerId => async dispatch => {
+export const getAllCards = (customerId, cb) => async dispatch => {
   // if customerId is not present means the user has no card
-  if (!customerId) return;
+  if (!customerId) return cb(null, true);
 
   try {
     const res = await axios.get(
@@ -19,10 +20,14 @@ export const getAllCards = customerId => async dispatch => {
       }
     );
 
-    return dispatch({
+    dispatch({
       type: ALL_CARDS,
       payload: res.data.cards,
     });
+
+    cb(null, true);
+
+    return;
   } catch (err) {
     console.log(err);
 
@@ -40,14 +45,14 @@ export const addCard = card => async dispatch => {
       }
     );
 
-    return dispatch({
+    dispatch({
       type: ADD_CARD,
       payload: res.data.card,
     });
-  } catch (err) {
-    console.log(err);
 
-    // handle error here
+    handleSuccess("New card created.", dispatch);
+  } catch (err) {
+    handleError(err, dispatch);
   }
 };
 
@@ -119,27 +124,24 @@ export const createPaymentIntent = (amount, ownerId) => async dispatch => {
   }
 };
 
-export const generateLink = bankAccount => async dispatch => {
+export const generateLink = (bankAccount, cb) => async dispatch => {
   try {
-    if (bankAccount) return;
+    if (bankAccount) return cb(null, true);
 
     const res = await axios.get(
       `${process.env.REACT_APP_SERVER}/api/stripe/generate-link`,
       { withCredentials: true }
     );
 
-    return dispatch({
-      type: ADD_LINK,
-      payload: res.data.link,
-    });
-  } catch (err) {
-    console.log(err);
+    cb(null, res.data.link);
 
-    // handle err
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
   }
 };
 
-export const getAccount = () => async dispatch => {
+export const getAccount = cb => async dispatch => {
   try {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVER}/api/stripe/get-account`,
@@ -148,13 +150,15 @@ export const getAccount = () => async dispatch => {
       }
     );
 
-    return dispatch({
+    dispatch({
       type: GET_ACCOUNT,
       payload: res.data.account,
     });
-  } catch (err) {
-    console.log(err);
 
-    // handle error
+    cb(null, true);
+
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
   }
 };

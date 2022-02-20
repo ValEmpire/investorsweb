@@ -19,10 +19,11 @@ import UpdateSecurity from "./UpdateSecurity";
 import AddCard from "./AddCard";
 
 // Redux
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // CSS
 import "react-credit-cards/es/styles-compiled.css";
+import { generateLink } from "../../redux/actions/stripe.action";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,7 +57,11 @@ function a11yProps(index) {
 export default function UserPage() {
   const user = useSelector(state => state.user);
 
-  const { link, account } = useSelector(state => state.stripe);
+  const [companyLoading, setCompanyLoading] = useState(true);
+
+  const dispatch = useDispatch();
+
+  const { account } = useSelector(state => state.stripe);
 
   const { payouts_enabled } = account;
 
@@ -71,7 +76,16 @@ export default function UserPage() {
   const handleOpen = () => {
     // if in company account tab
     if (value === 2) {
-      window.location.href = link;
+      setCompanyLoading(true);
+
+      dispatch(
+        generateLink(payouts_enabled, (err, link) => {
+          window.open(link, "_blank");
+
+          return;
+        })
+      );
+
       return;
     }
 
@@ -115,7 +129,10 @@ export default function UserPage() {
             <Security user={user} />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <CompanyAccount account={account} />
+            <CompanyAccount
+              setCompanyLoading={setCompanyLoading}
+              account={account}
+            />
           </TabPanel>
           <TabPanel value={value} index={3}>
             <PaymentMethod user={user} />
@@ -125,7 +142,7 @@ export default function UserPage() {
           <Button
             variant="contained"
             color="primary"
-            disabled={payouts_enabled && value === 2}
+            disabled={value === 2 && companyLoading}
             onClick={handleOpen}
           >
             {value === 0 && "Update Details"}

@@ -104,13 +104,19 @@ const Explore = () => {
   const [sort, setSort] = React.useState("MostFunded");
   const [loading, setLoading] = useState(true);
 
-  const handleProjects = useCallback(async () => {
-    await dispatch(getAllProjects(progress, industry, sort));
+  const handleProjects = useCallback(() => {
+    dispatch(
+      getAllProjects(progress, industry, sort, (err, success) => {
+        if (success) {
+          setLoading(false);
+        }
 
-    setLoading(false);
+        return;
+      })
+    );
 
     return;
-  }, [dispatch]);
+  }, [dispatch, industry, progress, sort]);
 
   const { projects } = useSelector(state => state.project);
 

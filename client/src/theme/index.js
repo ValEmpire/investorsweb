@@ -21,8 +21,6 @@ export const setTheme = () => {
 
   theme = Cookies.get("theme");
 
-  console.log(theme === "dark");
-
   if (theme !== "light" && theme !== "dark") {
     theme = "light";
 
