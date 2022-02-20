@@ -9,6 +9,7 @@ import { stripe } from "./stripe.reducer";
 import { loading } from "./loading.reducer";
 import { comment } from "./comment.reducer";
 import { layout } from "./layout.reducer";
+import { socket } from "./socket.reducer";
 
 export default combineReducers({
   user,
@@ -19,4 +20,5 @@ export default combineReducers({
   loading,
   comment,
   layout,
+  socket,
 });

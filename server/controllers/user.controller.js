@@ -65,7 +65,7 @@ module.exports = {
         success: true,
       });
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
 
       return res.status(400).send({
         success: false,

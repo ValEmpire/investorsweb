@@ -32,11 +32,11 @@ module.exports = (sequelize, DataTypes) => {
       },
 
       accountId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
 
       customerId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
     },
 

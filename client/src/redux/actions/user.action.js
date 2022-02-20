@@ -5,6 +5,7 @@ import {
   SET_LOADING_REGISTER,
   SET_LOADING_LOGIN,
   UPDATE_USER_IMAGE,
+  SET_SOCKET,
 } from "../../const";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -14,6 +15,9 @@ import { handleError, handleSuccess } from "../../helpers/alert.handler";
 import { storage } from "../../firebase";
 import { ref, uploadBytesResumable } from "@firebase/storage";
 import { generateFileName } from "../../helpers/allHelpers";
+
+// socket
+import { connectSocket } from "../../socket";
 
 export const registerUser =
   ({ firstName, lastName, email, password }) =>
@@ -31,6 +35,14 @@ export const registerUser =
           withCredentials: true,
         }
       );
+
+      const socket = await connectSocket();
+
+      // Connect to socket io
+      dispatch({
+        type: SET_SOCKET,
+        payload: socket,
+      });
 
       Cookies.set("isAuthenticated", true);
 
@@ -62,12 +74,22 @@ export const loginUser =
         }
       );
 
+      const socket = await connectSocket();
+
+      // Connect to socket io
+      dispatch({
+        type: SET_SOCKET,
+        payload: socket,
+      });
+
       Cookies.set("isAuthenticated", true);
 
       window.location.replace("/");
 
       return;
     } catch (err) {
+      console.log(err);
+
       dispatch({
         type: SET_LOADING_LOGIN,
         payload: false,
