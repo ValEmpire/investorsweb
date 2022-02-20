@@ -4,6 +4,8 @@ const io = useSocketIo();
 
 const { verifyToken } = require("./middlewares/user.middleware");
 
+const Comment = require("../models").comment;
+
 io.on("connection", socket => {
   // verify token
   const id = verifyToken(socket);
@@ -31,10 +33,19 @@ io.on("connection", socket => {
     socket.join(`project${projectId}Comments`);
   });
 
-  socket.on("comment", data => {
-    const { projectId, comment } = data;
+  socket.on("comment", async data => {
+    const { projectId, comment, commentId } = data;
 
-    io.in(`project${projectId}Comments`).emit(`comment`, comment);
+    const newComment = await Comment.create({
+      userId: id,
+      projectId,
+      body: comment,
+      commentId,
+    });
+
+    await newComment.save();
+
+    io.in(`project${projectId}Comments`).emit(`comment`, newComment);
   });
 
   socket.on("disconnect", () => {
