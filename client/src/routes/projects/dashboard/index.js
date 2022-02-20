@@ -64,8 +64,6 @@ const ProjectDashboardPage = () => {
     return;
   }, [dispatch]);
 
-  console.log(account.payouts_enabled);
-
   const handleNewProject = () => {
     dispatch(
       createProjectDraft((err, projectId) => {
