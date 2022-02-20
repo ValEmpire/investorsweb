@@ -53,6 +53,7 @@ function App() {
   // getUserDetails when component did mount
   useEffect(() => {
     handleUser();
+
     setTheme();
   }, []);
 
