@@ -65,28 +65,38 @@ export const updateProject = (project, projectId) => async dispatch => {
       name,
     } = project;
 
+    const fields = {
+      location,
+      targetFund,
+      story,
+      website,
+      industry,
+      deadline,
+      minInvestment,
+      name,
+    };
+
+    const newField = {};
+
+    for (const key in fields) {
+      if (fields[key]) {
+        newField[key] = fields[key];
+      }
+    }
+
     await axios.put(
       `${process.env.REACT_APP_SERVER}/api/project/${projectId}`,
-      {
-        location,
-        targetFund,
-        story,
-        website,
-        industry,
-        deadline,
-        minInvestment,
-        name,
-      },
+      newField,
       {
         withCredentials: true,
       }
     );
 
-    return handleSuccess("Project was successfully updated.", dispatch);
-  } catch (err) {
-    console.log(err);
+    handleSuccess("Project was successfully updated.", dispatch);
 
-    // handle error
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
   }
 };
 

@@ -24,6 +24,8 @@ export default function ProjectDetails() {
     minInvestment,
   } = projectFields;
 
+  console.log(projectFields);
+
   const handleField = e => {
     const field = {};
 
