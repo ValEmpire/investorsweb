@@ -13,7 +13,9 @@ import CustomLink from "../../../components/Link";
 export default function SingleInvestmentView(props) {
   const investment = props.investment;
 
-  console.log(investment);
+  const remainingAmount = function () {
+    return investment.project.targetFund - investment.project.raisedAmount;
+  };
 
   return (
     <Container maxWidth="lg">

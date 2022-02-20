@@ -16,7 +16,7 @@ const SingleInvestmentPage = props => {
   const { investment } = useSelector(state => state.investment);
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(true);
+  const [error, setError] = useState(false);
 
   const handleInvestment = useCallback(() => {
     dispatch(

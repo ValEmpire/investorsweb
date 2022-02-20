@@ -1,4 +1,3 @@
-const e = require("express");
 const model = require("../models");
 const Notification = model.notification;
 const User = model.user;
