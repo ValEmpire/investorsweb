@@ -9,7 +9,7 @@ import {
   GET_INVESTMENT,
 } from "../../const";
 import axios from "axios";
-import { handleError } from "../../helpers/alert.handler";
+import { handleError, handleSuccess } from "../../helpers/alert.handler";
 
 export const createInvestment = field => dispatch => {
   return dispatch({
@@ -48,14 +48,16 @@ export const submitInvestment = body => async dispatch => {
       withCredentials: true,
     });
 
-    return dispatch({
+    dispatch({
       type: SUBMIT_INVESTMENT,
       payload: "from api",
     });
-  } catch (err) {
-    console.log(err.message);
 
-    //hendle error
+    handleSuccess("Your investment was successfuly created.", dispatch);
+
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
   }
 };
 
