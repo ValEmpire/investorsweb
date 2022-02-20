@@ -1,6 +1,23 @@
 const useSocketIo = require("socket.io");
+
+const cookie = require("cookie");
+
 const io = useSocketIo();
 
-const socketAPI = {};
+io.on("connection", socket => {
+  // var cookies = socket.handshake.headers.cookie;
 
-socketAPI.io = io;
+  // const parsedCookie = cookie.parse(cookies);
+
+  // const { token } = parsedCookie;
+
+  console.log(socket.id + " is connect");
+
+  socket.emit("connected", "HEY CLIENT");
+
+  socket.on("disconnect", () => {
+    socket.disconnect();
+  });
+});
+
+module.exports = { io };

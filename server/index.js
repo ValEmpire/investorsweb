@@ -11,6 +11,9 @@ const cors = require("cors");
 // Database
 const db = require("./models");
 
+// Socket.io
+const { io } = require("./socket");
+
 // colors for logging the endPoints
 app.use(morgan("dev"));
 
@@ -39,6 +42,15 @@ app.use("/api/stripe", require("./routes/stripe.route"));
 app.use("/api/notification", require("./routes/notification.route"));
 
 const PORT = process.env.PORT || 3001;
+
+// SOCKET
+io.attach(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  },
+});
 
 db.sequelize
   .sync()
