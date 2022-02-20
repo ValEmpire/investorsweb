@@ -17,30 +17,24 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useDispatch } from "react-redux";
 import { updateUserSecurity } from "../../redux/actions/user.action";
 
-const UpdateSecurity = (props) => {
+const UpdateSecurity = props => {
   const dispatch = useDispatch();
 
   const { open, handleClose, user } = props;
 
   const [security, setSecurity] = useState(user);
 
-  const handleForm = (e) => {
+  const handleForm = e => {
     setSecurity({
       ...security,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (event) => {
-    try {
-      event.preventDefault();
+  const handleSubmit = event => {
+    dispatch(updateUserSecurity(security));
 
-      await dispatch(updateUserSecurity(security));
-
-      handleClose();
-    } catch (err) {
-      // handle error here
-    }
+    handleClose();
   };
 
   return (
@@ -77,7 +71,7 @@ const UpdateSecurity = (props) => {
                     label="First Name"
                     id="firstName"
                     inputProps={{ style: { textTransform: "capitalize" } }}
-                    onChange={(e) => handleForm(e)}
+                    onChange={e => handleForm(e)}
                   />
                   <TextField
                     margin="normal"
@@ -88,7 +82,7 @@ const UpdateSecurity = (props) => {
                     label="Last Name"
                     id="lastName"
                     inputProps={{ style: { textTransform: "capitalize" } }}
-                    onChange={(e) => handleForm(e)}
+                    onChange={e => handleForm(e)}
                   />
                   <Box mt={2} />
                   <Accordion>
@@ -109,7 +103,7 @@ const UpdateSecurity = (props) => {
                         label="Current Password"
                         id="currentPassword"
                         type="password"
-                        onChange={(e) => handleForm(e)}
+                        onChange={e => handleForm(e)}
                       />
                       <TextField
                         margin="normal"
@@ -120,7 +114,7 @@ const UpdateSecurity = (props) => {
                         label="Password"
                         id="password"
                         type="password"
-                        onChange={(e) => handleForm(e)}
+                        onChange={e => handleForm(e)}
                       />
                       <TextField
                         margin="normal"
@@ -131,7 +125,7 @@ const UpdateSecurity = (props) => {
                         label="Repeat Password"
                         id="repeatPassword"
                         type="password"
-                        onChange={(e) => handleForm(e)}
+                        onChange={e => handleForm(e)}
                       />
                     </AccordionDetails>
                   </Accordion>

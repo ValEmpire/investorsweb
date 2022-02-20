@@ -7,6 +7,7 @@ import {
   FormControl,
   Grid,
   InputLabel,
+  Link,
   MenuItem,
   Select,
   Typography,
@@ -15,6 +16,8 @@ import {
 import Loading from "../../../components/Loading";
 import ProjectCard from "../../../components/ProjectCard";
 import PageTitle from "../../../components/PageTitle";
+import { useNavigate } from "react-router-dom";
+import CustomLink from "../../../components/Link";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -22,9 +25,12 @@ import {
   createProjectDraft,
   getAllUserProjects,
 } from "../../../redux/actions/project.action";
+import { getAccount } from "../../../redux/actions/stripe.action";
 
 const ProjectDashboardPage = () => {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const { userProjects } = useSelector(state => state.project);
 
@@ -32,16 +38,46 @@ const ProjectDashboardPage = () => {
 
   const [filter, setFilter] = useState("all");
 
-  const handleUserProjects = useCallback(async () => {
-    await dispatch(getAllUserProjects());
+  const { account } = useSelector(state => state.stripe);
 
-    setLoading(false);
+  const { userDetail } = useSelector(state => state.user);
+
+  const handleDashboardPage = useCallback(() => {
+    dispatch(
+      getAccount((err, success) => {
+        if (success) {
+          dispatch(
+            getAllUserProjects((err, success) => {
+              if (success) {
+                setLoading(false);
+              }
+
+              return;
+            })
+          );
+        }
+
+        return;
+      })
+    );
 
     return;
   }, [dispatch]);
 
+  console.log(account.payouts_enabled);
+
   const handleNewProject = () => {
-    dispatch(createProjectDraft());
+    dispatch(
+      createProjectDraft((err, projectId) => {
+        if (projectId) {
+          navigate(`/projects/dashboard/${projectId}`);
+        }
+
+        return;
+      })
+    );
+
+    return;
   };
 
   const handleFilterChange = e => {
@@ -51,8 +87,8 @@ const ProjectDashboardPage = () => {
   };
 
   useEffect(() => {
-    handleUserProjects();
-  }, [handleUserProjects]);
+    handleDashboardPage();
+  }, [handleDashboardPage]);
 
   return (
     <Container maxWidth="lg" component={Box} pb={2} mb={2}>
@@ -64,7 +100,11 @@ const ProjectDashboardPage = () => {
           </Typography>
 
           <Box pt={2} mt={2}>
-            <Button onClick={handleNewProject} variant="contained">
+            <Button
+              onClick={handleNewProject}
+              disabled={!account.payouts_enabled}
+              variant="contained"
+            >
               Create Project Draft
             </Button>
           </Box>
@@ -114,17 +154,41 @@ const ProjectDashboardPage = () => {
         </Grid>
       )}
 
-      {!loading && userProjects.length === 0 && (
+      {!loading && (!account.payouts_enabled || !userDetail.id) && (
         <Grid container>
           <Grid item xs={12}>
-            <Box>
-              <Typography variant="h6">
-                You have no project. Please create project to start funding.
-              </Typography>
-            </Box>
+            <Typography variant="h6">
+              Please setup your account{" "}
+              <CustomLink to="/user">
+                <Typography
+                  fontWeight={700}
+                  sx={{ display: "inline" }}
+                  variant="h6"
+                  color="primary"
+                >
+                  here
+                </Typography>
+              </CustomLink>{" "}
+              before creating project.{" "}
+              <span className="bold">User details</span> and{" "}
+              <span className="bold">Company account</span> is required.
+            </Typography>
           </Grid>
         </Grid>
       )}
+
+      {!loading &&
+        account.payouts_enabled &&
+        userDetail.id &&
+        userProjects.length === 0 && (
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography variant="h6">
+                You have no project. Please create project to start funding.
+              </Typography>
+            </Grid>
+          </Grid>
+        )}
     </Container>
   );
 };

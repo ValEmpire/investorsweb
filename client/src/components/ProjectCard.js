@@ -38,7 +38,7 @@ const ProjectCard = props => {
                   variant="h5"
                   color="primary"
                 >
-                  <strong>{project.name || "new project"}</strong>
+                  <strong>{project.name || "new project draft"}</strong>
                 </Typography>
               )}
               {!project.isLive && (
@@ -49,7 +49,7 @@ const ProjectCard = props => {
                   variant="h5"
                   color="red"
                 >
-                  <strong>{"new project"}</strong>
+                  <strong>{"new project draft"}</strong>
                 </Typography>
               )}
             </Box>

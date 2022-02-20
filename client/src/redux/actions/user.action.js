@@ -132,12 +132,14 @@ export const updateUserDetail = userDetail => async dispatch => {
       }
     );
 
-    return dispatch({
+    dispatch({
       type: UPDATE_USER_DETAIL,
       payload: res.data.userDetail,
     });
+
+    handleSuccess("User details was successfuly updated.", dispatch);
   } catch (err) {
-    // handle error here
+    handleError(err, dispatch);
   }
 };
 
@@ -167,14 +169,14 @@ export const updateUserSecurity = security => async dispatch => {
       { withCredentials: true }
     );
 
-    return dispatch({
+    dispatch({
       type: UPDATE_USER_SECURITY,
       payload: res.data.user,
     });
-  } catch (err) {
-    // handle error here
 
-    console.log(err);
+    handleSuccess("User security was successfuly updated.", dispatch);
+  } catch (err) {
+    handleError(err, dispatch);
   }
 };
 

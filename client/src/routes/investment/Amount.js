@@ -52,8 +52,12 @@ export default function Amount(props) {
     return true;
   };
 
-  const handleCards = useCallback(async () => {
-    await dispatch(getAllCards(user.customerId));
+  const handleCards = useCallback(() => {
+    dispatch(
+      getAllCards(user.customerId, () => {
+        return;
+      })
+    );
 
     return;
   }, [dispatch, user.customerId]);

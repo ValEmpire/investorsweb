@@ -32,10 +32,16 @@ const ProjectDashboardPage = () => {
 
   const [sort, setSort] = useState("Recently");
 
-  const handleUserInvestments = useCallback(async () => {
-    await dispatch(getAllUserInvestments());
+  const handleUserInvestments = useCallback(() => {
+    dispatch(
+      getAllUserInvestments((err, success) => {
+        if (success) {
+          setLoading(false);
+        }
 
-    setLoading(false);
+        return;
+      })
+    );
 
     return;
   }, [dispatch]);

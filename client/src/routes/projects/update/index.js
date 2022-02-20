@@ -31,10 +31,18 @@ export default function CreateProjectPage() {
 
   const { projectFields } = useSelector(state => state.project);
 
-  const handleProject = useCallback(async () => {
-    await dispatch(getProject(projectId));
+  const handleProject = useCallback(() => {
+    dispatch(
+      getProject(projectId, (err, success) => {
+        if (success) {
+          setLoading(false);
+        }
 
-    setLoading(false);
+        return;
+      })
+    );
+
+    return;
   }, [dispatch, projectId]);
 
   useEffect(() => {

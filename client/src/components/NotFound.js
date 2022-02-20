@@ -3,7 +3,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import Link from "./Link";
 
 const NotFound = props => {
-  const { message } = props;
+  const { message, code } = props;
 
   return (
     <Grid
@@ -14,7 +14,7 @@ const NotFound = props => {
     >
       <Grid item md={6} sm={8}>
         <Box textAlign={"center"}>
-          <Typography variant="h2">Error code 404</Typography>
+          <Typography variant="h2">Error code {code ?? "404"}</Typography>
 
           <Typography variant="h4">{message}</Typography>
 
