@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Button, Divider, IconButton, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -8,6 +8,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import { useParams } from "react-router-dom";
 import LongMenu from "./ReplaySideMenu";
+import Loading from "../../components/Loading";
 
 //HELPERS
 import { capitalizeFirstLetter } from "../../helpers/allHelpers";
@@ -137,23 +138,35 @@ const CommentSection = () => {
 
   const dispatch = useDispatch();
 
+  const { socket } = useSelector(state => state.socket);
+
   const { projectId } = useParams();
 
   const { comments } = useSelector(state => state.comment);
 
   const [loading, setLoading] = useState(true);
 
-  const handleProjectComments = async () => {
-    await dispatch(getAllComments(projectId));
+  const handleProjectComments = useCallback(() => {
+    dispatch(
+      getAllComments(projectId, (err, success) => {
+        setLoading(false);
 
-    setLoading(false);
+        return;
+      })
+    );
 
     return;
-  };
+  }, [dispatch, projectId]);
 
+  const handleCommentsSocket = useCallback(() => {
+    socket.emit(`projectComments`, projectId);
+  }, [socket, projectId]);
+
+  // ComponentDidMount
   useEffect(() => {
     handleProjectComments();
-  }, []);
+    handleCommentsSocket();
+  }, [handleProjectComments, handleCommentsSocket]);
 
   const onChange = e => {
     setCommentValue(e.target.value);
@@ -169,25 +182,30 @@ const CommentSection = () => {
   };
 
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <Box pb={1} mb={1}>
-          <CommentArea
-            onChange={onChange}
-            onClose={onClose}
-            commentValue={commentValue}
-            name="comment"
-          />
-        </Box>
-        {comments.map(comment => (
-          <CommentBox
-            replyArea={CommentArea}
-            key={comment.id}
-            comment={comment}
-          />
-        ))}
-      </Grid>
-    </Grid>
+    <>
+      {loading && <Loading height={150} />}
+      {!loading && (
+        <Grid container>
+          <Grid item xs={12}>
+            <Box pb={1} mb={1}>
+              <CommentArea
+                onChange={onChange}
+                onClose={onClose}
+                commentValue={commentValue}
+                name="comment"
+              />
+            </Box>
+            {comments.map(comment => (
+              <CommentBox
+                replyArea={CommentArea}
+                key={comment.id}
+                comment={comment}
+              />
+            ))}
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 };
 

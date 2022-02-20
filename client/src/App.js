@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // redux
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { store } from "./redux/store.js";
 import { getUser } from "./redux/actions/user.action";
+import { setSocket } from "./redux/actions/socket.action";
 
 // Route Guard
 import guardedRoute from "./HOCs/guard";
@@ -29,6 +30,91 @@ import Page404 from "./pages/404Page";
 
 // theme
 import { setTheme } from "./theme";
+
+function AppRoutes() {
+  const dispatch = useDispatch();
+
+  // guard the pages thats need authentication
+  const GuardedUserPage = guardedRoute(UserPage);
+  const GuardedProjectDashboardPage = guardedRoute(ProjectDashboardPage);
+  const GuardedUpdateProjectPage = guardedRoute(UpdateProjectPage);
+  const GuardedInvestmentPage = guardedRoute(InvestmentPage);
+  const GuardedInvestmentsDashboardPage = guardedRoute(
+    InvestmentsDashboardPage
+  );
+  const GuardedProjectIdDashboardPage = guardedRoute(ViewProjectPage);
+  const GuardedSingleInvestmentPage = guardedRoute(SingleInvestmentPage);
+
+  // login and register pages does not need to be access by already login user
+  const AuthLoginPage = authRoute(LogInPage);
+  const AuthRegisterPage = authRoute(RegisterPage);
+
+  const handleSocket = useCallback(() => {
+    dispatch(setSocket());
+
+    return;
+  }, [dispatch]);
+
+  useEffect(() => {
+    handleSocket();
+  }, [handleSocket]);
+
+  return (
+    <Router>
+      <Routes>
+        {/* auth route */}
+        <Route exact path="/login" element={<AuthLoginPage />} />
+        <Route exact path="/register" element={<AuthRegisterPage />} />
+
+        {/* public route */}
+        <Route exact path="/" element={<HomePage />} />
+        <Route exact path="/explore" element={<ExplorePage />} />
+        <Route exact path="/chat" element={<ChatMessagePage />} />
+        <Route exact path="/aboutus" element={<AboutUsPage />} />
+        <Route
+          exact
+          path="/projects/:projectId"
+          element={<ViewProjectPage />}
+        />
+
+        {/* secured route */}
+        <Route exact path="/user" element={<GuardedUserPage />} />
+        <Route
+          exact
+          path="/projects/dashboard"
+          element={<GuardedProjectDashboardPage />}
+        />
+        <Route
+          exact
+          path="/projects/dashboard/:projectId"
+          element={<GuardedProjectIdDashboardPage />}
+        />
+        <Route
+          exact
+          path="/projects/dashboard/:projectId/update"
+          element={<GuardedUpdateProjectPage />}
+        />
+        <Route
+          exact
+          path="/user/dashboard"
+          element={<GuardedInvestmentsDashboardPage />}
+        />
+        <Route
+          exact
+          path="/user/dashboard/:investmentId"
+          element={<GuardedSingleInvestmentPage />}
+        />
+        <Route
+          exact
+          path="/investment/:projectId"
+          element={<GuardedInvestmentPage />}
+        />
+
+        <Route path="*" element={<Page404 />} />
+      </Routes>
+    </Router>
+  );
+}
 
 function App() {
   const [user, setUser] = useState({});
@@ -57,78 +143,11 @@ function App() {
     setTheme();
   }, []);
 
-  // guard the pages thats need authentication
-  const GuardedUserPage = guardedRoute(UserPage);
-  const GuardedProjectDashboardPage = guardedRoute(ProjectDashboardPage);
-  const GuardedUpdateProjectPage = guardedRoute(UpdateProjectPage);
-  const GuardedInvestmentPage = guardedRoute(InvestmentPage);
-  const GuardedInvestmentsDashboardPage = guardedRoute(
-    InvestmentsDashboardPage
-  );
-  const GuardedProjectIdDashboardPage = guardedRoute(ViewProjectPage);
-  const GuardedSingleInvestmentPage = guardedRoute(SingleInvestmentPage);
-
-  // login and register pages does not need to be access by already login user
-  const AuthLoginPage = authRoute(LogInPage);
-  const AuthRegisterPage = authRoute(RegisterPage);
-
   return loading ? (
     <></>
   ) : (
     <Provider store={store(user)}>
-      <Router>
-        <Routes>
-          {/* auth route */}
-          <Route exact path="/login" element={<AuthLoginPage />} />
-          <Route exact path="/register" element={<AuthRegisterPage />} />
-
-          {/* public route */}
-          <Route exact path="/" element={<HomePage />} />
-          <Route exact path="/explore" element={<ExplorePage />} />
-          <Route exact path="/chat" element={<ChatMessagePage />} />
-          <Route exact path="/aboutus" element={<AboutUsPage />} />
-          <Route
-            exact
-            path="/projects/:projectId"
-            element={<ViewProjectPage />}
-          />
-
-          {/* secured route */}
-          <Route exact path="/user" element={<GuardedUserPage />} />
-          <Route
-            exact
-            path="/projects/dashboard"
-            element={<GuardedProjectDashboardPage />}
-          />
-          <Route
-            exact
-            path="/projects/dashboard/:projectId"
-            element={<GuardedProjectIdDashboardPage />}
-          />
-          <Route
-            exact
-            path="/projects/dashboard/:projectId/update"
-            element={<GuardedUpdateProjectPage />}
-          />
-          <Route
-            exact
-            path="/user/dashboard"
-            element={<GuardedInvestmentsDashboardPage />}
-          />
-          <Route
-            exact
-            path="/user/dashboard/:investmentId"
-            element={<GuardedSingleInvestmentPage />}
-          />
-          <Route
-            exact
-            path="/investment/:projectId"
-            element={<GuardedInvestmentPage />}
-          />
-
-          <Route path="*" element={<Page404 />} />
-        </Routes>
-      </Router>
+      <AppRoutes />
     </Provider>
   );
 }

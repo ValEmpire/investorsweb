@@ -17,7 +17,7 @@ import { ref, uploadBytesResumable } from "@firebase/storage";
 import { generateFileName } from "../../helpers/allHelpers";
 
 // socket
-import { connectSocket, disconnectSocket } from "../../socket";
+import { connectSocket } from "../../socket";
 
 export const registerUser =
   ({ firstName, lastName, email, password }) =>
@@ -36,8 +36,13 @@ export const registerUser =
         }
       );
 
+      const socket = await connectSocket();
+
       // Connect to socket io
-      connectSocket();
+      dispatch({
+        type: SET_SOCKET,
+        payload: socket,
+      });
 
       Cookies.set("isAuthenticated", true);
 

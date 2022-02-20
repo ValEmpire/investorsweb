@@ -25,7 +25,7 @@ export const deleteComment = commentId => async dispatch => {
   }
 };
 
-export const getAllComments = projectId => async dispatch => {
+export const getAllComments = (projectId, cb) => async dispatch => {
   try {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVER}/api/comment/${projectId}`,
@@ -36,10 +36,14 @@ export const getAllComments = projectId => async dispatch => {
 
     const comments = res.data.comments;
 
-    return dispatch({
+    dispatch({
       type: GET_ALL_COMMENTS,
       payload: comments,
     });
+
+    cb(null, true);
+
+    return;
   } catch (err) {
     handleError(err, dispatch);
 

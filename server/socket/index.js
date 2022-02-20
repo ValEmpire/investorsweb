@@ -1,19 +1,31 @@
 const useSocketIo = require("socket.io");
 
-const cookie = require("cookie");
-
 const io = useSocketIo();
 
+const { verifyToken } = require("./middlewares/user.middleware");
+
 io.on("connection", socket => {
-  // var cookies = socket.handshake.headers.cookie;
+  // verify token
+  const id = verifyToken(socket);
 
-  // const parsedCookie = cookie.parse(cookies);
+  // check if id is valid
+  if (id) {
+    // emit to client that token is valid
+    // need this. client is awaiting to resolve
+    socket.emit("connected", "Your token is valid!");
 
-  // const { token } = parsedCookie;
+    // this will make the user join his own room
 
-  console.log(socket.id + " is connect");
+    // user notifications
+    socket.join(`user${id}Notifications`);
 
-  socket.emit("connected", "HEY CLIENT");
+    // user messages
+    socket.join(`user${id}Messages`);
+  }
+
+  socket.on("projectComments", projectId => {
+    socket.join(`project${projectId}Comments`);
+  });
 
   socket.on("disconnect", () => {
     socket.disconnect();
