@@ -239,4 +239,52 @@ module.exports = {
       });
     }
   },
+
+  launchProject: async (req, res) => {
+    try {
+      const {
+        name,
+        location,
+        targetFund,
+        story,
+        website,
+        imageId,
+        industry,
+        deadline,
+        minInvestment,
+      } = req.project;
+
+      const completedField = {
+        name,
+        location,
+        targetFund,
+        story,
+        website,
+        imageId,
+        industry,
+        deadline,
+        minInvestment,
+      };
+
+      for (const key in completedField) {
+        if (!completedField[key])
+          throw new Error(`Cannot launch a project. Missing ${key}`);
+      }
+
+      req.project.isLive = true;
+
+      await req.project.save();
+
+      return res.status(200).send({
+        success: true,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
 };

@@ -15,6 +15,7 @@ const {
   getAllProjects,
   getProject,
   getAllUserProjects,
+  launchProject,
 } = require("../controllers/project.controller");
 
 router
@@ -23,6 +24,10 @@ router
   .post(userAuth, validate(createProjectSchema), createProject);
 
 router.route("/user").get(userAuth, getAllUserProjects);
+
+router
+  .route("/:projectId/launch")
+  .put(userAuth, projectMiddleware, launchProject);
 
 router
   .route("/:projectId")

@@ -49,14 +49,24 @@ export default function CreateProjectPage() {
     handleProject();
   }, [handleProject]);
 
-  const goBack = () => {
-    const backTo = window.location.pathname.replace("update", "");
+  const backTo = window.location.pathname.replace("update", "");
 
+  const goBack = () => {
     navigate(backTo);
   };
 
   const handleProjectSubmit = () => {
-    dispatch(updateProject(projectFields, projectId));
+    dispatch(
+      updateProject(projectFields, projectId, (err, success) => {
+        if (success) {
+          navigate(backTo);
+        }
+
+        return;
+      })
+    );
+
+    return;
   };
 
   return (

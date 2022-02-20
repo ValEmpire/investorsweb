@@ -52,7 +52,28 @@ export const createProject = field => dispatch => {
   });
 };
 
-export const updateProject = (project, projectId) => async dispatch => {
+export const launchProject = (projectId, cb) => async dispatch => {
+  try {
+    await axios.put(
+      `${process.env.REACT_APP_SERVER}/api/project/${projectId}/launch`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+
+    handleSuccess("Hooray! Your project is now live!", dispatch);
+
+    cb(null, true);
+
+    return;
+  } catch (err) {
+    cb(true, null);
+    handleError(err, dispatch);
+  }
+};
+
+export const updateProject = (project, projectId, cb) => async dispatch => {
   try {
     const {
       location,
@@ -94,8 +115,12 @@ export const updateProject = (project, projectId) => async dispatch => {
 
     handleSuccess("Project was successfully updated.", dispatch);
 
+    cb(null, true);
+
     return;
   } catch (err) {
+    cb(true, null);
+
     handleError(err, dispatch);
   }
 };

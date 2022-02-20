@@ -19,7 +19,10 @@ import Info from "../../components/Info";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProject } from "../../redux/actions/project.action";
+import {
+  deleteProject,
+  launchProject,
+} from "../../redux/actions/project.action";
 import { useNavigate } from "react-router-dom";
 
 export default function MediaCard(props) {
@@ -51,6 +54,20 @@ export default function MediaCard(props) {
 
       navigate("/projects/dashboard");
     } catch (err) {}
+  };
+
+  const handleLaunchProject = () => {
+    dispatch(
+      launchProject(project.id, (err, success) => {
+        if (success) {
+          navigate("/projects/dashboard");
+        }
+
+        return;
+      })
+    );
+
+    return;
   };
 
   const infos = [
@@ -189,17 +206,32 @@ export default function MediaCard(props) {
                 </Box>
 
                 {!project.isLive && (
-                  <Box>
-                    <Button
-                      variant="outlined"
-                      size="large"
-                      color="warning"
-                      fullWidth
-                      onClick={handleDeleteProject}
-                    >
-                      Delete Draft
-                    </Button>
-                  </Box>
+                  <>
+                    <Box>
+                      <Box pb={2}>
+                        <Button
+                          variant="contained"
+                          size="large"
+                          color="success"
+                          fullWidth
+                          onClick={handleLaunchProject}
+                        >
+                          Launch Project
+                        </Button>
+                      </Box>
+                    </Box>
+                    <Box>
+                      <Button
+                        variant="contained"
+                        size="large"
+                        color="warning"
+                        fullWidth
+                        onClick={handleDeleteProject}
+                      >
+                        Delete Draft
+                      </Button>
+                    </Box>
+                  </>
                 )}
               </>
             )}
