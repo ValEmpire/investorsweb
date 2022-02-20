@@ -23,8 +23,18 @@ io.on("connection", socket => {
     socket.join(`user${id}Messages`);
   }
 
+  // when user open the project comments
+  // join room with projectId
   socket.on("projectComments", projectId => {
+    console.log(socket.id, "join room");
+
     socket.join(`project${projectId}Comments`);
+  });
+
+  socket.on("comment", data => {
+    const { projectId, comment } = data;
+
+    io.in(`project${projectId}Comments`).emit(`comment`, comment);
   });
 
   socket.on("disconnect", () => {

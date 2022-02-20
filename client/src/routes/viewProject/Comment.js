@@ -109,7 +109,7 @@ const CommentBox = props => {
 };
 
 const CommentArea = props => {
-  const { onChange, onClose, commentValue, name } = props;
+  const { onChange, onClose, commentValue, name, onSubmit } = props;
 
   return (
     <>
@@ -121,7 +121,7 @@ const CommentArea = props => {
         fullWidth
         multiline
       />
-      <Box textAlign={"right"} pt={1}>
+      <Box textAlign={"right"} pt={1} component="form" onSubmit={onSubmit}>
         <button type="button" className="cancel" onClick={onClose}>
           {name === "comment" ? "Reset" : "Cancel"}
         </button>
@@ -160,11 +160,17 @@ const CommentSection = () => {
 
   const handleCommentsSocket = useCallback(() => {
     socket.emit(`projectComments`, projectId);
+
+    socket.on(`comment`, comment => {
+      console.log(comment);
+    });
   }, [socket, projectId]);
 
   // ComponentDidMount
   useEffect(() => {
     handleProjectComments();
+
+    // join room
     handleCommentsSocket();
   }, [handleProjectComments, handleCommentsSocket]);
 
@@ -178,7 +184,11 @@ const CommentSection = () => {
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log("send the form data somewhere");
+
+    socket.emit("comment", {
+      comment: commentValue,
+      projectId,
+    });
   };
 
   return (
@@ -193,6 +203,7 @@ const CommentSection = () => {
                 onClose={onClose}
                 commentValue={commentValue}
                 name="comment"
+                onSubmit={onSubmit}
               />
             </Box>
             {comments.map(comment => (
