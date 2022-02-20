@@ -40,6 +40,10 @@ const ResponsiveAppBar = () => {
       path: "/projects/dashboard",
     },
     {
+      name: "Favorites",
+      path: "/favorites",
+    },
+    {
       name: "About Us",
       path: "/aboutus",
     },
@@ -175,14 +179,14 @@ const ResponsiveAppBar = () => {
                 handleRedirect={handleRedirect}
                 handleLogout={handleLogout}
               />
-              <MenuPopper
-                anchorElMenu={anchorElMenu}
-                handleRedirect={handleRedirect}
-                clickAwayHandler={clickAwayMenuHandler}
-                pages={pages}
-              />
             </>
           )}
+          <MenuPopper
+            anchorElMenu={anchorElMenu}
+            handleRedirect={handleRedirect}
+            clickAwayHandler={clickAwayMenuHandler}
+            pages={pages}
+          />
         </Toolbar>
       </Container>
     </AppBar>

@@ -27,6 +27,7 @@ import InvestmentsDashboardPage from "./pages/InvestmentsDashboardPage";
 import SingleInvestmentPage from "./pages/SingleInvestmentPage";
 import ExplorePage from "./pages/ExplorePage";
 import Page404 from "./pages/404Page";
+import FavoritePage from "./pages/FavoritePage";
 
 // theme
 import { setTheme } from "./theme";
@@ -44,6 +45,7 @@ function AppRoutes() {
   );
   const GuardedProjectIdDashboardPage = guardedRoute(ViewProjectPage);
   const GuardedSingleInvestmentPage = guardedRoute(SingleInvestmentPage);
+  const GuardedFavoritePage = guardedRoute(FavoritePage);
 
   // login and register pages does not need to be access by already login user
   const AuthLoginPage = authRoute(LogInPage);
@@ -109,6 +111,7 @@ function AppRoutes() {
           path="/investment/:projectId"
           element={<GuardedInvestmentPage />}
         />
+        <Route exact path="/favorites" element={<GuardedFavoritePage />} />
 
         <Route path="*" element={<Page404 />} />
       </Routes>

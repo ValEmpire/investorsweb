@@ -22,7 +22,7 @@ const MenuPopper = props => {
       {({ TransitionProps }) => (
         <ClickAwayListener onClickAway={clickAwayHandler}>
           <Fade {...TransitionProps} timeout={100}>
-            <Card component={Box} mt={1} width={"280px"} square>
+            <Card component={Box} mt={2} width={"280px"} square>
               <Box>
                 {/* Page Links */}
                 {pages.map((page, i) => (

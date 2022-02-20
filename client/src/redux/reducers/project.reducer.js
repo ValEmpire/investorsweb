@@ -3,6 +3,7 @@ import {
   ALL_USER_PROJECTS,
   CREATE_PROJECT,
   CREATE_PROJECT_DRAFT,
+  FAVORITE_PROJECTS,
   GET_PROJECT,
   TOGGLE_FAVORITE_PROJECT,
   UPDATE_PROJECT_IMAGE,
@@ -31,6 +32,7 @@ const initialState = {
     name: "",
   },
   userProjects: [],
+  favoriteProjects: [],
 };
 
 export const project = (state = initialState, action) => {
@@ -66,6 +68,12 @@ export const project = (state = initialState, action) => {
       return {
         ...state,
         isFavorite: state.isFavorite ? false : true,
+      };
+
+    case FAVORITE_PROJECTS:
+      return {
+        ...state,
+        favoriteProjects: action.payload,
       };
 
     case GET_PROJECT:

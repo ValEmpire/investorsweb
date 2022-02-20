@@ -6,7 +6,6 @@ import {
   ClickAwayListener,
   Divider,
   Fade,
-  Grid,
   List,
   ListItem,
   ListItemAvatar,
