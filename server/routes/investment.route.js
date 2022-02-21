@@ -7,7 +7,10 @@ const { investmentSchema } = require("../validators/investment.validator");
 
 //MIDDLEWARES
 const { userAuth } = require("../middlewares/user.middleware");
-const { checkProjectMiddleware } = require("../middlewares/project.middleware");
+const {
+  checkProjectMiddleware,
+  projectMiddleware,
+} = require("../middlewares/project.middleware");
 const {
   investmentMiddleware,
   checkInvestmentMiddleware,
@@ -21,6 +24,7 @@ const {
   getAllInvestments,
   getInvestment,
   findProjectInvestment,
+  getAllProjectInvestments,
 } = require("../controllers/investment.controller");
 
 const { submitStripePayment } = require("../controllers/stripe.controller");
@@ -53,4 +57,8 @@ router
 router
   .route("/project/:projectId")
   .get(userAuth, investmentMiddleware, findProjectInvestment);
+
+router
+  .route("/project/all/:projectId")
+  .get(userAuth, projectMiddleware, getAllProjectInvestments);
 module.exports = router;

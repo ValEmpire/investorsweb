@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // redux
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { store } from "./redux/store.js";
 import { getUser } from "./redux/actions/user.action";
 import { setSocket } from "./redux/actions/socket.action";
@@ -28,6 +28,7 @@ import SingleInvestmentPage from "./pages/SingleInvestmentPage";
 import ExplorePage from "./pages/ExplorePage";
 import Page404 from "./pages/404Page";
 import FavoritePage from "./pages/FavoritePage";
+import ProjectChartDashboard from "./pages/ProjectChartDashboard";
 
 // theme
 import { setTheme } from "./theme";
@@ -46,6 +47,7 @@ function AppRoutes() {
   const GuardedProjectIdDashboardPage = guardedRoute(ViewProjectPage);
   const GuardedSingleInvestmentPage = guardedRoute(SingleInvestmentPage);
   const GuardedFavoritePage = guardedRoute(FavoritePage);
+  const GuardedChartDashboardPage = guardedRoute(ProjectChartDashboard);
 
   // login and register pages does not need to be access by already login user
   const AuthLoginPage = authRoute(LogInPage);
@@ -98,6 +100,11 @@ function AppRoutes() {
         />
         <Route
           exact
+          path="/projects/dashboard/:projectId/chart"
+          element={<GuardedChartDashboardPage />}
+        />
+        <Route
+          exact
           path="/user/dashboard"
           element={<GuardedInvestmentsDashboardPage />}
         />
@@ -111,6 +118,7 @@ function AppRoutes() {
           path="/investment/:projectId"
           element={<GuardedInvestmentPage />}
         />
+
         <Route exact path="/favorites" element={<GuardedFavoritePage />} />
 
         <Route path="*" element={<Page404 />} />
