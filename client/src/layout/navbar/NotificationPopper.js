@@ -15,22 +15,21 @@ import {
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../components/Loading";
-import {
-  getAllUserNotifications,
-  updateNotification,
-} from "../../redux/actions/notification.action";
+import { getAllUserNotifications } from "../../redux/actions/notification.action";
 //HELPERS
 import moment from "moment";
 
 const NotificationPopper = props => {
   const { anchorElNotification, clickAwayHandler } = props;
-  console.log(props);
+
   const dispatch = useDispatch();
 
   const { notifications } = useSelector(state => state.notification);
-  console.log(notifications);
+
+  const { socket } = useSelector(state => state.socket);
 
   const [loading, setLoading] = useState(true);
+
   const handleAllUserNotifications = useCallback(() => {
     dispatch(
       getAllUserNotifications((err, success) => {
@@ -38,11 +37,20 @@ const NotificationPopper = props => {
         return;
       })
     );
-  }, []);
+  }, [dispatch]);
+
+  const handleNotificationSocket = useCallback(() => {
+    if (socket) {
+      socket.on("notifications", notification => {
+        handleAllUserNotifications();
+      });
+    }
+  }, [handleAllUserNotifications, socket]);
 
   useEffect(() => {
     handleAllUserNotifications();
-  }, []);
+    handleNotificationSocket();
+  }, [handleAllUserNotifications, handleNotificationSocket]);
 
   return (
     <Popper
@@ -76,7 +84,7 @@ const NotificationPopper = props => {
                         />
                       </Grid>
                       <Grid item xs={10}>
-                        <Typography noWrap variant="body1">
+                        <Typography variant="body1">
                           {notification.body}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">

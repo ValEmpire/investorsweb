@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
 
       isSeen: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
     },
 

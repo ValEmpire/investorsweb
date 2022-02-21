@@ -4,6 +4,7 @@ const Project = model.project;
 const Image = model.image;
 const User = model.user;
 const UserDetail = model.userDetail;
+const Notification = model.notification;
 
 module.exports = {
   createInvestment: async (req, res) => {
@@ -37,6 +38,23 @@ module.exports = {
       req.project.investorCount = newInvestorCount;
 
       await req.project.save();
+
+      // NOTIFICATIONS
+      const { io } = req.sockets;
+
+      const notificationMessage = `${req.user.firstName} invested $${newAmount} to your project ${req.project.name}.`;
+
+      const newNotification = await Notification.create({
+        toUserId: req.project.userId,
+        fromUserId: req.user.id,
+        body: notificationMessage,
+        href: `/projects/dashboard/${req.project.id}`,
+      });
+
+      io.in(`user${req.project.userId}Notifications`).emit(
+        `notifications`,
+        newNotification
+      );
 
       return res.status(200).send({
         success: true,

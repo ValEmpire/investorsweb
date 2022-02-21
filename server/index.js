@@ -12,7 +12,7 @@ const cors = require("cors");
 const db = require("./models");
 
 // Socket.io
-const { io } = require("./socket");
+const { io, sockets } = require("./socket");
 
 // colors for logging the endPoints
 app.use(morgan("dev"));
@@ -28,6 +28,12 @@ app.use(cors(corsOptions));
 app.use(express.json()); // for parsing application/json
 
 app.use(cookieParser());
+
+app.use((req, res, next) => {
+  req.sockets = sockets;
+
+  next();
+});
 
 // ALL API ROUTES
 app.use("/api/user", require("./routes/user.route"));
