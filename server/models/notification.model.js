@@ -8,7 +8,12 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
 
-      userId: {
+      toUserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+
+      fromUserId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -34,9 +39,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Notification.associate = (model) => {
+  Notification.associate = model => {
     Notification.belongsTo(model.user, {
-      foreignKey: "userId",
+      foreignKey: "fromUserId",
+      as: "sender",
+    });
+    Notification.belongsTo(model.user, {
+      foreignKey: "toUserId",
+      as: "receiver",
     });
   };
 

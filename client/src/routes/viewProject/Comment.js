@@ -162,7 +162,7 @@ const CommentSection = () => {
     socket.emit(`projectComments`, projectId);
 
     socket.on(`comment`, comment => {
-      console.log(comment);
+      handleProjectComments();
     });
   }, [socket, projectId]);
 
