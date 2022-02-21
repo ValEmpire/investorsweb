@@ -11,6 +11,6 @@ const {
 } = require("../controllers/notification.controller");
 
 router.route("/").get(userAuth, getAllUserNotifications);
-router.route("/:notificationId").put(userAuth, updateNotification);
+router.route("/").put(userAuth, updateNotification);
 
 module.exports = router;

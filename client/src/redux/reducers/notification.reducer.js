@@ -24,7 +24,7 @@ export const notification = (state = initialState, action) => {
     case UPDATE_NOTIFICATION:
       return {
         ...state,
-        isSeen: (state.isSeen = true),
+        notifications: action.payload,
       };
     default:
       return { ...state };
