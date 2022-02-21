@@ -1,21 +1,27 @@
 const model = require("../models");
 const Notification = model.notification;
 const User = model.user;
+const Image = model.image;
 
 module.exports = {
   getAllUserNotifications: async (req, res) => {
     try {
       const notifications = await Notification.findAll({
         where: {
-          userId: req.user.id,
+          toUserId: req.user.id,
         },
         include: [
           {
             model: User,
-            as: "owner",
+            as: "sender",
             attributes: {
-              exclude: ["password"],
+              exclude: ["password", "accountId", "customerId"],
             },
+            include: [
+              {
+                model: Image,
+              },
+            ],
           },
         ],
       });
