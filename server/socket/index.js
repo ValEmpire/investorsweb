@@ -4,9 +4,19 @@ const io = useSocketIo();
 
 const { verifyToken } = require("./middlewares/user.middleware");
 
-const Comment = require("../models").comment;
+const model = require("../models");
+
+const Comment = model.comment;
+
+const Notification = model.notification;
+
+const sockets = {};
 
 io.on("connection", socket => {
+  sockets["socket"] = socket;
+
+  sockets["io"] = io;
+
   // verify token
   const id = verifyToken(socket);
 
@@ -25,8 +35,21 @@ io.on("connection", socket => {
     socket.join(`user${id}Messages`);
   }
 
+  socket.on("registerNotification", async message => {
+    const newNotification = await Notification.create({
+      toUserId: id,
+      fromUserId: 6,
+      body: message,
+      href: "/",
+    });
+
+    socket.emit("success", newNotification);
+  });
+
   // when user open the project comments
   // join room with projectId
+
+  // COMMENTS
   socket.on("projectComments", projectId => {
     console.log(socket.id, "join room");
 
@@ -43,8 +66,6 @@ io.on("connection", socket => {
       commentId,
     });
 
-    await newComment.save();
-
     io.in(`project${projectId}Comments`).emit(`comment`, newComment);
   });
 
@@ -53,4 +74,4 @@ io.on("connection", socket => {
   });
 });
 
-module.exports = { io };
+module.exports = { io, sockets };

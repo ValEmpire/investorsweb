@@ -164,7 +164,7 @@ const CommentSection = () => {
     socket.on(`comment`, comment => {
       handleProjectComments();
     });
-  }, [socket, projectId]);
+  }, [socket, projectId, handleProjectComments]);
 
   // ComponentDidMount
   useEffect(() => {
