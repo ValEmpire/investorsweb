@@ -4,7 +4,7 @@ import { Card } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
 import { Divider } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
+import Avatar from "../../../components/UserAvatar";
 import { currencyFormat } from "../../../helpers/allHelpers";
 import Moment from "moment";
 import ProjectImage from "./ProjectImage";
@@ -38,6 +38,9 @@ export default function SingleInvestmentView(props) {
                   {investment.project.name}
                 </Link>
               </CustomLink>
+              <Typography variant="body2" color="text.secondary">
+                Visit Page
+              </Typography>
             </CardContent>
           </Box>
         </Grid>
@@ -74,15 +77,7 @@ export default function SingleInvestmentView(props) {
             <Card component={Box} p={2} mt={4}>
               <Box display="flex" mb={2} alignItems="center">
                 <Box mr={2}>
-                  <Avatar
-                    alt={investment.project.name}
-                    src={
-                      investment.project.owner.image
-                        ? investment.project.owner.image.url
-                        : null
-                    }
-                    sx={{ width: 75, height: 75 }}
-                  />
+                  <Avatar size={75} user={investment.project.owner} />
                 </Box>
                 <Box>
                   <Typography fontWeight={700} variant="h6">

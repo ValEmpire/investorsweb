@@ -165,6 +165,7 @@ const ResponsiveAppBar = () => {
                 className="avatar"
                 size="50"
                 onClick={handleAvatarPopper}
+                user={user}
               />
 
               {/* Poppers */}

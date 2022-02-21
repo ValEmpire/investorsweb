@@ -1,20 +1,18 @@
 import React from "react";
-import { Box, Avatar, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import Avatar from "react-avatar";
 
 // Redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { uploadUserImage } from "../redux/actions/user.action";
-import { getInitials } from "../helpers/allHelpers";
 
 const UserAvatar = props => {
   const dispatch = useDispatch();
 
-  const user = useSelector(state => state.user);
+  const { size, withUpload, onClick, className, user } = props;
 
   const { id, firstName, lastName, image } = user;
-
-  const { size, withUpload, onClick, className } = props;
 
   const name = `${firstName} ${lastName}`;
 
@@ -31,16 +29,16 @@ const UserAvatar = props => {
         onClick={onClick}
         sx={{ height: size, width: size }}
         alt={name}
-        src={image.url ?? "/images/dp.jpg"}
-      >
-        {getInitials(firstName, lastName)}
-      </Avatar>
+        round
+        size={size}
+        name={name}
+        src={image.url ?? null}
+      />
       {withUpload && (
-        <Box position="absolute" right={0} bottom={7} color="white">
+        <Box position="absolute" right={0} bottom={7}>
           <IconButton
-            sx={{ background: "#9C27B0", ":hover": { background: "#9C55B0" } }}
+            sx={{ background: "#c4c4c4", ":hover": { background: "#a4a4a4" } }}
             component="label"
-            color="inherit"
           >
             <CameraAltIcon />
             <input

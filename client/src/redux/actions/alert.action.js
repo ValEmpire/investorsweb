@@ -3,7 +3,7 @@ import { SET_ALERT } from "../../const";
 export const setAlert =
   ({ open, message, type }) =>
   dispatch => {
-    return dispatch({
+    dispatch({
       type: SET_ALERT,
       payload: {
         open,
@@ -11,4 +11,6 @@ export const setAlert =
         type,
       },
     });
+
+    return;
   };

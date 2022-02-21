@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  Avatar,
   Box,
   Card,
   ClickAwayListener,
@@ -11,6 +10,8 @@ import {
   Popper,
   Typography,
 } from "@mui/material";
+
+import UserAvatar from "../../components/UserAvatar";
 
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -70,30 +71,26 @@ const NotificationPopper = props => {
                   </Typography>
                 </Box>
                 <Divider />
-                {notifications.map(notification => (
-                  <Box className="popper" m={1} key={notification.id}>
-                    <Grid container sx={{ p: 1 }}>
-                      <Grid item xs={2}>
-                        <Avatar
-                          alt={notification.sender.firstName}
-                          src={
-                            notification.sender.image
-                              ? notification.sender.image.url
-                              : null
-                          }
-                        />
+                {notifications.map(notification => {
+                  return (
+                    <Box className="popper" m={1} key={notification.id}>
+                      <Grid container sx={{ p: 1 }}>
+                        <Grid item xs={2}>
+                          <UserAvatar size={45} user={notification.sender} />
+                        </Grid>
+                        <Grid item xs={10}>
+                          <Typography variant="body1">
+                            {notification.body}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {moment(notification.createdAt).fromNow()}
+                          </Typography>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={10}>
-                        <Typography variant="body1">
-                          {notification.body}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {moment(notification.createdAt).fromNow()}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                ))}
+                      <Divider />
+                    </Box>
+                  );
+                })}
               </Box>
             </Card>
           </Fade>

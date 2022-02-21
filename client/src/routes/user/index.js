@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
 
 // Tabs
 import Security from "./Security";
@@ -20,6 +21,7 @@ import AddCard from "./AddCard";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
+import { setAlert } from "../../redux/actions/alert.action";
 
 // CSS
 import "react-credit-cards/es/styles-compiled.css";
@@ -59,6 +61,8 @@ export default function UserPage() {
 
   const [companyLoading, setCompanyLoading] = useState(true);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const dispatch = useDispatch();
 
   const { account } = useSelector(state => state.stripe);
@@ -70,6 +74,8 @@ export default function UserPage() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const stripe_success = searchParams.get("stripe_success");
 
   const [open, setOpen] = useState(false);
 
@@ -93,6 +99,20 @@ export default function UserPage() {
   };
 
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    if (stripe_success) {
+      setValue(2);
+
+      dispatch(
+        setAlert({
+          open: true,
+          message: "Stripe account created successfully.",
+          type: "success",
+        })
+      );
+    }
+  }, [stripe_success, dispatch, searchParams]);
 
   return (
     <Container component="main" maxWidth="md">
@@ -142,7 +162,11 @@ export default function UserPage() {
           <Button
             variant="contained"
             color="primary"
-            disabled={value === 2 && companyLoading}
+            disabled={
+              value === 2 && companyLoading
+                ? true
+                : value === 2 && payouts_enabled
+            }
             onClick={handleOpen}
           >
             {value === 0 && "Update Details"}

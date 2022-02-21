@@ -205,7 +205,7 @@ module.exports = {
       const accountLink = await stripe.accountLinks.create({
         account: accountId,
         refresh_url: "http://localhost:3000/user",
-        return_url: "http://localhost:3000/user",
+        return_url: "http://localhost:3000/user?stripe_success=true",
         type: "account_onboarding",
       });
 
