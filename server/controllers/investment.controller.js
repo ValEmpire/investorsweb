@@ -236,4 +236,47 @@ module.exports = {
       });
     }
   },
+
+  getAllProjectInvestments: async (req, res) => {
+    try {
+      const { projectId } = req.params;
+
+      const projectInvestments = await Project.findOne({
+        where: {
+          id: projectId,
+        },
+
+        include: [
+          {
+            model: Investment,
+            include: [
+              {
+                model: User,
+                attributes: {
+                  exclude: ["password"],
+                },
+                include: [
+                  {
+                    model: Image,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      return res.status(200).send({
+        success: true,
+        projectInvestments,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
 };

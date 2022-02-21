@@ -233,6 +233,24 @@ export default function MediaCard(props) {
                     </Box>
                   </>
                 )}
+
+                {project.isLive && (
+                  <Box>
+                    <Box pb={2}>
+                      <Button
+                        variant="contained"
+                        size="large"
+                        color="success"
+                        fullWidth
+                        onClick={() =>
+                          navigate(`/projects/dashboard/${project.id}/chart`)
+                        }
+                      >
+                        Dashboard
+                      </Button>
+                    </Box>
+                  </Box>
+                )}
               </>
             )}
           </Card>

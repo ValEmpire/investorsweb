@@ -1,5 +1,6 @@
 import {
   ALL_PROJECTS,
+  ALL_PROJECT_INVESTMENTS,
   ALL_USER_PROJECTS,
   CREATE_PROJECT,
   CREATE_PROJECT_DRAFT,
@@ -33,6 +34,7 @@ const initialState = {
   },
   userProjects: [],
   favoriteProjects: [],
+  projectInvestments: {},
 };
 
 export const project = (state = initialState, action) => {
@@ -100,6 +102,12 @@ export const project = (state = initialState, action) => {
       return {
         ...state,
         userProjects: action.payload,
+      };
+
+    case ALL_PROJECT_INVESTMENTS:
+      return {
+        ...state,
+        projectInvestments: action.payload,
       };
 
     default:

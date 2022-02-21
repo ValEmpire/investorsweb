@@ -7,6 +7,7 @@ import {
   UPDATE_PROJECT_IMAGE,
   ALL_USER_PROJECTS,
   FAVORITE_PROJECTS,
+  ALL_PROJECT_INVESTMENTS,
 } from "../../const";
 import axios from "axios";
 
@@ -309,5 +310,28 @@ export const getAllFavoriteProjects = cb => async dispatch => {
     handleError(err, dispatch);
 
     return;
+  }
+};
+
+export const getAllProjectInvestments = (projectId, cb) => async dispatch => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/investment/project/all/${projectId}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    const { projectInvestments } = res.data;
+
+    dispatch({
+      type: ALL_PROJECT_INVESTMENTS,
+      payload: projectInvestments,
+    });
+
+    cb(null, true);
+  } catch (err) {
+    cb(true, null);
+    handleError(err, dispatch);
   }
 };

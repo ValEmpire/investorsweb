@@ -7,7 +7,6 @@ import {
   FormControl,
   Grid,
   InputLabel,
-  Link,
   MenuItem,
   Select,
   Typography,
@@ -92,7 +91,7 @@ const ProjectDashboardPage = () => {
     <Container maxWidth="lg" component={Box} pb={2} mb={2}>
       <Box pb={2} mb={1}>
         <Box pb={6} textAlign="center">
-          <PageTitle>My Projects Dashboard</PageTitle>
+          <PageTitle>My Projects</PageTitle>
           <Typography variant="subtitle1" color="text.secondary" paragraph>
             Powerful Visual Data About Your Projects
           </Typography>
