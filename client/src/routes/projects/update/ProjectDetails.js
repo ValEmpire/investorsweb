@@ -80,29 +80,6 @@ export default function ProjectDetails() {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <NumberFormat
-            customInput={TextField}
-            onValueChange={e => {
-              const event = {
-                target: {
-                  name: "targetFund",
-                  value: e.value,
-                },
-              };
-
-              return handleField(event);
-            }}
-            value={targetFund ?? ""}
-            variant="outlined"
-            fullWidth
-            decimalScale={2}
-            thousandSeparator=","
-            label="Target Fund"
-            fixedDecimalScale
-            prefix="$ "
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="industry"
@@ -125,6 +102,29 @@ export default function ProjectDetails() {
             margin="dense"
             placeholder="mm-dd-yyyy"
             onChange={handleField}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <NumberFormat
+            customInput={TextField}
+            onValueChange={e => {
+              const event = {
+                target: {
+                  name: "targetFund",
+                  value: e.value,
+                },
+              };
+
+              return handleField(event);
+            }}
+            value={targetFund ?? ""}
+            variant="outlined"
+            fullWidth
+            decimalScale={2}
+            thousandSeparator=","
+            label="Target Fund"
+            fixedDecimalScale
+            prefix="$ "
           />
         </Grid>
         <Grid item xs={12} sm={6}>

@@ -103,11 +103,13 @@ const Chart = () => {
     for (let index = 0; index < investments.length; index++) {
       const numMonth = Number(investments[index].createdAt.substring(5, 7) - 1);
 
-      data[numMonth] += investments[index].amount;
+      data[numMonth] += Number(investments[index].amount);
     }
 
     return data;
   };
+
+  console.log(getData(investments));
 
   const data = {
     labels,
@@ -185,12 +187,9 @@ const Chart = () => {
                                 {`${investor.user.firstName} ${investor.user.lastName}`}
                               </span>
                             }
-                            secondary={investor.amount}
-                          />
-                          <ListItemText
-                            secondary={Moment(investor.createdAt).format(
-                              "D MMM YYYY"
-                            )}
+                            secondary={`Invest ${investor.amount} on ${Moment(
+                              investor.createdAt
+                            ).format("D MMM YYYY")}`}
                           />
                         </ListItem>
                       ))}
