@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import {
   Avatar,
   Box,
@@ -29,7 +28,7 @@ const NotificationPopper = props => {
   const { socket } = useSelector(state => state.socket);
 
   const [loading, setLoading] = useState(true);
-
+  console.log(notifications);
   const handleAllUserNotifications = useCallback(() => {
     dispatch(
       getAllUserNotifications((err, success) => {
@@ -54,6 +53,7 @@ const NotificationPopper = props => {
 
   return (
     <Popper
+      style={{ maxHeight: 400, overflow: "auto" }}
       open={Boolean(anchorElNotification)}
       anchorEl={anchorElNotification}
       placement={"bottom-end"}

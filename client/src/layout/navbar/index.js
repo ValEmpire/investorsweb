@@ -28,6 +28,7 @@ const ResponsiveAppBar = () => {
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { notifications } = useSelector(state => state.notification);
 
   // application pages
   const pages = [
@@ -155,7 +156,7 @@ const ResponsiveAppBar = () => {
                 color="inherit"
                 sx={{ marginRight: 2 }}
               >
-                <Badge badgeContent={2} color="warning">
+                <Badge badgeContent={notifications.length} color="warning">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
