@@ -24,23 +24,22 @@ export const getAllUserNotifications = () => async dispatch => {
   }
 };
 
-export const updateNotification = notificationId => async dispatch => {
+export const updateNotification = () => async dispatch => {
   try {
-    const { isSeen } = notificationId;
-
     const res = await axios.put(
-      `${process.env.REACT_APP_SERVER}/api/notification/${notificationId}`,
-      { isSeen },
+      `${process.env.REACT_APP_SERVER}/api/notification`,
+      {},
       {
         withCredentials: true,
       }
     );
-
     dispatch({
       type: UPDATE_NOTIFICATION,
-      payload: res.data.notificationId,
+      payload: res.data.updatedNotifications,
     });
+    return;
   } catch (err) {
     handleError(err, dispatch);
   }
+  return;
 };

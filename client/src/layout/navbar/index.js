@@ -19,6 +19,8 @@ import UserAvatar from "../../components/UserAvatar";
 import NotificationPopper from "./NotificationPopper";
 import AvatarPopper from "./AvatarPopper";
 import MenuPopper from "./MenuPopper";
+//REDUX
+import { updateNotification } from "../../redux/actions/notification.action";
 
 const ResponsiveAppBar = () => {
   const [anchorElMenu, setAnchorElMenu] = useState(null); // for menu on MenuIcon
@@ -29,7 +31,15 @@ const ResponsiveAppBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { notifications } = useSelector(state => state.notification);
-
+  const countNotSeenNotification = () => {
+    let countNotSeenNotification = 0;
+    for (const notification of notifications) {
+      if (!notification.isSeen) {
+        countNotSeenNotification++;
+      }
+    }
+    return countNotSeenNotification;
+  };
   // application pages
   const pages = [
     {
@@ -73,8 +83,13 @@ const ResponsiveAppBar = () => {
     setAnchorElMenu(null);
   };
 
+  const resetNotificationBadge = () => {
+    dispatch(updateNotification());
+  };
+
   const handleNotificationPopper = event => {
     setAnchorElNotification(event.currentTarget);
+    resetNotificationBadge();
   };
 
   const handleAvatarPopper = event => {
@@ -156,7 +171,11 @@ const ResponsiveAppBar = () => {
                 color="inherit"
                 sx={{ marginRight: 2 }}
               >
-                <Badge badgeContent={notifications.length} color="warning">
+                <Badge
+                  invisible={countNotSeenNotification() === 0 ? true : false}
+                  badgeContent={countNotSeenNotification()}
+                  color="warning"
+                >
                   <NotificationsIcon />
                 </Badge>
               </IconButton>

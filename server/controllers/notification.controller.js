@@ -10,6 +10,7 @@ module.exports = {
         where: {
           toUserId: req.user.id,
         },
+        order: [["createdAt", "DESC"]],
         include: [
           {
             model: User,
@@ -41,14 +42,41 @@ module.exports = {
 
   updateNotification: async (req, res) => {
     try {
-      if (!req.notification) {
-        throw new Error("Can not fined notification");
-      }
-      req.notification.isSeen = false;
-      await req.notification.save();
+      await Notification.update(
+        {
+          isSeen: true,
+        },
+        {
+          where: {
+            toUserId: req.user.id,
+          },
+        }
+      );
+
+      const updatedNotifications = await Notification.findAll({
+        where: {
+          toUserId: req.user.id,
+        },
+        order: [["createdAt", "DESC"]],
+        include: [
+          {
+            model: User,
+            as: "sender",
+            attributes: {
+              exclude: ["password", "accountId", "customerId"],
+            },
+            include: [
+              {
+                model: Image,
+              },
+            ],
+          },
+        ],
+      });
 
       return res.status(200).send({
         success: true,
+        updatedNotifications,
       });
     } catch (err) {
       console.log(err.message);

@@ -28,8 +28,6 @@ const ProjectDashboardPage = () => {
 
   const { favoriteProjects } = useSelector(state => state.project);
 
-  console.log(favoriteProjects);
-
   const [loading, setLoading] = useState(true);
 
   const [sort, setSort] = useState("recently");
