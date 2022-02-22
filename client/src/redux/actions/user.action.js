@@ -13,7 +13,10 @@ import { handleError, handleSuccess } from "../../helpers/alert.handler";
 // firebase
 import { storage } from "../../firebase";
 import { ref, uploadBytesResumable } from "@firebase/storage";
-import { generateFileName } from "../../helpers/allHelpers";
+import {
+  capitalizeFirstLetter,
+  generateFileName,
+} from "../../helpers/allHelpers";
 
 // socket
 import { registerNotification } from "../../socket";
@@ -35,7 +38,7 @@ export const registerUser =
         }
       );
 
-      await registerNotification();
+      await registerNotification(capitalizeFirstLetter(firstName));
 
       Cookies.set("isAuthenticated", true);
 

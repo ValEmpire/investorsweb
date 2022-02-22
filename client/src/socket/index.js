@@ -15,7 +15,7 @@ export const connectSocket = () => {
   });
 };
 
-export const registerNotification = () => {
+export const registerNotification = firstName => {
   return new Promise((resolve, reject) => {
     // socket
     const socket = io(process.env.REACT_APP_SERVER, {
@@ -26,7 +26,7 @@ export const registerNotification = () => {
       if (res) {
         socket.emit(
           "registerNotification",
-          "Welcome to iWeb. Thank you for trusting us."
+          `Welcome to iWeb ${firstName}. Thank you for trusting us.`
         );
       }
     });
