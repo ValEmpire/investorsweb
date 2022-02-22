@@ -42,7 +42,10 @@ module.exports = {
       // NOTIFICATIONS
       const { io } = req.sockets;
 
-      const notificationMessage = `${req.user.firstName} invested $${newAmount} to your project ${req.project.name}.`;
+      const capitalName =
+        req.user.firstName.charAt(0).toUpperCase() + string.slice(1);
+
+      const notificationMessage = `${capitalName} invested $${newAmount} to your project ${req.project.name}.`;
 
       const newNotification = await Notification.create({
         toUserId: req.project.userId,
