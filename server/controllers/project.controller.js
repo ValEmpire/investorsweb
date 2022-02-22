@@ -90,6 +90,13 @@ module.exports = {
 
   getAllProjects: async (req, res) => {
     try {
+      const industries = await Project.findAll({
+        where: {
+          isLive: true,
+        },
+        attributes: ["industry"],
+      });
+
       let where = {
         isLive: true,
       };
@@ -104,19 +111,10 @@ module.exports = {
         };
       }
 
-      if (req.query.industry === "Art") {
+      if (req.query.industry !== "All") {
         where.industry = {
-          [Op.like]: "Art",
+          [Op.like]: req.query.industry,
         };
-      } else if (req.query.industry === "Design") {
-        where.industry = {
-          [Op.like]: "Design",
-        };
-      } else if (req.query.industry === "Technology") {
-        where.industry = {
-          [Op.like]: "Technology",
-        };
-      } else {
       }
 
       const order = [];
@@ -144,6 +142,7 @@ module.exports = {
       return res.status(200).send({
         success: true,
         projects,
+        industries,
       });
     } catch (err) {
       console.log(err.message);
