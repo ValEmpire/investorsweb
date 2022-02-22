@@ -4,6 +4,7 @@ import {
   ALL_USER_PROJECTS,
   CREATE_PROJECT,
   CREATE_PROJECT_DRAFT,
+  FAVORITE_PROJECT,
   FAVORITE_PROJECTS,
   GET_PROJECT,
   TOGGLE_FAVORITE_PROJECT,
@@ -80,14 +81,19 @@ export const project = (state = initialState, action) => {
         favoriteProjects: action.payload,
       };
 
+    case FAVORITE_PROJECT:
+      return {
+        ...state,
+        isFavorite: action.payload,
+      };
+
     case GET_PROJECT:
       return {
         ...state,
-        project: action.payload.project,
-        isFavorite: action.payload.isFavorite,
+        project: action.payload,
         projectFields: {
-          ...action.payload.project,
-          imageUrl: action.payload.project.logo?.url,
+          ...action.payload,
+          imageUrl: action.payload.logo?.url,
         },
       };
 

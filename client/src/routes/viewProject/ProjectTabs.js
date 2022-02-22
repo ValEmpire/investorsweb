@@ -25,7 +25,7 @@ function TabPanel(props) {
 
 export default function ProjectTabs(props) {
   const [value, setValue] = React.useState(0);
-  const project = props.project;
+  const { project, user } = props;
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -35,7 +35,7 @@ export default function ProjectTabs(props) {
       <Tabs value={value} onChange={handleChange}>
         <Tab label="Story" />
         <Tab label="Website" />
-        <Tab label="Comments" />
+        {user.id && <Tab label="Comments" />}
       </Tabs>
       <TabPanel value={value} index={0}>
         <Story project={project} />

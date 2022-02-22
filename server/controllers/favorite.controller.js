@@ -61,4 +61,24 @@ module.exports = {
       });
     }
   },
+
+  getFavoriteProject: async (req, res) => {
+    try {
+      let isFavorite = true;
+
+      if (!req.favorite) isFavorite = false;
+
+      return res.status(200).send({
+        success: true,
+        isFavorite,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
 };

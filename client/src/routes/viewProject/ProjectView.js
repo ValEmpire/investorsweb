@@ -130,12 +130,12 @@ export default function MediaCard(props) {
                 </Typography>
 
                 {/* {FAVORITE BUTTON} */}
-                <Favorite projectId={project.id} project={project} />
+                <Favorite user={user} projectId={project.id} />
               </CardContent>
 
               <Typography gutterBottom component="div">
                 <CardActions>
-                  <ProjectTabs project={project} />
+                  <ProjectTabs user={user} project={project} />
                 </CardActions>
               </Typography>
             </Box>

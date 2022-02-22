@@ -8,6 +8,7 @@ import {
   ALL_USER_PROJECTS,
   FAVORITE_PROJECTS,
   ALL_PROJECT_INVESTMENTS,
+  FAVORITE_PROJECT,
 } from "../../const";
 import axios from "axios";
 
@@ -176,7 +177,7 @@ export const getProject = (projectId, cb) => async dispatch => {
       }
     );
 
-    const { project, isFavorite } = res.data;
+    const { project } = res.data;
 
     if (!project) {
       const error = new Error("Project not found.");
@@ -188,7 +189,7 @@ export const getProject = (projectId, cb) => async dispatch => {
 
     dispatch({
       type: GET_PROJECT,
-      payload: { project, isFavorite },
+      payload: project,
     });
 
     cb(null, true);
@@ -307,6 +308,28 @@ export const getAllFavoriteProjects = cb => async dispatch => {
     });
 
     cb(null, true);
+
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
+
+    return;
+  }
+};
+
+export const getFavoriteProject = projectId => async dispatch => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/favorite/${projectId}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    dispatch({
+      type: FAVORITE_PROJECT,
+      payload: res.data.isFavorite,
+    });
 
     return;
   } catch (err) {

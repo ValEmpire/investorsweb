@@ -174,31 +174,12 @@ module.exports = {
             model: Image,
             as: "logo",
           },
-          {
-            model: Favorite,
-            include: [
-              {
-                model: User,
-                required: true,
-                attributes: {
-                  exclude: ["password"],
-                },
-              },
-            ],
-          },
         ],
       });
-
-      let isFavorite = false;
-
-      if (project && project.favorites.length > 0) {
-        isFavorite = true;
-      }
 
       return res.status(200).send({
         success: true,
         project,
-        isFavorite,
       });
     } catch (err) {
       console.log(err.message);

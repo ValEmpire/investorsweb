@@ -15,7 +15,7 @@ module.exports = {
       });
 
       req.favorite = favorite;
-      console.log(req.favorite);
+
       next();
     } catch (err) {
       console.log(err.message);

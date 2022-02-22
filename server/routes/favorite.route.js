@@ -10,6 +10,7 @@ const { favoriteMiddleware } = require("../middlewares/favorite.middleware");
 const {
   toggleFavoriteProject,
   getAllFavoriteProjects,
+  getFavoriteProject,
 } = require("../controllers/favorite.controller");
 
 router.route("/").get(userAuth, getAllFavoriteProjects);
@@ -17,6 +18,7 @@ router.route("/").get(userAuth, getAllFavoriteProjects);
 //ROUTES
 router
   .route("/:projectId")
+  .get(userAuth, checkProjectMiddleware, favoriteMiddleware, getFavoriteProject)
   .post(
     userAuth,
     checkProjectMiddleware,
