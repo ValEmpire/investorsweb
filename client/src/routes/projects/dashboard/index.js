@@ -155,7 +155,7 @@ const ProjectDashboardPage = () => {
         <Grid container>
           <Grid item xs={12}>
             <Typography variant="h6">
-              Please setup your account{" "}
+              Please complete your account{" "}
               <CustomLink to="/user">
                 <Typography
                   fontWeight={700}

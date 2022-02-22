@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import MessageIcon from "@mui/icons-material/Message";
+// import MessageIcon from "@mui/icons-material/Message";
 import { IconButton } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
@@ -161,11 +161,11 @@ const ResponsiveAppBar = () => {
           )}
           {user.firstName && (
             <>
-              <IconButton sx={{ marginRight: 2 }} color="inherit">
+              {/* <IconButton sx={{ marginRight: 2 }} color="inherit">
                 <Badge badgeContent={100} color="warning">
                   <MessageIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
               <IconButton
                 onClick={handleNotificationPopper}
                 color="inherit"

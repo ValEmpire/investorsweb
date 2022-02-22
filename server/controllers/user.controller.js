@@ -46,7 +46,7 @@ module.exports = {
       });
 
       const newCustomer = await stripe.customers.create({
-        email,
+        email: "investorsweblighthouse@gmail.com", // change this in production
         name: `${firstName} ${lastName}`,
       });
 

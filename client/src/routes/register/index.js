@@ -105,6 +105,20 @@ export default function Register() {
     });
   };
 
+  const getHasError = () => {
+    let hasError = false;
+
+    for (const key in fieldError) {
+      if (fieldError[key]) hasError = true;
+    }
+
+    for (const field in user) {
+      if (!user[field]) hasError = true;
+    }
+
+    return hasError;
+  };
+
   const handleSubmit = async event => {
     event.preventDefault();
 
@@ -117,15 +131,7 @@ export default function Register() {
       email = data.get("email"),
       password = data.get("password");
 
-    let hasError = false;
-
-    for (const key in fieldError) {
-      if (fieldError[key]) hasError = true;
-    }
-
-    for (const field in user) {
-      if (!user[field]) hasError = true;
-    }
+    const hasError = getHasError();
 
     if (hasError) {
       return;
@@ -229,7 +235,7 @@ export default function Register() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                disabled={loadingRegister}
+                disabled={loadingRegister || getHasError()}
                 sx={{ mt: 3, mb: 2 }}
               >
                 Register
