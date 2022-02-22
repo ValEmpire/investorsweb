@@ -68,6 +68,10 @@ module.exports = {
             ],
           },
         ],
+        order: [
+          ["id", "DESC"],
+          [{ model: Comment, as: "reply" }, "id", "DESC"],
+        ],
       });
 
       return res.status(200).send({

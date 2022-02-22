@@ -223,7 +223,7 @@ const CommentSection = () => {
             </Box>
             {comments.map((comment, i) => {
               return (
-                <Box key={comment.id + i}>
+                <Box key={comment.createdAt + i}>
                   <CommentBox
                     replyArea={CommentArea}
                     projectId={projectId}
@@ -234,7 +234,7 @@ const CommentSection = () => {
 
                   {comment.reply &&
                     comment.reply.map((reply, i) => (
-                      <Box key={reply.id + i} mt={2} ml={3}>
+                      <Box key={reply.createdAt + i} mt={2} ml={5}>
                         <CommentBox comment={reply} />
                       </Box>
                     ))}

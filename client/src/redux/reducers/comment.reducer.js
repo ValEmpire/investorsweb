@@ -44,7 +44,7 @@ export const comment = (state = initialState, action) => {
     case UPDATE_COMMENTS:
       return {
         ...state,
-        comments: [...state.comments, action.payload],
+        comments: [action.payload, ...state.comments],
       };
 
     case ADD_REPLY:
@@ -56,7 +56,7 @@ export const comment = (state = initialState, action) => {
 
       if (!commentWithReply.reply) commentWithReply.reply = [];
 
-      commentWithReply.reply.push(action.payload);
+      commentWithReply.reply.unshift(action.payload);
 
       console.log(commentWithReply);
 
