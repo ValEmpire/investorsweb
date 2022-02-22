@@ -17,7 +17,7 @@ const Details = props => {
     <Box>
       <Box pb={3}>
         <Box display={"flex"} justifyContent="center">
-          <UserAvatar size={175} withUpload={true} />
+          <UserAvatar user={props.user} size={175} withUpload={true} />
         </Box>
       </Box>
       <TableContainer>
