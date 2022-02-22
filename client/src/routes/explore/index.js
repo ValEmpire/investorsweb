@@ -27,6 +27,8 @@ const IndustryFilter = props => {
     props.handleProjectFilter({ industry });
   };
 
+  const { industries } = props;
+
   return (
     <FormControl fullWidth>
       <InputLabel id="industry">All Industries</InputLabel>
@@ -37,9 +39,11 @@ const IndustryFilter = props => {
         onChange={handleChange}
       >
         <MenuItem value={"All"}>All Industries</MenuItem>
-        <MenuItem value={"Art"}>Art</MenuItem>
-        <MenuItem value={"Design"}>Design</MenuItem>
-        <MenuItem value={"Technology"}>Technology</MenuItem>
+        {industries.map((ind, i) => (
+          <MenuItem key={ind + i} value={ind}>
+            <span className="capitalize">{ind}</span>
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );
@@ -120,24 +124,47 @@ const Explore = () => {
 
   const { projects } = useSelector(state => state.project);
 
+  const { industries } = useSelector(state => state.project);
+
   useEffect(() => {
     handleProjects();
   }, [handleProjects]);
 
-  const handleProjectFilter = async function (filter) {
+  const handleProjectFilter = function (filter) {
     setLoading(true);
 
-    await dispatch(
+    dispatch(
       getAllProjects(
         filter.progress ?? progress,
         filter.industry ?? industry,
-        filter.sort ?? sort
+        filter.sort ?? sort,
+        (err, success) => {
+          if (success) {
+            setLoading(false);
+          }
+
+          return;
+        }
       )
     );
 
     setLoading(false);
 
     return;
+  };
+
+  const getAllIndustries = projects => {
+    const industries = [];
+
+    for (const project of projects) {
+      const industry = project.industry;
+
+      if (!industries.includes(industry)) {
+        industries.push(industry);
+      }
+    }
+
+    return industries;
   };
 
   return (
@@ -163,6 +190,7 @@ const Explore = () => {
                       handleProjectFilter={handleProjectFilter}
                       industry={industry}
                       setIndustry={setIndustry}
+                      industries={getAllIndustries(industries)}
                     />
                   </Grid>
                   <Grid item xs={12} sm={4}>

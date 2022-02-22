@@ -35,6 +35,7 @@ const initialState = {
   userProjects: [],
   favoriteProjects: [],
   projectInvestments: {},
+  industries: [],
 };
 
 export const project = (state = initialState, action) => {
@@ -57,7 +58,8 @@ export const project = (state = initialState, action) => {
     case ALL_PROJECTS:
       return {
         ...state,
-        projects: action.payload,
+        projects: action.payload.projects,
+        industries: action.payload.industries,
       };
 
     case CREATE_PROJECT_DRAFT:

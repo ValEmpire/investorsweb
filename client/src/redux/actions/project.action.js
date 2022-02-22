@@ -136,7 +136,10 @@ export const getAllProjects =
 
       dispatch({
         type: ALL_PROJECTS,
-        payload: res.data.projects,
+        payload: {
+          projects: res.data.projects,
+          industries: res.data.industries,
+        },
       });
 
       cb(null, true);
