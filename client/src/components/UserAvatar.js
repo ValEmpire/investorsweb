@@ -32,7 +32,7 @@ const UserAvatar = props => {
         round
         size={size}
         name={name}
-        src={image.url ?? null}
+        src={image ? image.url : null}
       />
       {withUpload && (
         <Box position="absolute" right={0} bottom={7}>

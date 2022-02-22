@@ -1,6 +1,12 @@
-import { CREATE_COMMENT, GET_ALL_COMMENTS } from "../../const";
+import {
+  ADD_REPLY,
+  CREATE_COMMENT,
+  GET_ALL_COMMENTS,
+  UPDATE_COMMENTS,
+} from "../../const";
 import axios from "axios";
 import { handleError, handleSuccess } from "../../helpers/alert.handler";
+import { async } from "@firebase/util";
 
 export const createComment = field => dispatch => {
   return dispatch({
@@ -42,6 +48,36 @@ export const getAllComments = (projectId, cb) => async dispatch => {
     });
 
     cb(null, true);
+
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
+
+    return;
+  }
+};
+
+export const updateComments = comment => async dispatch => {
+  try {
+    dispatch({
+      type: UPDATE_COMMENTS,
+      payload: comment,
+    });
+
+    return;
+  } catch (err) {
+    handleError(err, dispatch);
+
+    return;
+  }
+};
+
+export const addReply = comment => async dispatch => {
+  try {
+    dispatch({
+      type: ADD_REPLY,
+      payload: comment,
+    });
 
     return;
   } catch (err) {

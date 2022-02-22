@@ -8,6 +8,10 @@ const model = require("../models");
 
 const Comment = model.comment;
 
+const User = model.user;
+
+const Image = model.image;
+
 const Notification = model.notification;
 
 const sockets = {};
@@ -56,17 +60,66 @@ io.on("connection", socket => {
     socket.join(`project${projectId}Comments`);
   });
 
-  socket.on("comment", async data => {
+  socket.on("commentReply", async data => {
     const { projectId, comment, commentId } = data;
+
+    const newCommentReply = await Comment.create({
+      userId: id,
+      body: comment,
+      commentId,
+    });
+
+    const commentWithUser = await Comment.findOne({
+      where: {
+        id: newCommentReply.id,
+      },
+      include: [
+        {
+          model: User,
+          attributes: {
+            exclude: ["password"],
+          },
+          include: [
+            {
+              model: Image,
+            },
+          ],
+        },
+      ],
+    });
+
+    io.in(`project${projectId}Comments`).emit(`commentReply`, commentWithUser);
+  });
+
+  socket.on("comment", async data => {
+    const { projectId, comment } = data;
 
     const newComment = await Comment.create({
       userId: id,
       projectId,
       body: comment,
-      commentId,
     });
 
-    io.in(`project${projectId}Comments`).emit(`comment`, newComment);
+    const commentWithUser = await Comment.findOne({
+      where: {
+        id: newComment.id,
+      },
+      include: [
+        {
+          model: User,
+          attributes: {
+            exclude: ["password"],
+          },
+          include: [
+            {
+              model: Image,
+            },
+          ],
+        },
+      ],
+    });
+
+    io.in(`project${projectId}Comments`).emit(`comment`, commentWithUser);
   });
 
   socket.on("disconnect", () => {

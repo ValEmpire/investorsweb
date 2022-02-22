@@ -14,14 +14,20 @@ import moment from "moment";
 
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { getAllComments } from "../../redux/actions/comment.action";
+import {
+  addReply,
+  getAllComments,
+  updateComments,
+} from "../../redux/actions/comment.action";
 
 const CommentBox = props => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [commentValue, setCommentValue] = useState("");
-  const ReplyArea = props.replyArea;
 
-  const comment = props.comment;
+  const [commentValue, setCommentValue] = useState("");
+
+  const { comment, commentId, socket, projectId } = props;
+
+  const ReplyArea = props.replyArea;
 
   const onChange = e => {
     setCommentValue(e.target.value);
@@ -32,9 +38,16 @@ const CommentBox = props => {
     setIsExpanded(false);
   };
 
-  const onSubmit = e => {
+  const onSubmitReply = e => {
     e.preventDefault();
-    console.log("send the form data somewhere");
+
+    socket.emit("commentReply", {
+      commentId,
+      comment: commentValue,
+      projectId,
+    });
+
+    setCommentValue("");
   };
 
   const handleReplyTextField = () => {
@@ -48,7 +61,7 @@ const CommentBox = props => {
         <Box pr={2}>
           <Avatar size={50} user={comment.user} />
         </Box>
-        <Box>
+        <Box width="100%">
           {/* NAME AND DATE */}
           <Box pb={1} display="flex" alignItems="center">
             <Box pr={2}>
@@ -64,12 +77,10 @@ const CommentBox = props => {
           </Box>
 
           {/* BODY */}
-          <Box display="flex">
-            <Box>
-              <Typography variant="body2" color="text.secondary">
-                {comment.body}
-              </Typography>
-            </Box>
+          <Box>
+            <Typography variant="body2" color="text.secondary">
+              {comment.body}
+            </Typography>
           </Box>
 
           {/* ACTIONS */}
@@ -78,28 +89,30 @@ const CommentBox = props => {
               <ThumbUpOutlinedIcon fontSize="20px" />
             </IconButton>
             <Typography variant="body2">0</Typography>
-            <Box pl={2} ml={1}>
-              <Button
-                variant="text"
-                size="small"
-                onClick={handleReplyTextField}
-              >
-                Reply
-              </Button>
-            </Box>
+            {projectId && (
+              <Box pl={2} ml={1}>
+                <Button
+                  variant="text"
+                  size="small"
+                  onClick={handleReplyTextField}
+                >
+                  Reply
+                </Button>
+              </Box>
+            )}
           </Box>
 
           {isExpanded && (
             <ReplyArea
               onChange={onChange}
               onClose={onClose}
+              onSubmit={onSubmitReply}
               commentValue={commentValue}
               name="reply"
             />
           )}
         </Box>
       </Box>
-      <Divider style={{ margin: "30px 0" }} />
     </Box>
   );
 };
@@ -158,9 +171,13 @@ const CommentSection = () => {
     socket.emit(`projectComments`, projectId);
 
     socket.on(`comment`, comment => {
-      handleProjectComments();
+      dispatch(updateComments(comment));
     });
-  }, [socket, projectId, handleProjectComments]);
+
+    socket.on(`commentReply`, comment => {
+      dispatch(addReply(comment));
+    });
+  }, [socket, projectId, dispatch]);
 
   // ComponentDidMount
   useEffect(() => {
@@ -185,6 +202,8 @@ const CommentSection = () => {
       comment: commentValue,
       projectId,
     });
+
+    setCommentValue("");
   };
 
   return (
@@ -202,13 +221,28 @@ const CommentSection = () => {
                 onSubmit={onSubmit}
               />
             </Box>
-            {comments.map(comment => (
-              <CommentBox
-                replyArea={CommentArea}
-                key={comment.id}
-                comment={comment}
-              />
-            ))}
+            {comments.map((comment, i) => {
+              return (
+                <Box key={comment.id + i}>
+                  <CommentBox
+                    replyArea={CommentArea}
+                    projectId={projectId}
+                    commentId={comment.id}
+                    comment={comment}
+                    socket={socket}
+                  />
+
+                  {comment.reply &&
+                    comment.reply.map((reply, i) => (
+                      <Box key={reply.id + i} mt={2} ml={3}>
+                        <CommentBox comment={reply} />
+                      </Box>
+                    ))}
+
+                  <Divider style={{ margin: "30px 0" }} />
+                </Box>
+              );
+            })}
           </Grid>
         </Grid>
       )}

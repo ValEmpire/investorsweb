@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
 
       projectId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
 
       body: {
@@ -33,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Comment.associate = (model) => {
+  Comment.associate = model => {
     Comment.belongsTo(model.user, {
       foreignKey: "userId",
     });

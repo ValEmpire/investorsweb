@@ -1,4 +1,10 @@
-import { CREATE_COMMENT, DELETE_COMMENT, GET_ALL_COMMENTS } from "../../const";
+import {
+  ADD_REPLY,
+  CREATE_COMMENT,
+  DELETE_COMMENT,
+  GET_ALL_COMMENTS,
+  UPDATE_COMMENTS,
+} from "../../const";
 
 const initialState = {
   body: "",
@@ -28,10 +34,35 @@ export const comment = (state = initialState, action) => {
         ...state,
         comment: [...state.comment, action.payload],
       };
+
     case GET_ALL_COMMENTS:
       return {
         ...state,
         comments: action.payload,
+      };
+
+    case UPDATE_COMMENTS:
+      return {
+        ...state,
+        comments: [...state.comments, action.payload],
+      };
+
+    case ADD_REPLY:
+      const { commentId } = action.payload;
+
+      const commentWithReply = state.comments.find(
+        comment => (comment.id = commentId)
+      );
+
+      if (!commentWithReply.reply) commentWithReply.reply = [];
+
+      commentWithReply.reply.push(action.payload);
+
+      console.log(commentWithReply);
+
+      return {
+        ...state,
+        comments: [...state.comments],
       };
 
     default:
