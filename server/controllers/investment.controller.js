@@ -43,7 +43,7 @@ module.exports = {
       const { io } = req.sockets;
 
       const capitalName =
-        req.user.firstName.charAt(0).toUpperCase() + string.slice(1);
+        req.user.firstName.charAt(0).toUpperCase() + capitalName.slice(1);
 
       const notificationMessage = `${capitalName} invested $${newAmount} to your project ${req.project.name}.`;
 
