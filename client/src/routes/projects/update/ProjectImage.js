@@ -46,7 +46,7 @@ const UserAvatar = props => {
               multiple={false}
               handleChange={handleUserImageUpload}
               name="file"
-              types={["JPG, JPEG", "PNG"]}
+              types={["JPG", "JPEG", "PNG"]}
               label="Upload new image here"
             />
           </Box>
