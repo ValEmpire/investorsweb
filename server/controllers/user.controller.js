@@ -129,9 +129,6 @@ module.exports = {
         where: {
           id: req.user.id,
         },
-        attributes: {
-          exclude: ["password"],
-        },
         include: [
           {
             model: UserDetail,
@@ -184,6 +181,64 @@ module.exports = {
       return res.status(200).send({
         success: true,
         user: req.user,
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      return res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
+
+  socialLogin: async (req, res) => {
+    try {
+      const user = req.user;
+
+      if (req.created) {
+        // stripe account
+        const newAccount = await stripe.accounts.create({
+          type: "express",
+          country: "CA",
+          email: "investorsweblighthouse@gmail.com", // change this in production"
+          capabilities: {
+            acss_debit_payments: {
+              requested: true,
+            },
+            card_payments: {
+              requested: true,
+            },
+            transfers: {
+              requested: true,
+            },
+            legacy_payments: {
+              requested: true,
+            },
+          },
+        });
+
+        const newCustomer = await stripe.customers.create({
+          email: "investorsweblighthouse@gmail.com", // change this in production
+          name: `${req.user.firstName} ${req.user.lastName}`,
+        });
+
+        user.accountId = newAccount.id;
+
+        user.customerId = newCustomer.id;
+
+        await user.save();
+      }
+
+      const token = generateToken(user.id);
+
+      res.cookie("token", token, {
+        maxAge: 86400000, // 24hrs
+        httpOnly: true,
+      });
+
+      return res.status(200).send({
+        success: true,
       });
     } catch (err) {
       console.log(err);

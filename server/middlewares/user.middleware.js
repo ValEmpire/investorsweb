@@ -1,9 +1,11 @@
 const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const User = require("../models").user;
+const Image = require("../models").image;
+const { admin } = require("../firebase");
 
 // extract cookie from jwt
-const extractCookie = (req) => {
+const extractCookie = req => {
   let jwt = null;
 
   if (req && req.cookies) jwt = req.cookies["token"];
@@ -78,4 +80,78 @@ module.exports = {
   },
 
   userAuth: passport.authenticate("auth", { session: false }),
+
+  firebaseAuth: async (req, res, next) => {
+    try {
+      const { token } = req.body;
+
+      const decodedToken = await admin.auth().verifyIdToken(token);
+
+      let user = await admin.auth().getUser(decodedToken.uid);
+
+      const { email, photoURL, displayName, providerId } = user.providerData[0];
+
+      if (!displayName || !photoURL) {
+        throw new Error(
+          "Cannot use github. Please complete your github profile first."
+        );
+      }
+
+      let url = "";
+
+      if (providerId === "github.com") {
+        url = photoURL;
+      } else {
+        url = photoURL.slice(0, -6);
+      }
+
+      const fullName = displayName.split(" ");
+
+      const firstName = fullName[0];
+
+      const lastName = fullName[fullName.length - 1];
+
+      const [foundUser, created] = await User.findOrCreate({
+        where: {
+          email,
+        },
+        defaults: {
+          email,
+          firstName,
+          lastName,
+        },
+      });
+
+      if (!created) {
+        req.user = foundUser;
+
+        next();
+
+        return;
+      }
+
+      const newImage = await Image.create({
+        url,
+      });
+
+      foundUser.imageId = newImage.id;
+
+      await foundUser.save();
+
+      req.created = created;
+
+      req.user = foundUser;
+
+      next();
+
+      return;
+    } catch (err) {
+      console.log(err);
+
+      res.status(400).send({
+        success: false,
+        error: err.message,
+      });
+    }
+  },
 };
