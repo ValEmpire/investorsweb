@@ -28,10 +28,14 @@ export default function LogIn() {
   const { loadingLogin } = useSelector(state => state.loading);
 
   const handleGoogleLogin = () => {
+    dispatch(setLoadingLogin(true));
+
     dispatch(googleLogin());
   };
 
   const handleGithubLogin = () => {
+    dispatch(setLoadingLogin(true));
+
     dispatch(githubLogin());
   };
 
@@ -132,6 +136,7 @@ export default function LogIn() {
                   style={{
                     backgroundColor: "#db4437",
                   }}
+                  disabled={loadingLogin}
                   variant="contained"
                   startIcon={<GoogleIcon />}
                   onClick={handleGoogleLogin}
@@ -145,6 +150,7 @@ export default function LogIn() {
                   style={{
                     backgroundColor: "#333",
                   }}
+                  disabled={loadingLogin}
                   variant="contained"
                   startIcon={<GitHubIcon />}
                   onClick={handleGithubLogin}

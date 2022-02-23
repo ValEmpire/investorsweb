@@ -114,7 +114,7 @@ export const googleLogin = () => async dispatch => {
       }
     );
 
-    if (res.data.created) {
+    if (res.data.newUser) {
       await registerNotification(capitalizeFirstLetter(res.data.firstName));
     }
 
@@ -124,7 +124,10 @@ export const googleLogin = () => async dispatch => {
 
     return;
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: SET_LOADING_LOGIN,
+      payload: false,
+    });
 
     return handleError(err, dispatch);
   }
@@ -153,7 +156,7 @@ export const githubLogin = () => async dispatch => {
       }
     );
 
-    if (res.data.created) {
+    if (res.data.newUser) {
       await registerNotification(capitalizeFirstLetter(res.data.firstName));
     }
 
@@ -163,6 +166,11 @@ export const githubLogin = () => async dispatch => {
 
     return;
   } catch (err) {
+    dispatch({
+      type: SET_LOADING_LOGIN,
+      payload: false,
+    });
+
     return handleError(err, dispatch);
   }
 };
