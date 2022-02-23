@@ -4,6 +4,8 @@ const cookie = require("cookie");
 
 module.exports = {
   verifyToken: socket => {
+    console.log("verifying token");
+
     try {
       var cookies = socket.handshake.headers.cookie;
 

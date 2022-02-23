@@ -239,8 +239,8 @@ module.exports = {
 
       return res.status(200).send({
         success: true,
-        created: req.reacted,
         firstName: req.user.firstName,
+        newUser: req.created ? true : false,
       });
     } catch (err) {
       console.log(err);
