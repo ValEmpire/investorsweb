@@ -8,7 +8,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import AuthBackground from "../../components/AuthBackground";
-import Link from "../../components/Link";
+import CustomLink from "../../components/Link";
 import { Container } from "@mui/material";
 
 // Redux
@@ -119,7 +119,7 @@ export default function Register() {
     return hasError;
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
     dispatch(setLoadingRegister(true));
@@ -138,7 +138,7 @@ export default function Register() {
     }
 
     // dispatch to redux actions
-    await dispatch(
+    dispatch(
       registerUser({
         firstName,
         lastName,
@@ -241,9 +241,15 @@ export default function Register() {
                 Register
               </Button>
 
-              <Grid container>
+              <Grid container justifyContent={"center"}>
                 <Grid item>
-                  <Link to="/login">{"Already have an account? Log in"}</Link>
+                  <Box pt={1} mt={1}>
+                    <CustomLink to="/login">
+                      <Typography color="primary">
+                        Already have an account? Login
+                      </Typography>
+                    </CustomLink>
+                  </Box>
                 </Grid>
               </Grid>
             </Box>

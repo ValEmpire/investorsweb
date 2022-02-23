@@ -41,24 +41,42 @@ const ResponsiveAppBar = () => {
     return countNotSeenNotification;
   };
   // application pages
-  const pages = [
-    {
-      name: "Explore",
-      path: "/explore",
-    },
-    {
-      name: "Get Funding",
-      path: "/projects/dashboard",
-    },
-    {
-      name: "Favorites",
-      path: "/favorites",
-    },
-    {
-      name: "About Us",
-      path: "/aboutus",
-    },
-  ];
+
+  const options = () => {
+    if (user.id) {
+      return [
+        {
+          name: "Explore",
+          path: "/explore",
+        },
+        {
+          name: "Get Funding",
+          path: "/projects/dashboard",
+        },
+        {
+          name: "Favorites",
+          path: "/favorites",
+        },
+        {
+          name: "About Us",
+          path: "/aboutus",
+        },
+      ];
+    } else {
+      return [
+        {
+          name: "Explore",
+          path: "/explore",
+        },
+        {
+          name: "About Us",
+          path: "/aboutus",
+        },
+      ];
+    }
+  };
+
+  const pages = options();
 
   const handleLogout = () => {
     // close anchor first before dispatching
@@ -148,14 +166,6 @@ const ResponsiveAppBar = () => {
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 Login
-              </Button>
-
-              <Button
-                onClick={path => handleRedirect("/register")}
-                color="inherit"
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                Register
               </Button>
             </>
           )}

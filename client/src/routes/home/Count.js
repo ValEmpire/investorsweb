@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Box } from "@mui/material";
 import { Container, Typography } from "@mui/material";
 
-const Item = (props) => {
+const Item = props => {
   const { count, name, desc } = props;
 
   return (
@@ -11,11 +11,11 @@ const Item = (props) => {
         <Typography variant="h2" color="primary" fontWeight={600}>
           {count}
         </Typography>
-        <Typography variant="h5" fontWeight={600}>
+        <Typography variant="h5" fontWeight={700}>
           {name}
         </Typography>
       </Box>
-      <Typography>{desc}</Typography>
+      <Typography color="text.secondary">{desc}</Typography>
     </Grid>
   );
 };

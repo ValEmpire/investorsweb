@@ -94,25 +94,28 @@ const UpdateSecurity = props => {
                       <Typography>Change Password</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
+                      {user.password && (
+                        <TextField
+                          margin="normal"
+                          required
+                          value={security.currentPassword || ""}
+                          fullWidth
+                          name="currentPassword"
+                          label="Current Password"
+                          id="currentPassword"
+                          type="password"
+                          onChange={e => handleForm(e)}
+                        />
+                      )}
+
                       <TextField
                         margin="normal"
                         required
-                        value={security.currentPassword || ""}
+                        value={security.cPassword || ""}
                         fullWidth
-                        name="currentPassword"
-                        label="Current Password"
-                        id="currentPassword"
-                        type="password"
-                        onChange={e => handleForm(e)}
-                      />
-                      <TextField
-                        margin="normal"
-                        required
-                        value={security.password || ""}
-                        fullWidth
-                        name="password"
+                        name="cPassword"
                         label="Password"
-                        id="password"
+                        id="cPassword"
                         type="password"
                         onChange={e => handleForm(e)}
                       />

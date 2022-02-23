@@ -46,7 +46,7 @@ function SwipeableTextMobileStepper() {
   return (
     <Box pt={8} pb={8}>
       <Grid container justifyContent="center">
-        <Grid item md={8} sm={10} xs={12}>
+        <Grid item md={6} sm={9} xs={12}>
           <Paper square elevation={0}>
             <Typography>{images[activeStep].label}</Typography>
           </Paper>
