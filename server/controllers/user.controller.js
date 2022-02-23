@@ -239,6 +239,8 @@ module.exports = {
 
       return res.status(200).send({
         success: true,
+        created: req.reacted,
+        firstName: req.user.firstName,
       });
     } catch (err) {
       console.log(err);

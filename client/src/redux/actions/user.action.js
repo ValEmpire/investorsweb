@@ -104,7 +104,7 @@ export const googleLogin = () => async dispatch => {
 
     const token = await auth.currentUser.getIdToken();
 
-    await axios.post(
+    const res = await axios.post(
       `${process.env.REACT_APP_SERVER}/api/user/social-login`,
       {
         token,
@@ -113,6 +113,10 @@ export const googleLogin = () => async dispatch => {
         withCredentials: true,
       }
     );
+
+    if (res.data.created) {
+      await registerNotification(capitalizeFirstLetter(res.data.firstName));
+    }
 
     Cookies.set("isAuthenticated", true);
 
@@ -139,7 +143,7 @@ export const githubLogin = () => async dispatch => {
 
     const token = await auth.currentUser.getIdToken();
 
-    await axios.post(
+    const res = await axios.post(
       `${process.env.REACT_APP_SERVER}/api/user/social-login`,
       {
         token,
@@ -148,6 +152,10 @@ export const githubLogin = () => async dispatch => {
         withCredentials: true,
       }
     );
+
+    if (res.data.created) {
+      await registerNotification(capitalizeFirstLetter(res.data.firstName));
+    }
 
     Cookies.set("isAuthenticated", true);
 
