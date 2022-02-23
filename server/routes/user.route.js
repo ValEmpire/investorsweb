@@ -7,6 +7,7 @@ const {
   logIn,
   getUser,
   updateUser,
+  socialLogin,
 } = require("../controllers/user.controller");
 
 const { validate } = require("../validators");
@@ -17,7 +18,11 @@ const {
   updateUserSchema,
 } = require("../validators/user.validator");
 
-const { userMiddleware, userAuth } = require("../middlewares/user.middleware");
+const {
+  userMiddleware,
+  userAuth,
+  firebaseAuth,
+} = require("../middlewares/user.middleware");
 
 router
   .route("/")
@@ -31,5 +36,7 @@ router
 router.route("/logout").post(logOut);
 
 router.route("/login").post(validate(userLoginSchema), userMiddleware, logIn);
+
+router.route("/social-login").post(firebaseAuth, socialLogin);
 
 module.exports = router;
