@@ -3,17 +3,23 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "../../components/Link";
+import CustomLink from "../../components/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import AuthBackground from "../../components/AuthBackground";
-import { Container } from "@mui/material";
+import { Container, Divider } from "@mui/material";
+import GoogleIcon from "@mui/icons-material/Google";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 //Ridux
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../redux/actions/user.action";
+import {
+  githubLogin,
+  googleLogin,
+  loginUser,
+} from "../../redux/actions/user.action";
 import { setLoadingLogin } from "../../redux/actions/loading.action";
 
 export default function LogIn() {
@@ -21,7 +27,15 @@ export default function LogIn() {
 
   const { loadingLogin } = useSelector(state => state.loading);
 
-  const handleSubmit = async event => {
+  const handleGoogleLogin = () => {
+    dispatch(googleLogin());
+  };
+
+  const handleGithubLogin = () => {
+    dispatch(githubLogin());
+  };
+
+  const handleSubmit = event => {
     event.preventDefault();
 
     dispatch(setLoadingLogin(true));
@@ -32,7 +46,7 @@ export default function LogIn() {
       password = data.get("password");
 
     // dispach to redux action
-    await dispatch(
+    dispatch(
       loginUser({
         email,
         password,
@@ -96,11 +110,48 @@ export default function LogIn() {
               >
                 Log In
               </Button>
-              <Grid container>
+              <Grid container justifyContent={"center"}>
                 <Grid item>
-                  <Link to="/register">{"Don't have an account? Sign Up"}</Link>
+                  <Box pt={1} mt={1}>
+                    <CustomLink to="/register">
+                      <Typography color="primary">
+                        Don't have an account? Sign Up
+                      </Typography>
+                    </CustomLink>
+                  </Box>
                 </Grid>
               </Grid>
+              <Box mt={3} mb={1} pt={1} pb={4}>
+                <Divider>
+                  <Typography color="text.secondary">or</Typography>
+                </Divider>
+              </Box>
+              <Box mt={1} pt={1}>
+                <Button
+                  fullWidth
+                  style={{
+                    backgroundColor: "#db4437",
+                  }}
+                  variant="contained"
+                  startIcon={<GoogleIcon />}
+                  onClick={handleGoogleLogin}
+                >
+                  Continue with Google
+                </Button>
+              </Box>
+              <Box mt={1} pt={1}>
+                <Button
+                  fullWidth
+                  style={{
+                    backgroundColor: "#333",
+                  }}
+                  variant="contained"
+                  startIcon={<GitHubIcon />}
+                  onClick={handleGithubLogin}
+                >
+                  Continue with Github
+                </Button>
+              </Box>
             </Box>
           </Box>
         </Grid>

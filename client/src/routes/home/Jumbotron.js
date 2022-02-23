@@ -5,6 +5,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
   jumbotronWrapper: {
@@ -22,6 +23,8 @@ const useStyles = makeStyles({
 });
 
 function Jumbotron() {
+  const navigate = useNavigate();
+
   const classes = useStyles();
 
   return (
@@ -41,7 +44,11 @@ function Jumbotron() {
                 raise funding from investors.
               </Typography>
               <Box pt={3}>
-                <Button variant="contained" size="large">
+                <Button
+                  variant="contained"
+                  onClick={() => navigate("/explore")}
+                  size="large"
+                >
                   Invest Now
                 </Button>
               </Box>

@@ -9,6 +9,13 @@ import {
 import axios from "axios";
 import Cookies from "js-cookie";
 import { handleError, handleSuccess } from "../../helpers/alert.handler";
+import {
+  getAuth,
+  signOut,
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+} from "firebase/auth";
 
 // firebase
 import { storage } from "../../firebase";
@@ -85,6 +92,73 @@ export const loginUser =
     }
   };
 
+export const googleLogin = () => async dispatch => {
+  try {
+    const auth = getAuth();
+
+    const provider = new GoogleAuthProvider();
+
+    provider.addScope("email");
+
+    await signInWithPopup(auth, provider);
+
+    const token = await auth.currentUser.getIdToken();
+
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/api/user/social-login`,
+      {
+        token,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    Cookies.set("isAuthenticated", true);
+
+    window.location.replace("/");
+
+    return;
+  } catch (err) {
+    console.log(err);
+
+    return handleError(err, dispatch);
+  }
+};
+
+export const githubLogin = () => async dispatch => {
+  try {
+    const auth = getAuth();
+
+    const provider = new GithubAuthProvider();
+
+    provider.addScope("user:email");
+    provider.addScope("read:user");
+
+    await signInWithPopup(auth, provider);
+
+    const token = await auth.currentUser.getIdToken();
+
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/api/user/social-login`,
+      {
+        token,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    Cookies.set("isAuthenticated", true);
+
+    window.location.replace("/");
+
+    return;
+  } catch (err) {
+    return handleError(err, dispatch);
+  }
+};
+
 // This function will be use in App.js
 // To initialized user in store
 export const getUser = async () => {
@@ -118,6 +192,10 @@ export const logoutUser = () => async dispatch => {
       withCredentials: true,
     }
   );
+
+  const auth = getAuth();
+
+  await signOut(auth);
 
   Cookies.remove("isAuthenticated");
 
@@ -157,12 +235,12 @@ export const updateUserSecurity = security => async dispatch => {
       firstName,
       lastName,
       currentPassword,
-      password,
+      cPassword,
       repeatPassword,
       email,
     } = security;
 
-    if (password !== repeatPassword)
+    if (cPassword !== repeatPassword)
       throw new Error("Password and Repeat Password do not match.");
 
     const res = await axios.put(
@@ -171,7 +249,7 @@ export const updateUserSecurity = security => async dispatch => {
         firstName,
         lastName,
         currentPassword,
-        password,
+        password: cPassword,
         email,
       },
       { withCredentials: true }
