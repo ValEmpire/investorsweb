@@ -13,10 +13,6 @@ import CustomLink from "../../../components/Link";
 export default function SingleInvestmentView(props) {
   const investment = props.investment;
 
-  const remainingAmount = function () {
-    return investment.project.targetFund - investment.project.raisedAmount;
-  };
-
   return (
     <Container maxWidth="lg">
       <Grid container spacing={4} mt={10}>

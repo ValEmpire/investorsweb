@@ -15,6 +15,7 @@ import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getProject,
+  setProjectFields,
   updateProject,
 } from "../../../redux/actions/project.action";
 
@@ -48,6 +49,18 @@ export default function CreateProjectPage() {
   useEffect(() => {
     handleProject();
   }, [handleProject]);
+
+  useEffect(() => {
+    window.addEventListener("keydown", ({ key }) => {
+      if (key === "Insert") {
+        dispatch(setProjectFields());
+
+        return;
+      }
+
+      return;
+    });
+  }, [dispatch]);
 
   const backTo = window.location.pathname.replace("update", "");
 

@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Button, Divider, IconButton, TextField } from "@mui/material";
+import { Divider, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Avatar from "../../components/UserAvatar";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import { useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 
@@ -85,19 +83,13 @@ const CommentBox = props => {
 
           {/* ACTIONS */}
           <Box display="flex" alignItems="center">
-            <IconButton color="primary" size="small">
+            {/* <IconButton color="primary" size="small">
               <ThumbUpOutlinedIcon fontSize="20px" />
             </IconButton>
-            <Typography variant="body2">0</Typography>
+            <Typography variant="body2">0</Typography> */}
             {projectId && (
-              <Box pl={2} ml={1}>
-                <Button
-                  variant="text"
-                  size="small"
-                  onClick={handleReplyTextField}
-                >
-                  Reply
-                </Button>
+              <Box>
+                <button onClick={handleReplyTextField}>Reply</button>
               </Box>
             )}
           </Box>

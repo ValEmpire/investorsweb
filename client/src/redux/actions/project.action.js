@@ -9,6 +9,7 @@ import {
   FAVORITE_PROJECTS,
   ALL_PROJECT_INVESTMENTS,
   FAVORITE_PROJECT,
+  SET_PROJECT_FIELDS,
 } from "../../const";
 import axios from "axios";
 
@@ -358,6 +359,30 @@ export const getAllProjectInvestments = (projectId, cb) => async dispatch => {
     cb(null, true);
   } catch (err) {
     cb(true, null);
+    handleError(err, dispatch);
+  }
+};
+
+export const setProjectFields = () => dispatch => {
+  try {
+    const fields = {
+      location: "Orleans Ottawa",
+      targetFund: "55900",
+      story:
+        "We are a new company of three. We launched this new project that we just developed and we need your support.",
+      website: "http://www.easylaptopfinder.com",
+      industry: "Technology",
+      deadline: "12-31-2023",
+      minInvestment: "499",
+      imageUrl: "",
+      name: "Easy Laptop Finder",
+    };
+
+    dispatch({
+      type: SET_PROJECT_FIELDS,
+      payload: fields,
+    });
+  } catch (err) {
     handleError(err, dispatch);
   }
 };

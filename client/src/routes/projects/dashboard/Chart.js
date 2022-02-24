@@ -109,8 +109,6 @@ const Chart = () => {
     return data;
   };
 
-  console.log(getData(investments));
-
   const data = {
     labels,
     datasets: [

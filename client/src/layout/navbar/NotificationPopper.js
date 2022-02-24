@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   Box,
   Card,
@@ -14,10 +14,8 @@ import UserAvatar from "../../components/UserAvatar";
 
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
-import Loading from "../../components/Loading";
 import { getAllUserNotifications } from "../../redux/actions/notification.action";
 //HELPERS
-import { capitalizeFirstLetter } from "../../helpers/allHelpers";
 import moment from "moment";
 
 const NotificationPopper = props => {
@@ -26,16 +24,12 @@ const NotificationPopper = props => {
   const dispatch = useDispatch();
 
   const { notifications } = useSelector(state => state.notification);
-  const user = useSelector(state => state.user);
 
   const { socket } = useSelector(state => state.socket);
 
-  const [loading, setLoading] = useState(true);
-  // console.log(notifications);
   const handleAllUserNotifications = useCallback(() => {
     dispatch(
       getAllUserNotifications((err, success) => {
-        setLoading(false);
         return;
       })
     );

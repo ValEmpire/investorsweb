@@ -61,7 +61,7 @@ export default function UserPage() {
 
   const [companyLoading, setCompanyLoading] = useState(true);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const dispatch = useDispatch();
 

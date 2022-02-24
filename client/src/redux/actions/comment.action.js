@@ -6,7 +6,6 @@ import {
 } from "../../const";
 import axios from "axios";
 import { handleError, handleSuccess } from "../../helpers/alert.handler";
-import { async } from "@firebase/util";
 
 export const createComment = field => dispatch => {
   return dispatch({
