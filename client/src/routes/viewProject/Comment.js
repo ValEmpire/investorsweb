@@ -85,19 +85,13 @@ const CommentBox = props => {
 
           {/* ACTIONS */}
           <Box display="flex" alignItems="center">
-            <IconButton color="primary" size="small">
+            {/* <IconButton color="primary" size="small">
               <ThumbUpOutlinedIcon fontSize="20px" />
             </IconButton>
-            <Typography variant="body2">0</Typography>
+            <Typography variant="body2">0</Typography> */}
             {projectId && (
-              <Box pl={2} ml={1}>
-                <Button
-                  variant="text"
-                  size="small"
-                  onClick={handleReplyTextField}
-                >
-                  Reply
-                </Button>
+              <Box>
+                <button onClick={handleReplyTextField}>Reply</button>
               </Box>
             )}
           </Box>

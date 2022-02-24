@@ -7,6 +7,7 @@ import {
   FAVORITE_PROJECT,
   FAVORITE_PROJECTS,
   GET_PROJECT,
+  SET_PROJECT_FIELDS,
   TOGGLE_FAVORITE_PROJECT,
   UPDATE_PROJECT_IMAGE,
 } from "../../const";
@@ -116,6 +117,15 @@ export const project = (state = initialState, action) => {
       return {
         ...state,
         projectInvestments: action.payload,
+      };
+
+    case SET_PROJECT_FIELDS:
+      return {
+        ...state,
+        projectFields: {
+          ...state.projectFields,
+          ...action.payload,
+        },
       };
 
     default:

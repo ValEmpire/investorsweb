@@ -21,14 +21,14 @@ if (config.use_env_variable) {
 }
 
 fs.readdirSync(__dirname)
-  .filter((file) => {
+  .filter(file => {
     return (
       file.indexOf(".") !== 0 &&
       file !== basename &&
       file.slice(-9) === ".model.js"
     );
   })
-  .forEach((file) => {
+  .forEach(file => {
     const model = require(path.join(__dirname, file))(
       sequelize,
       Sequelize.DataTypes
@@ -36,7 +36,7 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
-Object.keys(db).forEach((modelName) => {
+Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
