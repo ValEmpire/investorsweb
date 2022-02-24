@@ -58,8 +58,6 @@ export const comment = (state = initialState, action) => {
 
       commentWithReply.reply.unshift(action.payload);
 
-      console.log(commentWithReply);
-
       return {
         ...state,
         comments: [...state.comments],

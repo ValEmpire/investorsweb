@@ -62,7 +62,7 @@ const ConnectedAccount = props => {
     );
 
     return;
-  }, [dispatch]);
+  }, [dispatch, setCompanyLoading]);
 
   useEffect(() => {
     setupAccount();

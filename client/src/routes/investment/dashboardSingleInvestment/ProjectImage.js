@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CardMedia } from "@mui/material";
 
 const ProjectImage = props => {
   const { investment } = props;

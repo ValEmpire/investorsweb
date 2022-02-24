@@ -2,7 +2,6 @@ import {
   ALL_CARDS,
   ADD_CARD,
   CREATE_PAYMENT_INTENT,
-  ADD_LINK,
   GET_ACCOUNT,
 } from "../../const";
 import axios from "axios";
