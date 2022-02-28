@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
-//VALIDATION
-
-//MIDDLEWARES
+/**
+ * Middlewares
+ */
 const { userAuth } = require("../middlewares/user.middleware");
 
-//CONTROLLERS
+/**
+ * Controllers
+ */
 const {
-  createInvestorAccount,
   getAllCards,
   addCard,
   deleteCard,
@@ -18,10 +19,11 @@ const {
   getAccount,
 } = require("../controllers/stripe.controller");
 
-//ROUTES
+/**
+ * Endpoints
+ */
 router.route("/get-account").get(userAuth, getAccount);
 
-// cards
 router.route("/all-cards").get(userAuth, getAllCards);
 router.route("/add-card").post(userAuth, addCard);
 router.route("/delete-card").delete(userAuth, deleteCard, getAllCards);

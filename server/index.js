@@ -35,7 +35,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// ALL API ROUTES
+/*
+  * These are all the routes
+*/
 app.use("/api/user", require("./routes/user.route"));
 app.use("/api/image", require("./routes/image.route"));
 app.use("/api/userdetail", require("./routes/userDetail.route"));
@@ -58,6 +60,9 @@ io.attach(server, {
   },
 });
 
+/*
+  * After db intialized. We'll start the server.
+*/
 db.sequelize
   .sync()
   .then(() => {

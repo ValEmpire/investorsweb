@@ -1,6 +1,28 @@
 const express = require("express");
 const router = express.Router();
 
+/**
+ * Validators
+ */
+const { validate } = require("../validators");
+const {
+  userRegisterSchema,
+  userLoginSchema,
+  updateUserSchema,
+} = require("../validators/user.validator");
+
+/**
+ * Middlewares
+ */
+const {
+  userMiddleware,
+  userAuth,
+  firebaseAuth,
+} = require("../middlewares/user.middleware");
+
+/**
+ * Controllers
+ */
 const {
   register,
   logOut,
@@ -10,20 +32,9 @@ const {
   socialLogin,
 } = require("../controllers/user.controller");
 
-const { validate } = require("../validators");
-
-const {
-  userRegisterSchema,
-  userLoginSchema,
-  updateUserSchema,
-} = require("../validators/user.validator");
-
-const {
-  userMiddleware,
-  userAuth,
-  firebaseAuth,
-} = require("../middlewares/user.middleware");
-
+/**
+ * Endpoints
+ */
 router
   .route("/")
   .get(userAuth, getUser)

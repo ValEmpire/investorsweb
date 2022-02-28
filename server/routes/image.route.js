@@ -1,16 +1,22 @@
 const express = require("express");
 const router = express.Router();
 
-// VALIDATORS
+/**
+ * Validators
+ */
 const { validate } = require("../validators");
 const { imageUploadSchema } = require("../validators/image.validator");
 
-//MIDDLEWARES
+/**
+ * Middlewares
+ */
 const { userImageMiddleware } = require("../middlewares/image.middleware");
 const { projectImageMiddleware } = require("../middlewares/image.middleware");
 const { userAuth } = require("../middlewares/user.middleware");
 
-//CONTROLLERS
+/**
+ * Controllers
+ */
 const {
   uploadProjectImage,
   updateProjectImage,
@@ -21,7 +27,9 @@ const {
   updateUserImage,
 } = require("../controllers/image.controller");
 
-//ROUTES
+/**
+ * Enpoints
+ */
 router
   .route("/user")
   .post(userAuth, validate(imageUploadSchema), uploadUserImage)

@@ -1,3 +1,11 @@
+/**
+ * * a function that will validate body to given constraints
+ * @param {*} schema 
+ * @returns If error. This will end the router if error is found.
+ * @return If success will go to the next route
+ * 
+ */
+
 const validate = (schema) => {
   return (req, res, next) => {
     const result = schema.validate(req.body);

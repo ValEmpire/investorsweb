@@ -1,6 +1,12 @@
 const CommentLike = require("../models").commentLike;
 
 module.exports = {
+  /**
+   * This will check if :commentId exists in CommentLike model with user id of who owns the cookie
+   * @returns err if found
+   * @returns create commentLike property inside req object and put commentLike as a value then go next to other route
+   */
+
   commentLikeMiddleware: async (req, res, next) => {
     try {
       const user = req.user;
@@ -15,7 +21,7 @@ module.exports = {
       });
 
       req.commentLike = commentLike;
-      console.log(req.commentLike);
+
       next();
     } catch (err) {
       console.log(err.message);

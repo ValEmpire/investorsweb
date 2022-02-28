@@ -42,7 +42,7 @@ io.on("connection", socket => {
   socket.on("registerNotification", async message => {
     const newNotification = await Notification.create({
       toUserId: id,
-      fromUserId: 6,
+      fromUserId: 1,
       body: message,
       href: "/",
     });

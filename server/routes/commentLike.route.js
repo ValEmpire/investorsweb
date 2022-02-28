@@ -1,17 +1,30 @@
 const express = require("express");
 const router = express.Router();
 
-//MIDDLEWARES
+/**
+ * Middlewares
+ */
 const { userAuth } = require("../middlewares/user.middleware");
-const {  checkCommentMiddleware } = require("../middlewares/comment.middleware");
-const { commentLikeMiddleware } = require("../middlewares/commentLike.middleware");
+const { checkCommentMiddleware } = require("../middlewares/comment.middleware");
+const {
+  commentLikeMiddleware,
+} = require("../middlewares/commentLike.middleware");
 
-//CONTROLLERS
+/**
+ * Controllers
+ */
 const { toggleCommentLike } = require("../controllers/commentLike.controller");
 
-//ROUTES
+/**
+ * Endpoints
+ */
 router
   .route("/:commentId")
-  .post(userAuth, checkCommentMiddleware, commentLikeMiddleware, toggleCommentLike);
+  .post(
+    userAuth,
+    checkCommentMiddleware,
+    commentLikeMiddleware,
+    toggleCommentLike
+  );
 
 module.exports = router;

@@ -3,6 +3,5 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.requireConfig": false,
-  "prettier.arrowParens": "avoid",
-  "prettier.prettierPath": ".vscode\\settings.json"
+  "prettier.arrowParens": "avoid"
 }

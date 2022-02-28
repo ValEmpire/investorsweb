@@ -1,13 +1,21 @@
 const express = require("express");
 const router = express.Router();
 
-const { userAuth } = require("../middlewares/user.middleware");
+/**
+ * Validators
+ */
+const { validate } = require("../validators");
+const { createProjectSchema } = require("../validators/project.validator");
 
+/**
+ * Middlewares
+ */
+const { userAuth } = require("../middlewares/user.middleware");
 const { projectMiddleware } = require("../middlewares/project.middleware");
 
-const { validate } = require("../validators");
-
-const { createProjectSchema } = require("../validators/project.validator");
+/**
+ * Controllers
+ */
 const {
   createProject,
   updateProject,
@@ -18,6 +26,9 @@ const {
   launchProject,
 } = require("../controllers/project.controller");
 
+/**
+ * Endpoints
+ */
 router
   .route("/")
   .get(getAllProjects)

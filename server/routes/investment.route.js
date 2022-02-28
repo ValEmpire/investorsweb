@@ -1,11 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
-//VALIDATION
+/**
+ * Validators
+ */
 const { validate } = require("../validators");
 const { investmentSchema } = require("../validators/investment.validator");
 
-//MIDDLEWARES
+/**
+ * Middlewares
+ */
 const { userAuth } = require("../middlewares/user.middleware");
 const {
   checkProjectMiddleware,
@@ -16,7 +20,9 @@ const {
   checkInvestmentMiddleware,
 } = require("../middlewares/investment.middleware");
 
-//CONTROLLERS
+/**
+ * Controller
+ */
 const {
   createInvestment,
   updateInvestment,
@@ -26,7 +32,6 @@ const {
   findProjectInvestment,
   getAllProjectInvestments,
 } = require("../controllers/investment.controller");
-
 const { submitStripePayment } = require("../controllers/stripe.controller");
 
 //ROUTES
@@ -42,6 +47,9 @@ router
     createInvestment
   );
 
+/**
+ * Endpoints
+ */
 router
   .route("/:investmentId")
   .get(userAuth, checkInvestmentMiddleware, getInvestment)
@@ -61,4 +69,5 @@ router
 router
   .route("/project/all/:projectId")
   .get(userAuth, projectMiddleware, getAllProjectInvestments);
+
 module.exports = router;
