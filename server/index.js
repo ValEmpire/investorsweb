@@ -36,8 +36,8 @@ app.use((req, res, next) => {
 });
 
 /*
-  * These are all the routes
-*/
+ * These are all the routes
+ */
 app.use("/api/user", require("./routes/user.route"));
 app.use("/api/image", require("./routes/image.route"));
 app.use("/api/userdetail", require("./routes/userDetail.route"));
@@ -54,15 +54,15 @@ const PORT = process.env.PORT || 3001;
 // SOCKET
 io.attach(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
 });
 
 /*
-  * After db intialized. We'll start the server.
-*/
+ * After db intialized. We'll start the server.
+ */
 db.sequelize
   .sync()
   .then(() => {
@@ -70,4 +70,4 @@ db.sequelize
       console.log(`Server started on port ${PORT}`);
     });
   })
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));

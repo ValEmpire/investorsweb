@@ -3,6 +3,11 @@ const User = require("../models").user;
 const Project = require("../models").project;
 
 module.exports = {
+  /**
+   * This will check if user has already an image associated to his User model
+   * @returns err if found
+   * @returns create userImage property inside req object and put userImage as a value then go next to other route
+   */
   userImageMiddleware: async (req, res, next) => {
     try {
       const userImage = await User.findOne({
@@ -31,6 +36,11 @@ module.exports = {
     }
   },
 
+  /**
+   * This will check if project has already an image associated to his Project model
+   * @returns err if found
+   * @returns create projectImage property inside req object and put projectImage as a value then go next to other route
+   */
   projectImageMiddleware: async (req, res, next) => {
     try {
       const projectImage = await Project.findOne({

@@ -3,7 +3,7 @@ import io from "socket.io-client";
 export const connectSocket = () => {
   return new Promise((resolve, reject) => {
     // socket
-    const socket = io(process.env.REACT_APP_SERVER, {
+    const socket = io(`${process.env.REACT_APP_SERVER}/`, {
       withCredentials: true,
     });
 
@@ -18,7 +18,7 @@ export const connectSocket = () => {
 export const registerNotification = firstName => {
   return new Promise((resolve, reject) => {
     // socket
-    const socket = io(process.env.REACT_APP_SERVER, {
+    const socket = io(`${process.env.REACT_APP_SERVER}/`, {
       withCredentials: true,
     });
 
