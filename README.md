@@ -82,3 +82,20 @@ Start the server
 ![App Screenshot](https://raw.githubusercontent.com/ValEmpire/files/main/Captures.PNG)
 
 ![App Screenshot](https://raw.githubusercontent.com/ValEmpire/files/main/Capturess.PNG)
+
+### Stripe
+
+#### Cards
+
+Please read stripe testing [Documentation](https://stripe.com/docs/testing)
+
+Or you can use this card numbers.
+
+| Card numbers        | CVC          | Date            |
+| ------------------- | ------------ | --------------- |
+| 4242 4242 4242 4242 | any 3 digits | any future date |
+| 5555 5555 5555 4444 | any 3 digits | any future date |
+
+#### Accounts
+
+For stripe onboarding. It sometimes asks password if it detects different ip address or multiple stripe accounts. Input **lighthouseteam** as a password.
