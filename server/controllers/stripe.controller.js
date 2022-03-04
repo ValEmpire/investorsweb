@@ -177,7 +177,7 @@ module.exports = {
         payment_method: paymentMethod,
         off_session: true,
         confirm: true,
-        return_url: "http://investorsweb.ca/investment/successful",
+        return_url: "http://138.197.155.90/investment/successful",
       };
 
       await stripe.paymentIntents.create(options);
@@ -205,7 +205,7 @@ module.exports = {
       const accountLink = await stripe.accountLinks.create({
         account: accountId,
         refresh_url: "/user",
-        return_url: "http://investorsweb.ca/user?stripe_success=true",
+        return_url: "http://138.197.155.90/user?stripe_success=true",
         type: "account_onboarding",
       });
 

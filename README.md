@@ -1,23 +1,84 @@
 # InvestorsWeb
 
-A marketplace for entrepreneurs to showcase their startups and raise funding from investors. This is an app for individual or company who is looking for funding to their projects or products. We built a marketplace to help them bring their creative projects to life.
+This is an app for individual or company who is looking for funding to their projects or products. We built a marketplace to help them bring their creative projects to life.
 
-## Installation
+## We are [Live!](http://138.197.155.90/)
 
-`git clone https://github.com/ValEmpire/investorsweb.git`
+### Run Locally
 
-#### We seperate our server app to client app.
+Clone the project
 
-`cd investorsweb`
+```bash
+  git clone https://github.com/ValEmpire/investorsweb.git investorsweb
+```
 
-##### For Server
+Adding API key dependencies
+This project has features that use Firebase and Stripe, both of which will require API keys to function. Go to Firebase and Stripe to create accounts on the respective platforms. Create a .env in both the client and server directories, matching the key-value pairs in .example.env.
 
-- `cd server`
-- `npm install`
-- `nodemon -L` // make sure all required .env and config.json are all setup first.
+#### Client
 
-##### For Client
+For Client Go to the project directory
 
-- `cd client`
-- `npm install`
-- `npm start` // make sure all required .env is setup first.
+```bash
+  cd investorsweb/client
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the client
+
+```bash
+  npm start
+```
+
+#### Server
+
+For Server Go to the project directory
+
+```bash
+  cd investorsweb/server
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  nodemon -L
+```
+
+### Features
+
+- Login and Registration Securely
+- Very Secure. We use Http-Only Cookie
+- Very well validated both in client and server side
+- Explore and filter projects
+- Creating, deleting, updating project
+- Updating user account, including security
+- Creating Stripe account
+- Creating, updating, validating, deleting Debit and Credit cards
+- Company Business Dashboard with Graph
+- User can comments and reply to comments
+- Investors can invest to a project
+- Investors has their own Dashboard
+- Server is REST api so it can be use seperately
+
+### Tech Stack
+
+**Client:** React, MateriaUI, Redux, SocketClient, Firebase
+
+**Server:** Node, Express, Firebase-admin, Socket.io, Sequelize, PostgreSQL, Passport, JWT
+
+### Screenshots
+
+![App Screenshot](https://raw.githubusercontent.com/ValEmpire/files/main/Captures.PNG)
+
+![App Screenshot](https://raw.githubusercontent.com/ValEmpire/files/main/Capturess.PNG)
