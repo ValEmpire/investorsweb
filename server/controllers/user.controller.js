@@ -28,7 +28,7 @@ module.exports = {
       const newAccount = await stripe.accounts.create({
         type: "express",
         country: "CA",
-        email,
+        email: "investorsweblighthouse@gmail.com",
         capabilities: {
           acss_debit_payments: {
             requested: true,
